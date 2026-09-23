@@ -5,7 +5,7 @@ release is a git tag `<name>@v<major>.<minor>.<patch>`.
 
 | Ruleset | For |
 |---|---|
-| `svelte-feature` | Svelte 5 + TypeScript apps with the Qlayers feature-folder layout |
+| `svelte-feature` | Svelte 5 + TypeScript apps with the Qlayers feature-folder layout. v2: a test per feature, every feature used (reachability), build must pass |
 
 ## Using one
 
