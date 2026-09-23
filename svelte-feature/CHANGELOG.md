@@ -1,5 +1,11 @@
 # svelte-feature
 
+## v2.0.1
+
+- `.codecrew/.gitattributes` pins LF for the ruleset's own files, so Git for Windows
+  (core.autocrlf) doesn't rewrite them with CRLF. (codecrew itself also ignores
+  line-ending differences when comparing rule files.)
+
 ## v2.0.0
 
 Breaking: projects need tests now.
