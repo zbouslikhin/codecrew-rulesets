@@ -11,6 +11,9 @@ summary: |
     styles imported as a CSS module: `import styles from './<Name>.module.scss'`.
   - Import across folders with the '@/...' alias, never with '../'.
   - Type aliases are prefixed with T (TRelease, TCategory).
+  - Every feature has at least one test (*.test.ts, Vitest + Testing Library), and the app
+    must actually use every feature: it has to be reachable through imports from src/main.ts.
+    A feature with passing tests that nothing renders fails the check.
   - Never edit *.generated.ts files; they are produced by tools.
 
 # Each run works in a fresh git checkout without node_modules (it's git-ignored),
@@ -34,8 +37,9 @@ structure:
             App.svelte, app.css, main.ts, "*.d.ts"]
   - path: "src/features/*/"
     name: camelCase
-    allow: [components/, http/, stores/, constants.ts, index.ts, types.ts]
+    allow: [components/, http/, stores/, constants.ts, index.ts, types.ts, "*.test.ts"]
     require: [index.ts, types.ts]
+    require_any: ["**/*.test.ts"]
   - path: "src/features/*/components/"
     allow: ["*/"]
     message: "Each component lives in its own folder: components/<Name>/<Name>.svelte"
@@ -47,6 +51,12 @@ structure:
 # {files} = files changed by the current stage (the whole repo for `codecrew check`).
 # Formatters and linters use it so autofix never rewrites code the agent didn't touch.
 # Structure, ast-grep and type checks always look at the whole repo.
+# Every feature must be used by the app, not only exist (with passing tests).
+reachability:
+  - entry: [src/main.ts]
+    require: "src/features/*/"
+    aliases: { "@/": "src/" }
+
 checks:
   - id: format
     fix: true
@@ -71,6 +81,25 @@ checks:
       severity_map: { ERROR: error, WARNING: warning }
       unescape: true
     description: svelte-check (TypeScript + Svelte type errors)
-  # Add your test command, e.g.:
-  # - id: test
-  #   run: node_modules/.bin/vitest run
+  - id: test
+    # Vitest 5 writes its JSON report to a file, not stdout: write it outside the
+    # project, print it, clean up. Two mappings: failed tests, and test files that
+    # fail as a whole (e.g. an import that doesn't resolve).
+    run: 'out="${TMPDIR:-/tmp}/codecrew-vitest-$$.json"; node_modules/.bin/vitest run --reporter=json --outputFile="$out" --passWithNoTests > /dev/null 2>&1; code=$?; cat "$out" 2>/dev/null; rm -f "$out"; exit $code'
+    timeout: 600
+    parser:
+      format: json
+      items: "testResults[].assertionResults[]"
+      where: { status: failed }
+      fields: { file: ../name, line: location.line, column: location.column, message: "failureMessages[0]", code: fullName }
+      also:
+        - format: json
+          items: "testResults[]"
+          where: { status: failed, message: "*" }
+          fields: { file: name, message: message }
+          code: test-file-error
+    description: Vitest (Testing Library); every feature needs at least one test
+  - id: build
+    run: 'out="${TMPDIR:-/tmp}/codecrew-build-$$"; node_modules/.bin/vite build --logLevel error --outDir "$out" --emptyOutDir; code=$?; rm -rf "$out"; exit $code'
+    timeout: 600
+    description: vite build must succeed

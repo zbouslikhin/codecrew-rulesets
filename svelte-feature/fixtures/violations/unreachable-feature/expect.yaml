@@ -1,0 +1,5 @@
+# Run 2: built and tested, but nothing uses it.
+expect:
+  - check: reachability
+    rule: "unreachable"
+    file: src/features/about/

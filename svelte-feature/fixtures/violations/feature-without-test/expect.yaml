@@ -1,0 +1,5 @@
+# A feature that's used but has no test.
+expect:
+  - check: structure
+    rule: "require-any"
+    file: src/features/about/

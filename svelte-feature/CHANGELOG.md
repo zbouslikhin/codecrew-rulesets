@@ -1,5 +1,17 @@
 # svelte-feature
 
+## v2.0.0
+
+Breaking: projects need tests now.
+
+- Every feature needs at least one test (`*.test.ts`), run with Vitest + Testing Library.
+- Every feature must be reachable through imports from `src/main.ts`: a feature that
+  nothing uses fails, even with passing tests.
+- `vite build` must succeed.
+- New devDependencies: vitest, @testing-library/svelte, jsdom, sass. New file: `vitest.config.ts`.
+
+Upgrading: add a test to each feature (a component test that renders it is enough), then update.
+
 ## v1.1.0
 
 - ESLint and ast-grep report in SARIF: problems come with exact positions (line and

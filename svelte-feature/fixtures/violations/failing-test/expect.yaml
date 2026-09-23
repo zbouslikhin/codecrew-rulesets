@@ -1,0 +1,5 @@
+# A test that fails.
+expect:
+  - check: test
+    rule: "shows the version and date"
+    file: src/features/changelog/components/Release/Release.test.ts

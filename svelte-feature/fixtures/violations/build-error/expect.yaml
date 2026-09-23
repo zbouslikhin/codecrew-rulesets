@@ -1,0 +1,4 @@
+# Code that passes every other check but does not build (an undefined SCSS variable).
+expect:
+  - check: build
+    rule: "failed"
