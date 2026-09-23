@@ -1,0 +1,68 @@
+name: svelte-feature
+# Image the checks run in (Docker sandbox). Must provide node + npm; the
+# project's own node_modules (devDependencies below) supply the tools.
+toolchain: node:22-bookworm
+
+summary: |
+  Svelte 5 + TypeScript, feature-folder architecture.
+  - Code for a feature lives in src/features/<feature>/ with components/, http/, stores/,
+    constants.ts, index.ts and types.ts.
+  - Every component has its own folder: components/<Name>/<Name>.svelte + <Name>.module.scss,
+    styles imported as a CSS module: `import styles from './<Name>.module.scss'`.
+  - Import across folders with the '@/...' alias, never with '../'.
+  - Type aliases are prefixed with T (TRelease, TCategory).
+  - Never edit *.generated.ts files; they are produced by tools.
+
+# Each run works in a fresh git checkout without node_modules (it's git-ignored),
+# so dependencies are installed once per run, inside the sandbox (Linux binaries).
+setup:
+  - "if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi"
+
+# `make`/dashboard preview: runs the dev server on the run's workspace so you can
+# try the result before approving. {port} is assigned by codecrew.
+preview:
+  command: node_modules/.bin/vite --host 0.0.0.0 --port {port} --strictPort
+  ready_pattern: "ready in"
+
+ignore: [node_modules/, .git/, dist/, build/, .svelte-kit/, .codecrew/]
+
+structure:
+  - path: "src/"
+    allow: [basicComponents/, components/, dataDictionary/, features/, http/, types/, utils/,
+            App.svelte, app.css, main.ts, "*.d.ts"]
+  - path: "src/features/*/"
+    name: camelCase
+    allow: [components/, http/, stores/, constants.ts, index.ts, types.ts]
+    require: [index.ts, types.ts]
+  - path: "src/features/*/components/"
+    allow: ["*/"]
+    message: "Each component lives in its own folder: components/<Name>/<Name>.svelte"
+  - path: "src/features/*/components/*/"
+    name: PascalCase
+    allow: ["{dir}.svelte", "{dir}.module.scss", "{dir}.test.ts"]
+    require: ["{dir}.svelte", "{dir}.module.scss"]
+
+# {files} = files changed by the current stage (the whole repo for `codecrew check`).
+# Formatters and linters use it so autofix never rewrites code the agent didn't touch.
+# Structure, ast-grep and type checks always look at the whole repo.
+checks:
+  - id: format
+    fix: true
+    run: node_modules/.bin/prettier --write --ignore-unknown --log-level warn {files}
+    description: Prettier (tabs, single quotes), applied automatically
+  - id: lint
+    fix: true
+    run: node_modules/.bin/eslint --fix --no-warn-ignored --format json {files}
+    parser: eslint-json
+    description: ESLint incl. no '../' imports and T-prefixed types in .svelte files
+  - id: patterns
+    run: node_modules/.bin/ast-grep scan --json
+    parser: ast-grep-json
+    description: ast-grep rules in .codecrew/ast-grep (T-prefixed types in .ts files)
+  - id: types
+    run: node_modules/.bin/svelte-check --output machine --threshold error
+    parser: svelte-check
+    description: svelte-check (TypeScript + Svelte type errors)
+  # Add your test command, e.g.:
+  # - id: test
+  #   run: node_modules/.bin/vitest run

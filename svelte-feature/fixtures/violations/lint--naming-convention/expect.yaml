@@ -1,0 +1,4 @@
+# The overlay in files/ must be caught by exactly this rule.
+expect:
+  - check: lint
+    rule: "@typescript-eslint/naming-convention"

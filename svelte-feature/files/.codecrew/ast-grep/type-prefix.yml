@@ -1,0 +1,17 @@
+id: type-prefix-t
+language: typescript
+severity: error
+message: "Type aliases must be prefixed with T (e.g. TRelease)."
+rule:
+  kind: type_alias_declaration
+  has:
+    field: name
+    pattern: $NAME
+constraints:
+  NAME:
+    not:
+      regex: "^T[A-Z]"
+files:
+  - "src/**/*.ts"
+ignores:
+  - "**/*.generated.ts"

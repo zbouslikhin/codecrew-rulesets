@@ -1,0 +1,7 @@
+node_modules/
+dist/
+build/
+.svelte-kit/
+.codecrew/
+package-lock.json
+pnpm-lock.yaml

@@ -1,0 +1,5 @@
+# The overlay in files/ must be caught by exactly this rule.
+expect:
+  - check: structure
+    rule: "allow"
+    file: src/features/changelog/helpers.ts
