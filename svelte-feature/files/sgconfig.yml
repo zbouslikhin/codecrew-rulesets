@@ -1,3 +1,3 @@
 # Managed by the codecrew 'svelte-feature' ruleset.
 ruleDirs:
-  - .codecrew/ast-grep
+  - .codecrew/rulesets/svelte-feature/ast-grep

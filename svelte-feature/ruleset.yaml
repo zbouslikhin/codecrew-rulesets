@@ -16,7 +16,9 @@ summary: |
 # Each run works in a fresh git checkout without node_modules (it's git-ignored),
 # so dependencies are installed once per run, inside the sandbox (Linux binaries).
 setup:
-  - "if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi"
+  # npm ci is exact and fast; right after a ruleset update package-lock.json may not list
+  # the new devDependencies yet, so fall back to npm install (commit the updated lock file).
+  - "if [ -f package-lock.json ]; then npm ci --no-audit --no-fund || npm install --no-audit --no-fund; else npm install --no-audit --no-fund; fi"
 
 # `make`/dashboard preview: runs the dev server on the run's workspace so you can
 # try the result before approving. {port} is assigned by codecrew.
@@ -52,16 +54,22 @@ checks:
     description: Prettier (tabs, single quotes), applied automatically
   - id: lint
     fix: true
-    run: node_modules/.bin/eslint --fix --no-warn-ignored --format json {files}
-    parser: eslint-json
+    run: node_modules/.bin/eslint --fix --no-warn-ignored -f @microsoft/eslint-formatter-sarif {files}
+    parser: sarif
     description: ESLint incl. no '../' imports and T-prefixed types in .svelte files
   - id: patterns
-    run: node_modules/.bin/ast-grep scan --json
-    parser: ast-grep-json
-    description: ast-grep rules in .codecrew/ast-grep (T-prefixed types in .ts files)
+    run: node_modules/.bin/ast-grep scan --format sarif
+    parser: sarif
+    description: ast-grep rules in .codecrew/rulesets/svelte-feature/ast-grep (T-prefixed types in .ts files)
   - id: types
     run: node_modules/.bin/svelte-check --output machine --threshold error
-    parser: svelte-check
+    # svelte-check has no SARIF output: its "machine" format, described declaratively.
+    parser:
+      format: lines
+      pattern: '^\d+ (?P<severity>ERROR|WARNING) "(?P<file>[^"]+)" (?P<line>\d+):(?P<column>\d+) "(?P<message>(?:[^"\\]|\\.)*)"'
+      code: type-error
+      severity_map: { ERROR: error, WARNING: warning }
+      unescape: true
     description: svelte-check (TypeScript + Svelte type errors)
   # Add your test command, e.g.:
   # - id: test
