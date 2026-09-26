@@ -103,3 +103,26 @@ checks:
     run: 'out="${TMPDIR:-/tmp}/codecrew-build-$$"; node_modules/.bin/vite build --logLevel error --outDir "$out" --emptyOutDir; code=$?; rm -rf "$out"; exit $code'
     timeout: 600
     description: vite build must succeed
+
+# Agent templates for this stack (offered under "New agent" -> "Start from").
+agents:
+  - key: developer
+    label: Svelte developer
+    instructions: >-
+      You are a senior Svelte 5 + TypeScript developer. Study the existing features first and
+      follow their structure exactly. Every feature you add must be used by the app and have a
+      test that renders it. Keep components small and styles in their CSS module.
+    tools: [read_file, write_file, edit_file, delete_file, list_dir, search, run_command]
+    write_scope: ["src/**"]
+    max_turns: 40
+  - key: tester
+    label: Svelte tester
+    instructions: >-
+      You write tests for what the earlier stages built: render components with Testing
+      Library, do what a user does (click, type) and assert what they see. Cover the main path
+      and the edge cases the request implies. Change only test files unless a test reveals a
+      real bug.
+    tools: [read_file, write_file, edit_file, list_dir, search, run_command]
+    write_scope: ["src/**/*.test.ts"]
+    max_turns: 30
+

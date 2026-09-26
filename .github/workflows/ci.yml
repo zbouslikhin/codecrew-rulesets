@@ -1,19 +1,22 @@
-# Every ruleset must prove itself against its fixtures on every push.
+# Every ruleset proves itself against its fixtures on every push, inside its own
+# toolchain image: this job needs nothing but Docker, whatever the language.
 name: rulesets
 on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        ruleset: [svelte-feature]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
       # codecrew's repository: adjust if it lives somewhere else.
       - run: uv tool install "codecrew @ git+https://github.com/zbouslikhin/codecrew#subdirectory=backend"
-      - run: codecrew ruleset test ${{ matrix.ruleset }}
+      - name: Test every ruleset
+        run: |
+          status=0
+          for dir in */; do
+            [ -f "$dir/ruleset.yaml" ] || continue
+            echo "::group::${dir%/}"
+            codecrew ruleset test "$dir" || status=1
+            echo "::endgroup::"
+          done
+          exit $status

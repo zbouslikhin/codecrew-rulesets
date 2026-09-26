@@ -1,5 +1,11 @@
 # svelte-feature
 
+## v2.1.0
+
+- Project template (`template/`): `codecrew new-project --ruleset svelte-feature` creates a
+  Svelte 5 + TypeScript app with the feature-folder layout, a welcome feature and its test.
+- Agent templates: Svelte developer and Svelte tester.
+
 ## v2.0.1
 
 - `.codecrew/.gitattributes` pins LF for the ruleset's own files, so Git for Windows
