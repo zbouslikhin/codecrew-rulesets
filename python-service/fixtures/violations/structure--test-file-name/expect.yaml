@@ -1,0 +1,5 @@
+# A test file that pytest wouldn't collect.
+expect:
+  - check: structure
+    rule: "allow"
+    file: tests/check_greeting.py

@@ -1,0 +1,5 @@
+# A test that fails.
+expect:
+  - check: test
+    rule: "test_greets_by_name"
+    file: tests/test_greeting.py

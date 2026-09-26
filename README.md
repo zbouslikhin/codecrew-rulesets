@@ -6,6 +6,7 @@ release is a git tag `<name>@v<major>.<minor>.<patch>`.
 | Ruleset | For |
 |---|---|
 | `svelte-feature` | Svelte 5 + TypeScript apps with the Qlayers feature-folder layout. v2: a test per feature, every feature used (reachability), build must pass |
+| `python-service` | Python 3.12 services with uv, src layout: ruff, mypy strict, pytest, vulture (warnings) |
 
 ## Using one
 
@@ -24,7 +25,8 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
 <name>/
   ruleset.yaml            checks, structure rules, setup, preview, summary for agents
   files/                  config files installed into the ruleset's folder of the repo
-  dev-dependencies.json   packages merged into that folder's package.json
+  dev-dependencies.json   packages merged into that folder's package.json (npm only; or use `install`)
+  template/               the starting project for `codecrew new-project` ({{name}}, {{module}})
   fixtures/clean/         a project that must pass
   fixtures/violations/*/  files/ laid over clean + expect.yaml: the rule that must catch it
   CHANGELOG.md

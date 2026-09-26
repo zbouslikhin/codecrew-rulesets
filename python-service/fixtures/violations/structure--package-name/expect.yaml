@@ -1,0 +1,5 @@
+# A package not in snake_case.
+expect:
+  - check: structure
+    rule: "name"
+    file: src/BadName/

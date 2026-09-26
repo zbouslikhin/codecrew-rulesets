@@ -1,0 +1,5 @@
+# Returns a str where an int is declared.
+expect:
+  - check: types
+    rule: "return-value"
+    file: src/fixture_app/count.py

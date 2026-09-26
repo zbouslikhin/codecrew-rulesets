@@ -1,0 +1,5 @@
+# A mutable default argument (not auto-fixable).
+expect:
+  - check: lint
+    rule: "B006"
+    file: src/fixture_app/lists.py
