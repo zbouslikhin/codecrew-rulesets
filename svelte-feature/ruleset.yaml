@@ -126,3 +126,12 @@ agents:
     write_scope: ["src/**/*.test.ts"]
     max_turns: 30
 
+# The repo map agents get up front: what each TypeScript file exports. Components are
+# listed by their file (one component per file, named like its folder).
+repo_map:
+  symbols:
+    - files: "*.ts"
+      pattern: '^export\s+(?:default\s+)?(?:async\s+)?(?:function\*?|class|const|let|type|interface|enum)\s+(?P<name>[A-Za-z_$][\w$]*)'
+    - files: "index.ts"
+      pattern: '^export\s*\{\s*(?:default\s+as\s+)?(?P<name>[A-Za-z_$][\w$]*)'
+

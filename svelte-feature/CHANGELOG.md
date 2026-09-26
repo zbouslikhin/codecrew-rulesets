@@ -1,5 +1,9 @@
 # svelte-feature
 
+## v2.2.0
+
+- Repo map: agents get what each TypeScript file exports up front.
+
 ## v2.1.0
 
 - Project template (`template/`): `codecrew new-project --ruleset svelte-feature` creates a

@@ -85,3 +85,11 @@ agents:
     tools: [read_file, write_file, edit_file, list_dir, search, run_command]
     write_scope: ["tests/**"]
     max_turns: 30
+
+# The repo map agents get up front: which functions and classes each file defines
+# (top level only), so they don't open files just to find their way.
+repo_map:
+  symbols:
+    - files: "*.py"
+      pattern: '^(?:async\s+)?(?:def|class)\s+(?P<name>\w+)'
+
