@@ -1,0 +1,5 @@
+# A mutable default argument.
+expect:
+  - check: lint
+    rule: "B006"
+    file: tests/test_mounting_bracket.py

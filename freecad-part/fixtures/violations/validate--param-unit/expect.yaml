@@ -1,0 +1,5 @@
+# A dimension without its unit in the name.
+expect:
+  - check: validate
+    rule: "param-unit"
+    file: parts/spacer.py

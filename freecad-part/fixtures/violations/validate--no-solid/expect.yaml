@@ -1,0 +1,5 @@
+# A cut that removes all the material.
+expect:
+  - check: validate
+    rule: "no-solid"
+    file: parts/washer.py

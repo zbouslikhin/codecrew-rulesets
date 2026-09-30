@@ -1,0 +1,5 @@
+# A part without its test.
+expect:
+  - check: validate
+    rule: "missing-test"
+    file: parts/pin.py

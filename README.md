@@ -7,6 +7,7 @@ release is a git tag `<name>@v<major>.<minor>.<patch>`.
 |---|---|
 | `svelte-feature` | Svelte 5 + TypeScript apps with the Qlayers feature-folder layout. v2: a test per feature, every feature used (reachability), build must pass |
 | `python-service` | Python 3.12 services with uv, src layout: ruff, mypy strict, pytest, vulture (warnings) |
+| `freecad-part` | Parametric mechanical parts scripted with FreeCAD 1.1 (headless): geometry checks (valid solid, units, parametric robustness, STEP export), ruff, pytest. Build its toolchain image once: `docker build -t codecrew-freecad:1.1.3 freecad-part/toolchain` |
 
 ## Using one
 

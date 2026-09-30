@@ -1,0 +1,5 @@
+# Two fillets that stop fitting when the radius grows by 10%.
+expect:
+  - check: validate
+    rule: "not-parametric"
+    file: parts/clip.py

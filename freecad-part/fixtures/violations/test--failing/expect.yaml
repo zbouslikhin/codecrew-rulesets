@@ -1,0 +1,5 @@
+# A test that fails.
+expect:
+  - check: test
+    rule: "test_two_m4_clearance_holes"
+    file: tests/test_mounting_bracket.py

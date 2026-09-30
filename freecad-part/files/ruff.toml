@@ -1,0 +1,7 @@
+# Managed by the codecrew 'freecad-part' ruleset.
+line-length = 100
+target-version = "py311"
+extend-exclude = [".codecrew", "exports"]
+
+[lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]

@@ -1,0 +1,105 @@
+name: freecad-part
+# Built from toolchain/Dockerfile in this ruleset (FreeCAD's official AppImage, headless):
+#   docker build -t codecrew-freecad:1.1.3 freecad-part/toolchain
+toolchain: codecrew-freecad:1.1.3
+summary: |
+  Parametric mechanical parts, scripted in Python with FreeCAD 1.1 (headless, its Python 3.11).
+  - Each part is one module in parts/: PARAMS, an instance of a frozen dataclass holding the
+    part's dimensions, each named with its unit (width_mm, angle_deg, force_n), and
+    build(params) returning a Part.Shape. Optional: PARAM_RANGES, DENSITY_G_CM3.
+  - Lengths in mm. No magic numbers in build(): every dimension comes from the parameters.
+  - Import FreeCAD before Part: `import Part` on its own crashes FreeCAD 1.1.
+  - Select edges and faces by geometry (position, direction, radius), never by index:
+    indices change whenever the geometry does (FreeCAD's topological naming problem).
+  - A part must still build when any dimension changes by 10% (or across PARAM_RANGES):
+    derive fillets, holes and offsets from the parameters, and limit them to the room there is.
+  - Every part has tests/test_<part>.py that builds it and checks what matters: outer
+    dimensions, holes and their fit, volume or mass.
+
+setup: []
+ignore: [exports/, .git/, __pycache__/, .pytest_cache/, .ruff_cache/]
+
+structure:
+  - path: "parts/"
+    allow: ["*.py"]
+    message: "parts/ holds one Python module per part (exports go to exports/, which git ignores)."
+  - path: "tests/"
+    allow: ["test_*.py", "conftest.py", "__init__.py"]
+    message: "tests/ holds pytest files named test_<part>.py (plus conftest.py)."
+
+checks:
+  - id: format
+    fix: true
+    run: python -m ruff format --quiet {files:*.py}
+    description: ruff format, applied automatically
+  - id: lint
+    fix: true
+    run: python -m ruff check --fix --quiet --output-format sarif {files:*.py}
+    parser: sarif
+    description: ruff (pyflakes, pycodestyle, bugbear, imports, pyupgrade)
+  - id: validate
+    # -B: no bytecode caches. A part edited to the same size within a second would otherwise
+    # be checked from its stale cache (Python validates caches by size and timestamp only).
+    run: python -B .codecrew/rulesets/freecad-part/validate.py parts
+    timeout: 600
+    # one JSON object per line: the engineering checks (contract, units, valid solid,
+    # parametric robustness, STEP export, a test per part), plus an info line per part
+    parser:
+      format: jsonl
+      fields: { file: file, line: line, code: code, message: message, severity: severity }
+    description: FreeCAD geometry checks, deterministic
+  - id: test
+    run: python -B -m pytest -q -rfE -p no:cacheprovider
+    timeout: 600
+    parser:
+      format: lines
+      pattern: '^(?P<severity>FAILED|ERROR) (?P<file>[^:\s]+)(?:::(?P<code>\S+))?(?: - (?P<message>.*))?$'
+      code: test-file-error
+      severity_map: { FAILED: error, ERROR: error }
+    description: pytest, in FreeCAD's Python
+
+repo_map:
+  symbols:
+    - files: "*.py"
+      pattern: '^(?:def|class)\s+(?P<name>\w+)'
+
+agents:
+  - key: engineer
+    label: FreeCAD mechanical engineer
+    instructions: >-
+      You are a senior mechanical design engineer who scripts parts in FreeCAD's Python API
+      (Part workbench, OpenCascade). Think in design intent before geometry: what the part
+      does, what it mates with, how it's made (FDM print, CNC, sheet metal) and what that
+      means: FDM walls of at least 2 mm, clearance holes (M3 3.4 mm, M4 4.5 mm, M5 5.5 mm),
+      0.2 to 0.3 mm clearance between printed mating parts, fillets in inner corners against
+      stress concentration, no overhangs beyond 45 degrees without support. Put every
+      dimension in PARAMS with its unit; build geometry from primitives and booleans, and call
+      removeSplitter() after fusing. Find edges and faces by their geometry, never by index.
+      Keep fillets and chamfers within the room they have, so the part stays parametric.
+      Every part gets a test that checks its function-critical dimensions. Say in the part's
+      docstring what it's for, its material and the design decisions a reviewer should know.
+    tools: [read_file, write_file, edit_file, list_dir, search, run_command]
+    write_scope: ["parts/**", "tests/**", "scripts/**", "README.md"]
+    max_turns: 40
+  - key: reviewer
+    label: Mechanical design reviewer
+    instructions: >-
+      You review a part like a senior mechanical engineer before it's released for
+      manufacture. Check that it does what the request asks and fits what it mates with:
+      fits and clearances, hole sizes for the fasteners, wall thicknesses and minimum features
+      for the process, stress concentrations (sharp inner corners), load paths, and that
+      function-critical dimensions are tested. Approve only what you'd send to the shop;
+      otherwise list concrete findings with the dimension and the value you'd use.
+    tools: [read_file, list_dir, search]
+    write_scope: []
+    max_turns: 10
+  - key: researcher
+    label: Mechanical design researcher
+    instructions: >-
+      Use as a thinking stage. Work out the design before anyone models it: the requirements
+      and constraints from the request and its attachments (drawings, specs), the mating
+      parts, the manufacturing process and its limits, two or three concepts with their
+      trade-offs, and a recommended concept with its key dimensions as a parameter table.
+    tools: [read_file, list_dir, search]
+    write_scope: []
+    max_turns: 15

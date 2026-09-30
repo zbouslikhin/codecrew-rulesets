@@ -1,0 +1,5 @@
+# A file in parts/ that isn't a part.
+expect:
+  - check: structure
+    rule: "allow"
+    file: parts/notes.txt
