@@ -1,0 +1,8 @@
+# A part written to src/parts/: before, nothing checked it and the run passed.
+expect:
+  - check: validate
+    rule: "outside-parts"
+    file: src/parts/elbow_link.py
+  - check: validate
+    rule: "outside-parts"
+    file: src/tests/test_elbow_link.py

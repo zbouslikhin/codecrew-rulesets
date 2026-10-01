@@ -58,6 +58,13 @@ checks:
       severity_map: { FAILED: error, ERROR: error }
     description: pytest, in FreeCAD's Python
 
+# Skeletons for new parts: the scaffold tool (or make scaffold) writes parts/<name>.py and
+# tests/test_<name>.py, already passing every check here; the agent fills them in.
+generators:
+  - name: part
+    description: a new part with its test (parts/<name>.py, tests/test_<name>.py)
+    name_style: snake_case
+
 repo_map:
   symbols:
     - files: "*.py"
@@ -78,7 +85,7 @@ agents:
       Keep fillets and chamfers within the room they have, so the part stays parametric.
       Every part gets a test that checks its function-critical dimensions. Say in the part's
       docstring what it's for, its material and the design decisions a reviewer should know.
-    tools: [read_file, write_file, edit_file, list_dir, search, run_command]
+    tools: [read_file, write_file, edit_file, list_dir, search, run_command, scaffold]
     write_scope: ["parts/**", "tests/**", "scripts/**", "README.md"]
     max_turns: 40
   - key: reviewer

@@ -32,9 +32,15 @@ def report(file: str, code: str, message: str, line: int | None = None, severity
 
 
 def line_of(source: str, needle: str) -> int | None:
-    for n, text in enumerate(source.splitlines(), 1):
-        if needle in text:
-            return n
+    """Where `needle` is defined (a dataclass field `name: ...`, or `def name`), else its
+    first occurrence as a whole word: never a docstring line that merely contains it."""
+    import re
+
+    lines = source.splitlines()
+    for pattern in (rf"^\s*{re.escape(needle)}\s*:", rf"^\s*def\s+{re.escape(needle)}\b", rf"\b{re.escape(needle)}\b"):
+        for n, text in enumerate(lines, 1):
+            if re.search(pattern, text):
+                return n
     return None
 
 
@@ -96,7 +102,7 @@ def validate(path: Path, root: Path) -> None:
         return
     problem = check_shape(shape, "build()")
     if problem:
-        report(rel, "invalid-shape" if "invalid" in problem else "no-solid", problem, line_of(source, "def build"))
+        report(rel, "invalid-shape" if "invalid" in problem else "no-solid", problem, line_of(source, "build"))
         return
 
     # still a part when the dimensions change: that's what makes it parametric
@@ -121,7 +127,7 @@ def validate(path: Path, root: Path) -> None:
         try:
             shape.exportStep(str(Path(tmp) / "part.step"))
         except Exception as e:  # noqa: BLE001
-            report(rel, "export-failed", f"STEP export fails: {e}", line_of(source, "def build"))
+            report(rel, "export-failed", f"STEP export fails: {e}", line_of(source, "build"))
 
     bb = shape.BoundBox
     info = f"{shape.Volume:,.1f} mm³, {bb.XLength:.2f} x {bb.YLength:.2f} x {bb.ZLength:.2f} mm"
@@ -135,10 +141,34 @@ def validate(path: Path, root: Path) -> None:
                "checks what matters (dimensions, volume, holes)", 1)
 
 
+PYTHON_HOMES = ("parts/", "tests/", "scripts/")
+
+
+def misplaced(root: Path) -> None:
+    """Python outside parts/, tests/ and scripts/ is checked by nothing here: a part in
+    src/parts/ would pass every run unseen. So it's an error, with where it belongs."""
+    import subprocess
+
+    listed = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard", "*.py"],
+                            cwd=root, capture_output=True, text=True)
+    if listed.returncode == 0:
+        files = listed.stdout.splitlines()
+    else:
+        files = [p.relative_to(root).as_posix() for p in root.rglob("*.py")]
+    for rel in sorted(files):
+        if rel.startswith((*PYTHON_HOMES, ".codecrew/")) or "/" not in rel and rel == "conftest.py":
+            continue
+        name = rel.rsplit("/", 1)[-1]
+        home = "tests/" if name.startswith("test_") or name == "conftest.py" else "parts/"
+        report(rel, "outside-parts", f"Python lives in parts/, tests/ or scripts/ here: nothing checks "
+               f"{rel} where it is. Move it to {home}{name}.", 1)
+
+
 def main() -> int:
     root = Path.cwd()
     parts_dir = root / (sys.argv[1] if len(sys.argv) > 1 else "parts")
     sys.path.insert(0, str(root))
+    misplaced(root)
     for path in sorted(parts_dir.glob("*.py")):
         if path.name != "__init__.py":
             validate(path, root)
