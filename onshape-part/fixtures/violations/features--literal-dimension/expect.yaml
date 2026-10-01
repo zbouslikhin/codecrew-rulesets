@@ -1,0 +1,4 @@
+# An extrude depth typed in, not a variable.
+expect:
+  - check: features
+    rule: "literal-dimension"

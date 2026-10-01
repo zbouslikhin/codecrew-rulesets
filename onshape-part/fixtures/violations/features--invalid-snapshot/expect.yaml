@@ -1,0 +1,4 @@
+# A snapshot that isn't JSON.
+expect:
+  - check: features
+    rule: "invalid-snapshot"

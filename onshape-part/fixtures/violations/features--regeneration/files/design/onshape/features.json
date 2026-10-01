@@ -1,0 +1,148 @@
+{
+  "btType": "BTFeatureListResponse-2457",
+  "featureStates": {
+    "FexBody": {
+      "featureStatus": "ERROR",
+      "statusEnum": "EXTRUDE_NO_SELECTED_REGION"
+    },
+    "FskBase": {
+      "featureStatus": "OK"
+    },
+    "Fv1": {
+      "featureStatus": "OK"
+    },
+    "Fv2": {
+      "featureStatus": "OK"
+    },
+    "Fv3": {
+      "featureStatus": "OK"
+    }
+  },
+  "features": [
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fv1",
+      "featureType": "assignVariable",
+      "name": "Variable length",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "length"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "40 mm",
+          "isInteger": false,
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fv2",
+      "featureType": "assignVariable",
+      "name": "Variable width",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "width"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "20 mm",
+          "isInteger": false,
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fv3",
+      "featureType": "assignVariable",
+      "name": "Variable thickness",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "thickness"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "5 mm",
+          "isInteger": false,
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMSketch-151",
+      "constraints": [
+        {
+          "btType": "BTMSketchConstraint-2",
+          "constraintType": "LENGTH",
+          "entityId": "c1",
+          "parameters": [
+            {
+              "btType": "BTMParameterQuantity-147",
+              "expression": "#length",
+              "isInteger": false,
+              "parameterId": "length"
+            }
+          ]
+        },
+        {
+          "btType": "BTMSketchConstraint-2",
+          "constraintType": "LENGTH",
+          "entityId": "c2",
+          "parameters": [
+            {
+              "btType": "BTMParameterQuantity-147",
+              "expression": "#width",
+              "isInteger": false,
+              "parameterId": "length"
+            }
+          ]
+        }
+      ],
+      "entities": [
+        {
+          "btType": "BTMSketchCurveSegment-155",
+          "entityId": "line1"
+        }
+      ],
+      "featureId": "FskBase",
+      "featureType": "newSketch",
+      "name": "Base outline",
+      "parameters": [
+        {
+          "btType": "BTMParameterQueryList-148",
+          "parameterId": "sketchPlane",
+          "queries": []
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "FexBody",
+      "featureType": "extrude",
+      "name": "Body",
+      "parameters": [
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#thickness",
+          "isInteger": false,
+          "parameterId": "depth"
+        },
+        {
+          "btType": "BTMParameterEnum-145",
+          "enumName": "NewBodyOperationType",
+          "parameterId": "operationType",
+          "value": "NEW"
+        }
+      ]
+    }
+  ],
+  "isComplete": true
+}

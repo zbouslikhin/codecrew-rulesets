@@ -1,0 +1,4 @@
+# A sketch dimension typed in.
+expect:
+  - check: features
+    rule: "literal-dimension"

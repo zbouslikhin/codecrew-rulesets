@@ -1,0 +1,4 @@
+# A Part Studio without features.
+expect:
+  - check: features
+    rule: "empty"

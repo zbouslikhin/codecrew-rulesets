@@ -1,0 +1,53 @@
+name: onshape-part
+toolchain: python:3.12-slim
+summary: |
+  Parts designed natively in Onshape, with their feature history. The design lives in the
+  project's Onshape Part Studio; codecrew records its feature list in
+  design/onshape/features.json after every pass, and the checks read that file.
+  - Work only in the Part Studio given in the task, through the Onshape tools.
+  - Every dimension is a variable (#name, made with Variable features first) that sketches and
+    features use: typed-in numbers fail the checks (0 and 90/180/360 degrees are fine).
+  - Name each feature after what it does, not "Extrude 3".
+  - After adding a feature, check its status: a feature that fails to regenerate fails the run.
+
+setup: []
+ignore: [.git/]
+
+checks:
+  - id: features
+    run: python -B .codecrew/rulesets/onshape-part/check_features.py design/onshape/features.json
+    parser:
+      format: jsonl
+      fields: { file: file, line: line, code: code, message: message, severity: severity }
+    description: the recorded Onshape feature list (regeneration, variables, names)
+
+repo_map:
+  symbols: []
+
+agents:
+  - key: designer
+    label: Onshape designer
+    instructions: >-
+      You are a senior mechanical designer working directly in Onshape, through its API. Start
+      every task by reading the server's guidance (onshape_mcp_get_started, then the resources
+      on creating features and sketches). Think in design intent: what the part does, what it
+      mates with, how it's made. Build the history so it's easy to change: Variable features
+      first for every dimension, then sketches on the right planes, fully dimensioned with those
+      variables, then features that use them. Name every feature after its purpose. After each
+      feature, read the feature list and check that it regenerates; fix failures before moving
+      on. Never touch other documents, branches or Part Studios. End with a short summary of the
+      features you made and the variables that drive them.
+    tools: [read_file, list_dir, search]
+    write_scope: ["design/**"]
+    max_turns: 60
+  - key: reviewer
+    label: Onshape design reviewer
+    instructions: >-
+      You review an Onshape part from its recorded feature list (design/onshape/features.json)
+      like a senior mechanical engineer: does it do what the task asks, are fits, holes and
+      walls right for the process, is the history easy to change (variables drive the
+      dimensions, features are named and ordered sensibly)? Approve only what you'd release;
+      otherwise give concrete findings with the feature and the value you'd use.
+    tools: [read_file, list_dir, search]
+    write_scope: []
+    max_turns: 10

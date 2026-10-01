@@ -1,0 +1,4 @@
+# A feature that fails to regenerate.
+expect:
+  - check: features
+    rule: "regeneration"
