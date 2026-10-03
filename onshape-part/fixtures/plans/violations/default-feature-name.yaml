@@ -1,0 +1,7 @@
+# A feature still called what Onshape calls it.
+change:
+  extensions:
+    features:
+      - { name: Clip profile, type: Sketch, dimensions: "#slot_width, #wall" }
+      - { name: Extrude 1, type: Extrude, dimensions: "depth #wall * 4" }
+expect: [feature-default-name]

@@ -1,0 +1,7 @@
+# A feature driven by a variable the parameter table doesn't have.
+change:
+  extensions:
+    features:
+      - { name: Clip profile, type: Sketch, dimensions: "#slot_width, #wall" }
+      - { name: Clip body, type: Extrude, dimensions: "depth #clip_depth" }
+expect: [feature-unknown-variable]

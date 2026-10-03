@@ -1,0 +1,6 @@
+# "new" isn't one of add, modify, delete.
+change:
+  extensions:
+    files:
+      - { path: src/features/about/index.ts, change: new, purpose: exports }
+expect: [file-change]

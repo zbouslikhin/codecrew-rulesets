@@ -1,0 +1,7 @@
+# A parameter with a value but no reason for it, and one without its unit.
+change:
+  extensions:
+    parameters:
+      - { name: slot_width_mm, value: 20.2, unit: mm, rationale: "" }
+      - { name: wall_mm, value: 2.4, rationale: "six perimeters" }
+expect: [parameter-unit-rationale]

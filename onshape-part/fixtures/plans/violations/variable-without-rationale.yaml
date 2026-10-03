@@ -1,0 +1,8 @@
+# A variable with no unit and no reason for its value.
+change:
+  extensions:
+    parameters:
+      - { name: slot_width, value: 20.2 }
+    features:
+      - { name: Clip profile, type: Sketch, dimensions: "#slot_width" }
+expect: [parameter-unit-rationale]

@@ -1,0 +1,6 @@
+# A new module, but the only planned test is for another one.
+change:
+  extensions:
+    tests:
+      - { path: tests/test_greeting.py, covers: the greeting still works }
+expect: [module-has-test]

@@ -1,0 +1,8 @@
+# Notes don't belong in parts/ (one Python module per part).
+change:
+  extensions:
+    files:
+      - { path: parts/cable_clip.py, change: add, purpose: the clip }
+      - { path: tests/test_cable_clip.py, change: add, purpose: its test }
+      - { path: parts/cable_clip_notes.txt, change: add, purpose: design notes }
+expect: [files-fit-structure]

@@ -1,0 +1,6 @@
+# A new package that isn't snake_case.
+change:
+  extensions:
+    modules:
+      - { path: src/FixtureTools/farewell.py, change: add, purpose: farewell() }
+expect: [modules-fit-structure]

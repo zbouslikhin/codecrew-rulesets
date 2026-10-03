@@ -1,0 +1,7 @@
+# A test file next to the features folder instead of inside the feature.
+change:
+  extensions:
+    tests:
+      - { path: src/features/about/components/About/About.test.ts, covers: renders }
+      - { path: src/tests/about.test.ts, covers: the same, in the wrong place }
+expect: [tests-fit-structure]

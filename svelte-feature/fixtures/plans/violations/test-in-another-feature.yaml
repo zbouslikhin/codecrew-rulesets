@@ -1,0 +1,6 @@
+# The only planned test belongs to another feature: the new one still has none.
+change:
+  extensions:
+    tests:
+      - { path: src/features/changelog/components/Release/Release.test.ts, covers: releases still render }
+expect: [feature-has-test]

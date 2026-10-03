@@ -1,0 +1,48 @@
+# A plan that passes: a new feature with its test, wired into the app.
+goal: Show the app's version history on an About page.
+acceptance_criteria:
+  - id: AC1
+    text: The About page lists the app's name and version.
+    verification: About.test.ts renders the component and finds both.
+  - id: AC2
+    text: The page is reachable from the app.
+    verification: The reachability check passes (App.svelte imports the feature).
+assumptions:
+  - The version comes from constants.ts; no backend call is needed.
+questions: []
+looked_at:
+  - src/App.svelte
+  - src/features/changelog/
+options:
+  - name: Its own feature folder
+    summary: src/features/about with one component
+    chosen: true
+    reason: It follows the layout of the existing features.
+  - name: Add it to changelog
+    summary: one more component there
+    reason: It isn't part of the changelog's job.
+steps:
+  - id: S1
+    text: Create the about feature with an About component and its test.
+    verification: vitest passes for About.test.ts.
+  - id: S2
+    text: Render it from App.svelte.
+    files: [src/App.svelte]
+    verification: The build and the reachability check pass.
+out_of_scope:
+  - Routing between pages.
+estimate: { turns: 8, files: 6 }
+extensions:
+  svelte-feature:
+    files:
+      - { path: src/features/about/index.ts, change: add, purpose: exports the About component }
+      - { path: src/features/about/types.ts, change: add, purpose: TAbout }
+      - { path: src/features/about/constants.ts, change: add, purpose: name and version }
+      - { path: src/features/about/components/About/About.svelte, change: add, purpose: the page }
+      - { path: src/features/about/components/About/About.module.scss, change: add, purpose: its styles }
+      - { path: src/App.svelte, change: modify, purpose: renders About }
+    new_features:
+      - { name: about, purpose: shows name and version, used_from: src/App.svelte }
+    tests:
+      - { path: src/features/about/components/About/About.test.ts, covers: renders name and version }
+    interface_changes: []

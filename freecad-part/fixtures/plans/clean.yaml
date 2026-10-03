@@ -1,0 +1,58 @@
+# A plan that passes: a new part with its parameter table and its test.
+goal: A cable clip that snaps onto a 20 x 20 mm aluminium extrusion and holds a 6 mm cable.
+acceptance_criteria:
+  - id: AC1
+    text: The clip builds as one valid solid and still builds when any dimension changes by 10%.
+    verification: The validate check passes (valid solid, parametric robustness).
+  - id: AC2
+    text: The cable opening is 6.4 mm wide (6 mm cable, 0.4 mm clearance).
+    verification: tests/test_cable_clip.py measures the opening.
+  - id: AC3
+    text: The clip fits a 20 mm slot profile and weighs under 5 g in PETG.
+    verification: tests/test_cable_clip.py checks the bounding box and the mass from DENSITY_G_CM3.
+assumptions:
+  - Printed in PETG on an FDM printer with a 0.4 mm nozzle.
+questions: []
+looked_at:
+  - parts/mounting_bracket.py
+  - tests/test_mounting_bracket.py
+options:
+  - name: Snap-fit clip
+    summary: two flexing arms, no fasteners
+    chosen: true
+    reason: No hardware, prints without supports.
+  - name: Screwed clamp
+    summary: an M3 screw closes it
+    reason: More parts for the same job.
+steps:
+  - id: S1
+    text: Scaffold the part (generator part, name cable_clip) and put the parameters in PARAMS.
+    verification: The skeleton passes the checks.
+  - id: S2
+    text: Build the body, the cable opening and the snap arms from the parameters.
+    verification: The validate check passes at nominal and at +/-10%.
+  - id: S3
+    text: Test the opening, the envelope and the mass.
+    verification: pytest passes.
+out_of_scope:
+  - A version for 30 mm extrusions.
+estimate: { turns: 14, files: 2 }
+extensions:
+  freecad-part:
+    parameters:
+      - { name: slot_width_mm, value: 20.2, unit: mm, rationale: "20 mm extrusion plus 0.2 mm printed clearance" }
+      - { name: cable_diameter_mm, value: 6.4, unit: mm, rationale: "6 mm cable plus 0.4 mm clearance" }
+      - { name: wall_mm, value: 2.4, unit: mm, rationale: "six 0.4 mm perimeters: stiff enough to snap, above the 2 mm minimum" }
+      - { name: arm_angle_deg, value: 12, unit: deg, rationale: "lead-in of the snap arms, within the 45 degree overhang limit" }
+    interfaces:
+      - { mates_with: 20 x 20 mm extrusion, dimension: slot_width 20.2 mm, fit: sliding fit with 0.2 mm clearance }
+      - { mates_with: 6 mm cable, dimension: cable_diameter 6.4 mm, fit: loose }
+    process_limits:
+      - { limit: minimum wall (FDM), value: 2 mm }
+      - { limit: overhang without support, value: 45 deg }
+    targets:
+      - { quantity: envelope, target: 26 x 14 x 10 mm }
+      - { quantity: mass in PETG, target: under 5 g }
+    files:
+      - { path: parts/cable_clip.py, change: add, purpose: the clip }
+      - { path: tests/test_cable_clip.py, change: add, purpose: opening, envelope, mass }

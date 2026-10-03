@@ -1,0 +1,61 @@
+# A plan that passes: variables first, then features that use them.
+goal: A cable clip that snaps onto a 20 x 20 mm aluminium extrusion and holds a 6 mm cable.
+acceptance_criteria:
+  - id: AC1
+    text: The clip builds as one valid solid and still builds when any dimension changes by 10%.
+    verification: Every feature regenerates (the features check passes on design/onshape/features.json).
+  - id: AC2
+    text: The cable opening is 6.4 mm wide (6 mm cable, 0.4 mm clearance).
+    verification: The variable #cable_diameter is 6.4 mm and the cable sketch uses it.
+  - id: AC3
+    text: The clip fits a 20 mm slot profile and weighs under 5 g in PETG.
+    verification: getPartStudioBoundingBoxes and getPartStudioMassProperties, read after the last feature.
+assumptions:
+  - Printed in PETG on an FDM printer with a 0.4 mm nozzle.
+questions: []
+looked_at:
+  - design/onshape/features.json
+  - onshape_mcp_get_started
+options:
+  - name: Snap-fit clip
+    summary: two flexing arms, no fasteners
+    chosen: true
+    reason: No hardware, prints without supports.
+  - name: Screwed clamp
+    summary: an M3 screw closes it
+    reason: More parts for the same job.
+steps:
+  - id: S1
+    text: Create the Variable features from the parameter table.
+    verification: The feature list shows them, each regenerating.
+  - id: S2
+    text: Build the features in the order of the features table, checking each one's status.
+    verification: Every feature's status is OK.
+  - id: S3
+    text: Read the bounding box and the mass and compare them with the targets.
+    verification: Both are within the targets.
+out_of_scope:
+  - A version for 30 mm extrusions.
+estimate: { turns: 30, files: 0 }
+extensions:
+  onshape-part:
+    parameters:
+      - { name: slot_width, value: 20.2, unit: mm, rationale: "20 mm extrusion plus 0.2 mm printed clearance" }
+      - { name: cable_diameter, value: 6.4, unit: mm, rationale: "6 mm cable plus 0.4 mm clearance" }
+      - { name: wall, value: 2.4, unit: mm, rationale: "six 0.4 mm perimeters: stiff enough to snap, above the 2 mm minimum" }
+      - { name: arm_angle, value: 12, unit: deg, rationale: "lead-in of the snap arms, within the 45 degree overhang limit" }
+    interfaces:
+      - { mates_with: 20 x 20 mm extrusion, dimension: slot_width 20.2 mm, fit: sliding fit with 0.2 mm clearance }
+      - { mates_with: 6 mm cable, dimension: cable_diameter 6.4 mm, fit: loose }
+    process_limits:
+      - { limit: minimum wall (FDM), value: 2 mm }
+      - { limit: overhang without support, value: 45 deg }
+    targets:
+      - { quantity: envelope, target: 26 x 14 x 10 mm }
+      - { quantity: mass in PETG, target: under 5 g }
+    features:
+      - { name: Clip profile, type: Sketch, dimensions: "#slot_width, #wall, #arm_angle" }
+      - { name: Clip body, type: Extrude, dimensions: "depth #wall * 4" }
+      - { name: Cable opening, type: Sketch, dimensions: "#cable_diameter, offset 0 mm" }
+      - { name: Cut cable opening, type: Extrude, dimensions: "through all" }
+      - { name: Snap arm lead-in, type: Chamfer, dimensions: "#arm_angle, #wall / 2" }

@@ -1,0 +1,6 @@
+# A new part with no test planned.
+change:
+  extensions:
+    files:
+      - { path: parts/cable_clip.py, change: add, purpose: the clip }
+expect: [part-has-test]

@@ -70,6 +70,71 @@ repo_map:
     - files: "*.py"
       pattern: '^(?:def|class)\s+(?P<name>\w+)'
 
+# Plan mode: what a plan for a part adds to codecrew's common core, and the checks on it.
+# Proven by fixtures/plans/ (codecrew ruleset test).
+plan:
+  sections:
+    - key: parameters
+      title: Parameter table
+      description: >-
+        Every dimension the part gets in PARAMS: its name with the unit suffix (width_mm), its
+        value, the unit, and the rationale: why this value (what it mates with, the process
+        limit, the load).
+      columns: [name, value, unit, rationale]
+    - key: interfaces
+      title: Interfaces and mating dimensions
+      description: >-
+        What the part mates with and the dimensions that must fit: the mating part or fastener,
+        the dimension, and the fit or clearance (M4 screw, hole_diameter_mm 4.5, clearance fit).
+      columns: [mates_with, dimension, fit]
+    - key: process_limits
+      title: Process limits
+      description: >-
+        The manufacturing process and the limits it sets on this part, each with its value:
+        minimum wall, overhang, smallest hole, tool radius, bend radius.
+      columns: [limit, value]
+    - key: targets
+      title: Targets for size and mass
+      description: >-
+        The envelope the part must stay within and its mass target, each with the value the
+        result is checked against (envelope 40 x 30 x 35 mm; mass under 15 g).
+      columns: [quantity, target]
+    - key: files
+      title: Files
+      description: >-
+        The part's module and its test (parts/<part>.py, tests/test_<part>.py) and anything
+        else you change. change is add, modify or delete. Start a new part with the scaffold tool.
+      columns: [path, change, purpose]
+      path_column: path
+  checks:
+    - id: parameter-unit-rationale
+      kind: filled
+      section: parameters
+      column: name
+      fields: [unit, rationale]
+      message: "Parameter '{value}' needs a unit and a rationale (why this value)."
+    - id: parameter-name-unit
+      kind: pattern
+      section: parameters
+      column: name
+      require: '^[a-z][a-z0-9_]*_(mm|deg|rad|n|nm|kg|g|mpa|count|pct|ratio|s)$'
+      message: "Parameter '{value}' has no unit in its name: call it e.g. '{value}_mm' (the validate check requires it)."
+    - id: part-has-test
+      kind: paired
+      section: files
+      column: path
+      where: { change: add }
+      skip: '^(?!parts/[^/]+\.py$)|(^|/)__init__\.py$'   # only new parts
+      with_section: files
+      with_column: path
+      template: "tests/test_{stem}.py"
+      message: "New part '{value}' has no planned test: add tests/test_{stem}.py to files."
+    - id: files-fit-structure
+      kind: structure
+      section: files
+      column: path
+      where: { change: add }
+
 agents:
   - key: engineer
     label: FreeCAD mechanical engineer
@@ -88,6 +153,7 @@ agents:
     tools: [read_file, write_file, edit_file, list_dir, search, run_command, scaffold]
     write_scope: ["parts/**", "tests/**", "scripts/**", "README.md"]
     max_turns: 40
+    plan_mode: ask_on_risk   # plans first; a risky plan waits for you (change it on the agent's page)
   - key: reviewer
     label: Mechanical design reviewer
     instructions: >-

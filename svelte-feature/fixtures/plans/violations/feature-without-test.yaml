@@ -1,0 +1,5 @@
+# A new feature with no test planned for it.
+change:
+  extensions:
+    tests: []
+expect: [feature-has-test]

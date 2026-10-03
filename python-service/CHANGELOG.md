@@ -1,5 +1,13 @@
 # python-service
 
+## v1.2.0
+
+- Plan mode: a plan lists its modules, tests and interface changes. Plan checks: every new
+  module has a planned test (`module-has-test`), new modules and tests fit the structure rules,
+  interface changes make a plan risky ("ask on risk" asks first).
+- The Python developer template starts with plan mode *automatic*.
+- Proven by `fixtures/plans/`. Needs a codecrew with plan mode; older versions ignore the section.
+
 ## v1.1.0
 
 - Repo map: agents get each file's top-level functions and classes up front.

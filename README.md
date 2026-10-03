@@ -31,6 +31,9 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
   template/               the starting project for `codecrew new-project` ({{name}}, {{module}})
   fixtures/clean/         a project that must pass
   fixtures/violations/*/  files/ laid over clean + expect.yaml: the rule that must catch it
+  fixtures/plans/         plan mode: clean.yaml (a plan that must pass) and violations/<case>.yaml
+                          (`change`: parts of the clean plan to replace; `expect`: the plan checks
+                          that must catch it). Every plan check needs a case.
   CHANGELOG.md
 ```
 
@@ -41,3 +44,5 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
 3. Update `<name>/CHANGELOG.md`, commit, tag: `git tag <name>@vX.Y.Z && git push --tags`.
 
 A new rule that fails existing projects is a major version.
+
+Plan fixtures alone, without any toolchain: `codecrew ruleset test <n> --plans-only`.

@@ -1,0 +1,7 @@
+# A depth typed in instead of driven by a variable.
+change:
+  extensions:
+    features:
+      - { name: Clip profile, type: Sketch, dimensions: "#slot_width, #wall, #arm_angle" }
+      - { name: Clip body, type: Extrude, dimensions: "depth 9.6 mm" }
+expect: [feature-literal-dimension]

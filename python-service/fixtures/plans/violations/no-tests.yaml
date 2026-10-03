@@ -1,0 +1,5 @@
+# The Tests section is mandatory: here it also leaves the new module without a test.
+change:
+  extensions:
+    tests: []
+expect: [extension-missing, module-has-test]

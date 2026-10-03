@@ -1,0 +1,7 @@
+# A test file pytest wouldn't collect (the structure rule for tests/).
+change:
+  extensions:
+    tests:
+      - { path: tests/test_farewell.py, covers: the greeting text }
+      - { path: tests/check_farewell.py, covers: the empty name }
+expect: [tests-fit-structure]

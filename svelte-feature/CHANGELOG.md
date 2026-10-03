@@ -1,5 +1,13 @@
 # svelte-feature
 
+## v2.3.0
+
+- Plan mode: a plan lists its files, new features, tests and interface changes. Plan checks:
+  every new feature has a planned test (`feature-has-test`), new files and tests fit the
+  structure rules, interface changes make a plan risky ("ask on risk" asks first).
+- The Svelte developer template starts with plan mode *automatic*.
+- Proven by `fixtures/plans/`. Needs a codecrew with plan mode; older versions ignore the section.
+
 ## v2.2.0
 
 - Repo map: agents get what each TypeScript file exports up front.

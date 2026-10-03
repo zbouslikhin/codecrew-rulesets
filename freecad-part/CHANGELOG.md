@@ -1,5 +1,14 @@
 # freecad-part
 
+## v1.2.0
+
+- Plan mode: a plan has a parameter table, interfaces and mating dimensions, process limits,
+  targets for size and mass, and its files. Plan checks: every parameter has a unit and a
+  rationale and its unit in its name, every new part has a planned test, new files fit the
+  structure rules.
+- The engineer template starts with plan mode *ask on risk*.
+- Proven by `fixtures/plans/`. Needs a codecrew with plan mode; older versions ignore the section.
+
 ## v1.1.0
 
 - Generator `part`: the scaffold tool (or `make scaffold`) writes parts/<name>.py and

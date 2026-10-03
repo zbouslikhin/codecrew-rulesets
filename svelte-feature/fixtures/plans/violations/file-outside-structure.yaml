@@ -1,0 +1,9 @@
+# A helper file where the structure rules allow none, and a component folder in camelCase.
+change:
+  extensions:
+    files:
+      - { path: src/features/about/index.ts, change: add, purpose: exports }
+      - { path: src/features/about/types.ts, change: add, purpose: types }
+      - { path: src/features/about/helpers.ts, change: add, purpose: formatting helpers }
+      - { path: src/features/about/components/aboutCard/aboutCard.svelte, change: add, purpose: the card }
+expect: [files-fit-structure]

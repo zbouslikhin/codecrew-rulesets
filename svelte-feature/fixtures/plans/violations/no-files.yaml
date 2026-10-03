@@ -1,0 +1,5 @@
+# The Files section is mandatory for a plan that isn't trivial.
+change:
+  extensions:
+    files: []
+expect: [extension-missing]

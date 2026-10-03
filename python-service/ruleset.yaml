@@ -65,6 +65,58 @@ checks:
       severity: warning
     description: vulture (unused code), as warnings
 
+# Plan mode: what a plan for this stack adds to codecrew's common core, and the checks on it.
+# Proven by fixtures/plans/ (codecrew ruleset test).
+plan:
+  sections:
+    - key: modules
+      title: Modules
+      description: >-
+        Every Python module (a file under src/) you will add, change or delete, with what it's
+        for. change is add, modify or delete. (Files listed here needn't be repeated in the steps.)
+      columns: [path, change, purpose]
+      path_column: path
+    - key: tests
+      title: Tests
+      description: >-
+        The test files (tests/test_*.py) you add or extend, and the behaviour each covers.
+      columns: [path, covers]
+      path_column: path
+    - key: interface_changes
+      title: Interface changes
+      description: >-
+        Changes to what callers rely on: public functions and classes (signature, return type,
+        exceptions), the command line, configuration, data formats. Empty when there are none.
+      columns: [what, change, affects]
+      required: false
+      risk: true   # 'ask on risk' asks you before an interface changes
+  checks:
+    - id: module-has-test
+      kind: paired
+      section: modules
+      column: path
+      where: { change: add }
+      skip: '(^|/)(__init__|__main__)\.py$'
+      with_section: tests
+      with_column: path
+      template: "tests/**/test_{stem}.py"
+      message: "New module '{value}' has no planned test: add tests/test_{stem}.py to tests."
+    - id: module-change
+      kind: pattern
+      section: modules
+      column: change
+      require: '^(add|modify|delete)$'
+      message: "modules: '{path}' has change '{value}'; it must be add, modify or delete."
+    - id: modules-fit-structure
+      kind: structure
+      section: modules
+      column: path
+      where: { change: add }
+    - id: tests-fit-structure
+      kind: structure
+      section: tests
+      column: path
+
 agents:
   - key: developer
     label: Python developer
@@ -76,6 +128,7 @@ agents:
     tools: [read_file, write_file, edit_file, delete_file, list_dir, search, run_command]
     write_scope: ["src/**", "tests/**"]
     max_turns: 40
+    plan_mode: auto   # plans first; the plan checks decide (change it on the agent's page)
   - key: tester
     label: Python tester
     instructions: >-

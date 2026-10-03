@@ -1,0 +1,6 @@
+# The validate check would refuse this name later; the plan check says so before any modelling.
+change:
+  extensions:
+    parameters:
+      - { name: slot_width, value: 20.2, unit: mm, rationale: "20 mm extrusion plus clearance" }
+expect: [parameter-name-unit]

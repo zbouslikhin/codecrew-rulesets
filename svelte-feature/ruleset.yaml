@@ -104,6 +104,66 @@ checks:
     timeout: 600
     description: vite build must succeed
 
+# Plan mode: what a plan for this stack adds to codecrew's common core, and the checks on it.
+# Proven by fixtures/plans/ (codecrew ruleset test).
+plan:
+  sections:
+    - key: files
+      title: Files
+      description: >-
+        Every file you will add, change or delete, with what it's for. change is add, modify
+        or delete. (Files listed here needn't be repeated in the steps.)
+      columns: [path, change, purpose]
+      path_column: path
+    - key: new_features
+      title: New features
+      description: >-
+        Each feature folder you add under src/features/: its camelCase name, what it does, and
+        where the app will use it (so it's reachable from src/main.ts). Empty when the task
+        adds no feature.
+      columns: [name, purpose, used_from]
+      required: false
+    - key: tests
+      title: Tests
+      description: >-
+        The test files (*.test.ts) you add or extend, and what each proves. Empty only when no
+        behaviour changes.
+      columns: [path, covers]
+      required: false
+      path_column: path
+    - key: interface_changes
+      title: Interface changes
+      description: >-
+        Changes to what other code relies on: a feature's exports (index.ts), a component's
+        props, a store's shape, an http function's signature. Empty when there are none.
+      columns: [what, change, affects]
+      required: false
+      risk: true   # 'ask on risk' asks you before an interface changes
+  checks:
+    - id: feature-has-test
+      kind: paired
+      section: new_features
+      column: name
+      with_section: tests
+      with_column: path
+      template: "src/features/{value}/**/*.test.ts"
+      message: "New feature '{value}' has no planned test: add a *.test.ts inside src/features/{value}/ to tests."
+    - id: file-change
+      kind: pattern
+      section: files
+      column: change
+      require: '^(add|modify|delete)$'
+      message: "files: '{path}' has change '{value}'; it must be add, modify or delete."
+    - id: files-fit-structure
+      kind: structure
+      section: files
+      column: path
+      where: { change: add }
+    - id: tests-fit-structure
+      kind: structure
+      section: tests
+      column: path
+
 # Agent templates for this stack (offered under "New agent" -> "Start from").
 agents:
   - key: developer
@@ -115,6 +175,7 @@ agents:
     tools: [read_file, write_file, edit_file, delete_file, list_dir, search, run_command]
     write_scope: ["src/**"]
     max_turns: 40
+    plan_mode: auto   # plans first; the plan checks decide (change it on the agent's page)
   - key: tester
     label: Svelte tester
     instructions: >-

@@ -1,0 +1,6 @@
+# "create" isn't one of add, modify, delete. (Not "add" either: no test is asked for it.)
+change:
+  extensions:
+    modules:
+      - { path: src/fixture_app/farewell.py, change: create, purpose: farewell() }
+expect: [module-change]

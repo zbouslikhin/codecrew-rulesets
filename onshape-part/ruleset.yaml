@@ -24,6 +24,71 @@ checks:
 repo_map:
   symbols: []
 
+# Plan mode: what a plan for an Onshape part adds to codecrew's common core, and the checks
+# on it. Proven by fixtures/plans/ (codecrew ruleset test).
+plan:
+  sections:
+    - key: parameters
+      title: Parameter table
+      description: >-
+        Every Onshape variable you will create (#name): its name, its value, the unit, and the
+        rationale: why this value (what it mates with, the process limit, the load).
+      columns: [name, value, unit, rationale]
+    - key: interfaces
+      title: Interfaces and mating dimensions
+      description: >-
+        What the part mates with and the dimensions that must fit: the mating part or fastener,
+        the dimension, and the fit or clearance (M4 screw, hole_diameter_mm 4.5, clearance fit).
+      columns: [mates_with, dimension, fit]
+    - key: process_limits
+      title: Process limits
+      description: >-
+        The manufacturing process and the limits it sets on this part, each with its value:
+        minimum wall, overhang, smallest hole, tool radius, bend radius.
+      columns: [limit, value]
+    - key: targets
+      title: Targets for size and mass
+      description: >-
+        The envelope the part must stay within and its mass target, each with the value the
+        result is checked against (envelope 40 x 30 x 35 mm; mass under 15 g).
+      columns: [quantity, target]
+    - key: features
+      title: Features, in order
+      description: >-
+        The feature history you will build after the Variable features, in order: each
+        feature's name (after what it does), its type (Sketch, Extrude, Hole, Fillet, ...) and
+        the dimensions it uses, written with the variables (#width, #height / 2). No typed-in
+        numbers, except 0 and 90, 180, 270 or 360 deg.
+      columns: [name, type, dimensions]
+  checks:
+    - id: parameter-unit-rationale
+      kind: filled
+      section: parameters
+      column: name
+      fields: [unit, rationale]
+      message: "Variable '{value}' needs a unit and a rationale (why this value)."
+    - id: feature-literal-dimension
+      kind: pattern
+      section: features
+      column: dimensions
+      # a number with a unit that isn't driven by a variable; 0 and the usual angles may stay
+      forbid: '(?<![#\w.])(?!0+(?:\.0+)?\s*(?:mm|cm|m|in|deg)\b)(?!(?:90|180|270|360)\s*deg\b)\d+(?:\.\d+)?\s*(?:mm|cm|m|in|deg)\b'
+      message: "Feature '{name}' uses a typed-in number ({value}): put it in a variable (parameters) and reference it as #name."
+    - id: feature-unknown-variable
+      kind: references
+      section: features
+      column: dimensions
+      pattern: '#([A-Za-z_]\w*)'
+      with_section: parameters
+      with_column: name
+      message: "Feature '{name}' uses #{value}, which isn't in the parameter table."
+    - id: feature-default-name
+      kind: pattern
+      section: features
+      column: name
+      forbid: '^(Sketch|Extrude|Revolve|Fillet|Chamfer|Shell|Hole|Linear pattern|Circular pattern|Mirror|Sweep|Loft|Plane|Boolean|Split|Draft|Rib|Thicken)\s*\d*$'
+      message: "Feature '{value}' has a default name: name it after what it does (e.g. 'Mounting holes')."
+
 agents:
   - key: designer
     label: Onshape designer
@@ -40,6 +105,8 @@ agents:
     tools: [read_file, list_dir, search]
     write_scope: ["design/**"]
     max_turns: 60
+    # plans first, and every plan waits for you: what it builds in Onshape can't be undone by git
+    plan_mode: always_ask
   - key: reviewer
     label: Onshape design reviewer
     instructions: >-

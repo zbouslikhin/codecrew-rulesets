@@ -1,0 +1,5 @@
+# A plan that doesn't say which features it will build.
+change:
+  extensions:
+    features: []
+expect: [extension-missing]

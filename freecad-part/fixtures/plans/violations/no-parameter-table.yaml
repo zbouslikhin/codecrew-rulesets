@@ -1,0 +1,7 @@
+# A part planned without its parameters, its process limits or its targets.
+change:
+  extensions:
+    parameters: []
+    process_limits: []
+    targets: []
+expect: [extension-missing]

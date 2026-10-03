@@ -1,0 +1,31 @@
+# A plan that passes: a new module with its test.
+goal: Add a farewell function next to the greeting.
+acceptance_criteria:
+  - id: AC1
+    text: farewell("Ada") returns "Goodbye, Ada!".
+    verification: tests/test_farewell.py asserts it.
+  - id: AC2
+    text: An empty name raises ValueError.
+    verification: tests/test_farewell.py, with pytest.raises.
+assumptions: []
+questions: []
+looked_at:
+  - src/fixture_app/greeting.py
+  - tests/test_greeting.py
+steps:
+  - id: S1
+    text: Write farewell() in its own module, typed, with the empty-name check.
+    verification: mypy --strict passes.
+  - id: S2
+    text: Test both criteria.
+    verification: pytest passes.
+out_of_scope:
+  - Localisation.
+estimate: { turns: 6, files: 2 }
+extensions:
+  python-service:
+    modules:
+      - { path: src/fixture_app/farewell.py, change: add, purpose: farewell() }
+    tests:
+      - { path: tests/test_farewell.py, covers: the greeting text and the empty name }
+    interface_changes: []
