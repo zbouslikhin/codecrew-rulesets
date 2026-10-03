@@ -1,5 +1,18 @@
 # python-service
 
+## v1.4.0
+
+- Skill `module-pattern`: a module and its test in the src layout under mypy strict, with the
+  code each starts from. Agents see it in their list of skills and load it with `read_skill`. Needs a codecrew with skills; older versions don't install the folder.
+
+## v1.3.0
+
+- Permission rules. Denied: `uv publish`, `twine`, `git push`, `git commit`. Needs you (refused
+  for now): adding or removing a dependency (`uv add`, `uv remove`, `pip install`), writing
+  pyproject.toml. Allowed, also for agents that only run allowed commands: `uv sync`, `uv run`,
+  the project's own tools, `python`, read-only git.
+- Proven by `fixtures/permissions.yaml`. Needs a codecrew with permission rules; older versions ignore the section.
+
 ## v1.2.0
 
 - Plan mode: a plan lists its modules, tests and interface changes. Plan checks: every new

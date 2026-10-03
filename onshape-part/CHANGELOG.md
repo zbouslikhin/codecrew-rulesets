@@ -1,5 +1,12 @@
 # onshape-part
 
+## v1.2.0
+
+- Skills (agents see the list, and load one with `read_skill` when the task touches it):
+  `sketch-dimensions` (dimensioning sketches with variables), `feature-status` (checking that a
+  feature regenerated, and what to do when it didn't), `api-pitfalls` (units, ids, updates, and
+  what codecrew's guard refuses). Needs a codecrew with skills; older versions don't install the folder.
+
 ## v1.1.0
 
 - Plan mode: a plan has a parameter table (the variables), interfaces and mating dimensions,

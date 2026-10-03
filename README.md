@@ -34,6 +34,10 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
   fixtures/plans/         plan mode: clean.yaml (a plan that must pass) and violations/<case>.yaml
                           (`change`: parts of the clean plan to replace; `expect`: the plan checks
                           that must catch it). Every plan check needs a case.
+  skills/<name>/SKILL.md  know-how for the stack: a header (name, description) and the text. Agents
+                          get the list and load a skill with read_skill when the task touches it.
+  fixtures/permissions.yaml  permission rules: attempts (command, read or write) and the verdict
+                          each must get. Every rule needs an attempt it decides.
   CHANGELOG.md
 ```
 
@@ -45,4 +49,4 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
 
 A new rule that fails existing projects is a major version.
 
-Plan fixtures alone, without any toolchain: `codecrew ruleset test <n> --plans-only`.
+Plan fixtures, permission fixtures and skills alone, without any toolchain: `codecrew ruleset test <n> --static`.

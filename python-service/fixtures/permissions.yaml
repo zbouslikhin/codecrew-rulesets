@@ -1,0 +1,21 @@
+# Attempts and the verdict each must get (codecrew ruleset test). Every rule is decided here once.
+- { command: "uv publish", expect: deny }
+- { command: "twine upload dist/*", expect: deny }
+- { command: "uv run pytest -q && git push", expect: deny }
+- { command: "git commit -m done", expect: deny }
+- { command: "uv add requests", expect: ask }
+- { command: "uv remove httpx", expect: ask }
+- { command: "uv pip install requests", expect: ask }
+- { command: "pip install requests", expect: ask }
+- { write: pyproject.toml, expect: ask }
+- { command: "uv sync --frozen", expect: allow }
+- { command: "uv run pytest -q", expect: allow }
+- { command: ".venv/bin/pytest -q tests/test_greeting.py", expect: allow }
+- { command: "python -m pytest -q", expect: allow }
+- { command: "git status", expect: allow }
+- { command: "git diff", expect: allow }
+- { command: "git log --oneline -5", expect: allow }
+# codecrew's defaults still hold under this ruleset
+- { command: "sudo apt install libpq-dev", expect: deny }
+- { read: .env.local, expect: deny }
+- { read: pyproject.toml, expect: allow }

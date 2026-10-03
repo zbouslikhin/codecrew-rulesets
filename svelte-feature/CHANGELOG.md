@@ -1,5 +1,18 @@
 # svelte-feature
 
+## v2.5.0
+
+- Skill `feature-pattern`: the layout of a feature, file by file, with the code each file starts
+  from. Agents see it in their list of skills and load it with `read_skill`. Needs a codecrew with skills; older versions don't install the folder.
+
+## v2.4.0
+
+- Permission rules. Denied: `npm publish`, `git push`, `git commit`. Needs you (refused for
+  now): adding or removing a dependency (`npm install <package>`, `npm uninstall`), `npx`,
+  writing package.json. Allowed, also for agents that only run allowed commands: `npm install`,
+  `npm ci`, `npm run`, `npm test`, the project's own tools, `node`, read-only git.
+- Proven by `fixtures/permissions.yaml`. Needs a codecrew with permission rules; older versions ignore the section.
+
 ## v2.3.0
 
 - Plan mode: a plan lists its files, new features, tests and interface changes. Plan checks:

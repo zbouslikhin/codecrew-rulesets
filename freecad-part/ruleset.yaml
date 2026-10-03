@@ -70,6 +70,22 @@ repo_map:
     - files: "*.py"
       pattern: '^(?:def|class)\s+(?P<name>\w+)'
 
+# Permission rules for every agent working under this ruleset, on top of codecrew's defaults
+# (no .env files, SSH keys or codecrew data; no curl, wget, sudo). Order: deny, ask, allow;
+# the first match wins. allow lists what this stack needs: an agent set to run only allowed
+# commands ("unlisted commands: deny") still gets these. Proven by fixtures/permissions.yaml.
+permissions:
+  deny:
+    - run_command(git push*)         # codecrew publishes approved runs
+    - run_command(git commit*)       # codecrew commits when the checks pass
+  ask:
+    - run_command(pip install *)     # the toolchain image is what parts are checked in
+    - run_command(python -m pip install *)
+  allow:
+    - run_command(python *)
+    - run_command(git status*)
+    - run_command(git diff*)
+
 # Plan mode: what a plan for a part adds to codecrew's common core, and the checks on it.
 # Proven by fixtures/plans/ (codecrew ruleset test).
 plan:

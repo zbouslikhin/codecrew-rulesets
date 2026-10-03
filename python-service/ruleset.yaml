@@ -65,6 +65,31 @@ checks:
       severity: warning
     description: vulture (unused code), as warnings
 
+# Permission rules for every agent working under this ruleset, on top of codecrew's defaults
+# (no .env files, SSH keys or codecrew data; no curl, wget, sudo). Order: deny, ask, allow;
+# the first match wins. allow lists what this stack needs: an agent set to run only allowed
+# commands ("unlisted commands: deny") still gets these. Proven by fixtures/permissions.yaml.
+permissions:
+  deny:
+    - run_command(uv publish*)       # releasing is yours
+    - run_command(twine *)
+    - run_command(git push*)         # codecrew publishes approved runs
+    - run_command(git commit*)       # codecrew commits when the checks pass
+  ask:
+    - run_command(uv add *)          # a new dependency
+    - run_command(uv remove *)
+    - run_command(uv pip install *)
+    - run_command(pip install *)
+    - write(pyproject.toml)
+  allow:
+    - run_command(uv sync*)
+    - run_command(uv run *)
+    - run_command(.venv/bin/*)
+    - run_command(python *)
+    - run_command(git status*)
+    - run_command(git diff*)
+    - run_command(git log*)
+
 # Plan mode: what a plan for this stack adds to codecrew's common core, and the checks on it.
 # Proven by fixtures/plans/ (codecrew ruleset test).
 plan:

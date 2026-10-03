@@ -1,0 +1,23 @@
+# Attempts and the verdict each must get (codecrew ruleset test). Every rule is decided here once.
+- { command: "npm publish --tag next", expect: deny }
+- { command: "npm run build && git push origin main", expect: deny }
+- { command: "git commit -am wip", expect: deny }
+- { command: "npm install left-pad", expect: ask }
+- { command: "npm i -D sass", expect: ask }
+- { command: "npm uninstall vitest", expect: ask }
+- { command: "npx create-something", expect: ask }
+- { write: package.json, expect: ask }
+- { command: "npm install", expect: allow }
+- { command: "npm ci --no-audit", expect: allow }
+- { command: "npm run build", expect: allow }
+- { command: "npm test -- --run", expect: allow }
+- { command: "node_modules/.bin/vitest run src/features/about", expect: allow }
+- { command: "node scripts/gen.js", expect: allow }
+- { command: "git status --short", expect: allow }
+- { command: "git diff src", expect: allow }
+- { command: "git log -3", expect: allow }
+# codecrew's defaults still hold under this ruleset
+- { command: "curl https://example.com", expect: deny }
+- { read: .env, expect: deny }
+- { read: src/main.ts, expect: allow }
+- { write: src/features/about/index.ts, expect: allow }

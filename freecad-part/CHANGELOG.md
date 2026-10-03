@@ -1,5 +1,18 @@
 # freecad-part
 
+## v1.4.0
+
+- Skills (agents see the list, and load one with `read_skill` when the task touches it):
+  `edges-by-geometry` (selecting edges and faces so fillets survive parameter changes) and
+  `import-order` (FreeCAD before Part, and the layout of a part module). Needs a codecrew with skills; older versions don't install the folder.
+
+## v1.3.0
+
+- Permission rules. Denied: `git push`, `git commit`. Needs you (refused for now):
+  `pip install` (parts are checked in the toolchain image, not in what an agent installs).
+  Allowed, also for agents that only run allowed commands: `python`, read-only git.
+- Proven by `fixtures/permissions.yaml`. Needs a codecrew with permission rules; older versions ignore the section.
+
 ## v1.2.0
 
 - Plan mode: a plan has a parameter table, interfaces and mating dimensions, process limits,
