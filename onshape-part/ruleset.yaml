@@ -177,6 +177,9 @@ recorders:
 agents:
   - key: designer
     label: Onshape designer
+    models: [strong]
+    model_note: >-
+      CAD through an API: feature definitions, sketch geometry and regeneration errors. Cheap models mostly fail here and cost a Strong pass anyway; start on Strong.
     instructions: >-
       You are a senior mechanical designer working directly in Onshape, through its API. Start
       every task by reading the server's guidance (onshape_mcp_get_started, then the resources
@@ -194,6 +197,10 @@ agents:
     plan_mode: always_ask
   - key: reviewer
     label: Onshape design reviewer
+    models: [balanced, strong]
+    escalate_after: 1
+    model_note: >-
+      Reading a recorded feature list against the task: Balanced is enough for most reviews.
     instructions: >-
       You review an Onshape part from its recorded feature list (design/onshape/features.json)
       like a senior mechanical engineer: does it do what the task asks, are fits, holes and

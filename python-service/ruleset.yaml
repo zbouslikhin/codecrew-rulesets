@@ -145,6 +145,10 @@ plan:
 agents:
   - key: developer
     label: Python developer
+    models: [fast, strong]
+    escalate_after: 2
+    model_note: >-
+      Typed Python with fast, precise checks: a cheap model finishes most steps; what ruff and mypy keep refusing goes to Strong.
     instructions: >-
       You are a senior Python developer. Study the existing packages first and follow their
       structure. Type-hint everything (mypy runs strict), keep functions small, raise specific
@@ -156,6 +160,10 @@ agents:
     plan_mode: auto   # plans first; the plan checks decide (change it on the agent's page)
   - key: tester
     label: Python tester
+    models: [fast, strong]
+    escalate_after: 2
+    model_note: >-
+      Tests against a known interface: cheap models do well; Strong takes over when a test keeps failing.
     instructions: >-
       You write pytest tests for what the earlier stages built: the main path and the edge cases
       the request implies, with plain asserts and parametrize for tables of cases. Change only

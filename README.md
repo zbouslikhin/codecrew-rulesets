@@ -47,6 +47,8 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
                           placeholders fill the rest), `guards` (ready-made MCP guards for an agent's
                           servers), `recorders` (what codecrew reads through the agent's server after
                           each pass and writes into the repo).
+  ruleset.yaml agent `models`  the tiers an agent template climbs (fast, balanced, strong), with
+                          `escalate_after` and a `model_note` on what the discipline needs from a model.
   fixtures/recorders/<recorder>/<case>/  input.json (the calls' results) and expect.json (what must be
                           written; none: nothing). Every recorder needs a case.
   CHANGELOG.md

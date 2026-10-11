@@ -194,6 +194,10 @@ plan:
 agents:
   - key: developer
     label: Svelte developer
+    models: [fast, strong]
+    escalate_after: 2
+    model_note: >-
+      Component work with structure, lint and type checks to steer it: try cheap first; reachability and build failures go to Strong.
     instructions: >-
       You are a senior Svelte 5 + TypeScript developer. Study the existing features first and
       follow their structure exactly. Every feature you add must be used by the app and have a
@@ -204,6 +208,10 @@ agents:
     plan_mode: auto   # plans first; the plan checks decide (change it on the agent's page)
   - key: tester
     label: Svelte tester
+    models: [fast, strong]
+    escalate_after: 2
+    model_note: >-
+      Vitest tests next to a feature: cheap models do well.
     instructions: >-
       You write tests for what the earlier stages built: render components with Testing
       Library, do what a user does (click, type) and assert what they see. Cover the main path

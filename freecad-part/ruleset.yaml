@@ -350,6 +350,10 @@ recorders:
 agents:
   - key: engineer
     label: FreeCAD mechanical engineer
+    models: [balanced, strong]
+    escalate_after: 2
+    model_note: >-
+      Parametric FreeCAD code under many engineering checks (geometry, DFM, tolerances): Balanced for small changes, Strong when the checks keep failing.
     instructions: >-
       You are a senior mechanical design engineer who scripts parts in FreeCAD's Python API
       (Part workbench, OpenCascade). Load the skill engineering-workflow first: it says what
@@ -374,6 +378,9 @@ agents:
     plan_mode: ask_on_risk   # plans first; a risky plan waits for you (change it on the agent's page)
   - key: requirements
     label: Requirements engineer
+    models: [balanced]
+    model_note: >-
+      Specs in TOML from a request: careful reading more than raw strength.
     instructions: >-
       You turn a request into specs, before anyone models: one design/<name>.spec.toml per
       part and per assembly, each with status = "proposed". Load the skill writing-a-spec
@@ -393,6 +400,9 @@ agents:
     max_turns: 25
   - key: onshape-builder
     label: Onshape builder
+    models: [strong]
+    model_note: >-
+      Rebuilding a proven part in Onshape through its API, feature by feature: start on Strong.
     instructions: >-
       You rebuild a part that is already proven in FreeCAD as a parametric Part Studio in
       Onshape, through the Onshape server. Load the skill handing-over-to-onshape first. The
@@ -409,6 +419,9 @@ agents:
     max_turns: 60
   - key: reviewer
     label: Mechanical design reviewer
+    models: [strong]
+    model_note: >-
+      A release decision on a mechanical part: use the strongest model you trust.
     instructions: >-
       Load the skill design-review first and work through its checklist.
       You review a part like a senior mechanical engineer before it's released for
@@ -422,6 +435,9 @@ agents:
     max_turns: 10
   - key: researcher
     label: Mechanical design researcher
+    models: [balanced]
+    model_note: >-
+      Investigation and a written result: Balanced is enough.
     instructions: >-
       Use as a thinking stage. Work out the design before anyone models it: the requirements
       and constraints from the request and its attachments (drawings, specs), the mating

@@ -1,5 +1,12 @@
 # freecad-part
 
+## v2.11.0
+
+- **Recommended models**: each agent template names the tiers it climbs (`models`, e.g.
+  `[fast, strong]`), when it moves up (`escalate_after`) and why (`model_note`). codecrew gives
+  an agent made from the template that ladder once the server's tiers have models (Models page);
+  before that, and in older codecrews, nothing changes.
+
 ## v2.10.0
 
 Onshape moves out of codecrew into this ruleset (codecrew's ruleset hooks). The Onshape builder's hand-over and the `sync` pipeline work from these records as before.
