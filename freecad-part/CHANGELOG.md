@@ -1,11 +1,19 @@
 # freecad-part
 
-## v2.11.0
+## v2.13.0
 
+- **A clean template**: a new project starts with only what it needs (README, pyproject,
+  `parts/` and `assemblies/` packages, the test setup and the export script). The worked example
+  (the sensor bracket, its assembly, specs, tests, reference frame and deliverables) is gone;
+  `codecrew scaffold part <name>` writes a first part that passes every check, and the skills
+  keep their examples. No tests yet is no longer a failure (`tests/conftest.py`). Existing
+  projects are unaffected: the template is only used when a project is created.
 - **Recommended models**: each agent template names the tiers it climbs (`models`, e.g.
   `[fast, strong]`), when it moves up (`escalate_after`) and why (`model_note`). codecrew gives
   an agent made from the template that ladder once the server's tiers have models (Models page);
   before that, and in older codecrews, nothing changes.
+
+`freecad-part@v2.12.0` was tagged by mistake on v2.10.0's content: it is the same as v2.10.0. v2.11.0 was never released; its change is in v2.13.0.
 
 ## v2.10.0
 

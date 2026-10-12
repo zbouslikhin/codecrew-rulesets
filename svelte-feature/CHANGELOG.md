@@ -1,11 +1,16 @@
 # svelte-feature
 
-## v2.6.0
+## v2.8.0
 
+- **A clean template**: a new project starts with an empty `App.svelte`, the configuration and a
+  short README; the sample `welcome` feature, the Vite boilerplate README and `.vscode/` are
+  gone. Existing projects are unaffected.
 - **Recommended models**: each agent template names the tiers it climbs (`models`, e.g.
   `[fast, strong]`), when it moves up (`escalate_after`) and why (`model_note`). codecrew gives
   an agent made from the template that ladder once the server's tiers have models (Models page);
   before that, and in older codecrews, nothing changes.
+
+`svelte-feature@v2.7.0` was tagged by mistake on v2.5.0's content: it is the same as v2.5.0. v2.6.0 was never released; its change is in v2.8.0.
 
 ## v2.5.0
 

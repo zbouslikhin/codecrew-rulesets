@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Greeting from '@/features/welcome/components/Greeting/Greeting.svelte';
-	import { DEFAULT_GREETING } from '@/features/welcome';
+	// the app's name, from index.html: replace with your first feature
+	const title = document.title;
 </script>
 
 <main>
-	<Greeting greeting={DEFAULT_GREETING} />
+	<h1>{title}</h1>
 </main>

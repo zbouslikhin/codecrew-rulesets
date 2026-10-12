@@ -1,11 +1,16 @@
 # python-service
 
-## v1.5.0
+## v1.7.0
 
+- **A clean template**: a new project starts with the package, `pyproject.toml`, the README and
+  the test setup only; the sample `greeting` module and its test are gone. No tests yet is no
+  longer a failure (`tests/conftest.py`). Existing projects are unaffected.
 - **Recommended models**: each agent template names the tiers it climbs (`models`, e.g.
   `[fast, strong]`), when it moves up (`escalate_after`) and why (`model_note`). codecrew gives
   an agent made from the template that ladder once the server's tiers have models (Models page);
   before that, and in older codecrews, nothing changes.
+
+`python-service@v1.6.0` was tagged by mistake on v1.4.0's content: it is the same as v1.4.0. v1.5.0 was never released; its change is in v1.7.0.
 
 ## v1.4.0
 
