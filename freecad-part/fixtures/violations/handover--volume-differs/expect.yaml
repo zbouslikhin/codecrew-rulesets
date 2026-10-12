@@ -1,0 +1,5 @@
+# The solid in Onshape is 6% smaller than the part proven here: it is not the same part.
+expect:
+  - check: handover
+    rule: "volume-differs"
+    file: design/onshape/properties.json

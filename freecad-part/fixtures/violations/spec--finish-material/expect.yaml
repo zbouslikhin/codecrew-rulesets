@@ -1,0 +1,5 @@
+# An anodised plastic part: anodising is for aluminium.
+expect:
+  - check: spec
+    rule: "finish-material"
+    file: design/mounting_bracket.spec.toml

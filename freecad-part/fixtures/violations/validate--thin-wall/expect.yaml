@@ -1,0 +1,5 @@
+# A printed tray whose side wall is thinner than two passes of the nozzle.
+expect:
+  - check: validate
+    rule: "thin-wall"
+    file: parts/tray.py

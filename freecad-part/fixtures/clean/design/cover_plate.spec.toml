@@ -1,0 +1,30 @@
+kind = "part"
+name = "cover_plate"
+purpose = "A laser-cut cover plate with four screw holes."
+quantity = 50
+material = "Aluminium 5052-H32"
+processes = ["laser_cutting"]
+general_tolerance = "m"
+standalone = true
+
+[envelope_mm]
+x = 500.0
+y = 500.0
+z = 500.0
+
+[[sources]]
+kind = "text"
+note = "A fixture part."
+
+[[requirements]]
+id = "R1"
+text = "It is one solid."
+proven_by = ["test:test_it_is_one_solid"]
+
+[[standards]]
+parameter = "thickness_mm"
+standard = "sheet_thickness"
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

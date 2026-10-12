@@ -1,0 +1,6 @@
+# What mates has no tolerance: nobody can say whether a made part fits.
+expect:
+  - check: spec
+    rule: "interface-tolerance"
+    file: design/mounting_bracket.spec.toml
+only: false   # its fillet radius, held to a standard, is untoleranced too, and that is said as well

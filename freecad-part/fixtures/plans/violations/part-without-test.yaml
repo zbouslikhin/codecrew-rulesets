@@ -2,5 +2,6 @@
 change:
   extensions:
     files:
+      - { path: design/cable_clip.spec.toml, change: add, purpose: its spec }
       - { path: parts/cable_clip.py, change: add, purpose: the clip }
 expect: [part-has-test]

@@ -1,5 +1,22 @@
 # onshape-part
 
+## v1.3.0
+
+Onshape moves out of codecrew into this ruleset (codecrew's ruleset hooks).
+
+- **`project_settings`: the Onshape Part Studio** (its URL; context `onshape`, shared with the
+  other rulesets that work in Onshape). Asked for on the Projects page; the designer's task names
+  it. Projects that had an Onshape document keep it: codecrew moves it into this setting.
+- **`guards`: the Onshape design guard**, offered on an agent's page for its Onshape server: only
+  Part Studio feature work, only in the project's Part Studio and branch, nothing that writes
+  outside code-writing stages, no `file_refs`.
+- **`recorders`: `features`** (the feature list, without the fields that change with every
+  request, into `design/onshape/features.json`) and **`properties`** (volume, mass and bounding
+  box in mm³, g and mm, into `design/onshape/properties.json`, by `properties.py`). Proven by
+  `fixtures/recorders/`.
+- Needs a codecrew with ruleset hooks: from it on, codecrew records nothing from Onshape for a
+  project whose ruleset is older than this version. Older codecrews ignore the sections.
+
 ## v1.2.0
 
 - Skills (agents see the list, and load one with `read_skill` when the task touches it):

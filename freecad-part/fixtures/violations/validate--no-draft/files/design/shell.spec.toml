@@ -1,0 +1,25 @@
+kind = "part"
+name = "shell"
+purpose = "A moulded shell."
+quantity = 5000
+material = "ABS"
+processes = ["injection_moulding"]
+standalone = true
+
+[envelope_mm]
+x = 500.0
+y = 500.0
+z = 500.0
+
+[[sources]]
+kind = "text"
+note = "A fixture part."
+
+[[requirements]]
+id = "R1"
+text = "It is one solid."
+proven_by = ["test:test_it_is_one_solid"]
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

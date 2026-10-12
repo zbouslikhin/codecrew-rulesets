@@ -1,0 +1,6 @@
+# A screw length nobody makes.
+expect:
+  - check: spec
+    rule: "standard-part"
+    file: design/sensor_mount.spec.toml
+only: false

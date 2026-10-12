@@ -1,0 +1,6 @@
+# A stack through a dimension the part does not have.
+expect:
+  - check: spec
+    rule: "unknown-parameter"
+    file: design/bush_guide.spec.toml
+only: false

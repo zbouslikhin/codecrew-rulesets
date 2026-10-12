@@ -1,0 +1,5 @@
+# A handed-over variable that is a formula: its value could not be taken back.
+expect:
+  - check: handover
+    rule: "variable-not-literal"
+    file: design/onshape/features.json

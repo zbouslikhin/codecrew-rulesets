@@ -1,0 +1,28 @@
+kind = "assembly"
+name = "bush_guide"
+purpose = "A bush sliding in a guide block."
+
+[[parts]]
+part = "guide_block"
+quantity = 1
+
+[[parts]]
+part = "spacer_bush"
+quantity = 1
+
+[[joints]]   # the bush in the bore: it must slide, without rattling
+a = "spacer_bush:I1"
+b = "guide_block:I1"
+fit = { hole = "guide_block:bore_diameter_mm", shaft = "spacer_bush:outer_diameter_mm", kind = "clearance", max_clearance_mm = 0.05 }
+
+[[stacks]]   # how far the bush stands proud of the block, whatever the parts' tolerances
+id = "S1"
+text = "The bush stands 4 mm proud of the block."
+terms = ["+spacer_bush:length_mm", "-guide_block:thickness_mm"]
+min_mm = 3.5
+max_mm = 4.5
+
+[[requirements]]
+id = "R1"
+text = "The bush sits in the bore."
+proven_by = ["test:test_the_bush_sits_in_the_bore"]

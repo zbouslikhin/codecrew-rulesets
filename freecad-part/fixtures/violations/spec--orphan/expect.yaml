@@ -1,0 +1,5 @@
+# A spec for a part that was never modelled.
+expect:
+  - check: spec
+    rule: "spec-orphan"
+    file: design/ghost.spec.toml

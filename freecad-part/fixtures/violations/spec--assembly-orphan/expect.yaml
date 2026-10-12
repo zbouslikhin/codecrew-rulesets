@@ -1,0 +1,5 @@
+# An assembly specified but never placed.
+expect:
+  - check: spec
+    rule: "spec-orphan"
+    file: design/arm_mount.spec.toml

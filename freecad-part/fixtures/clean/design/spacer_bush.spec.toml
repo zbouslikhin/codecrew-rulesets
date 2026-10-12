@@ -1,0 +1,36 @@
+kind = "part"
+name = "spacer_bush"
+purpose = "A turned spacer bush that slides into the guide block's bore."
+quantity = 100
+material = "Brass CW614N"
+processes = ["turning"]
+general_tolerance = "m"
+
+[envelope_mm]
+x = 16.0
+y = 16.0
+z = 20.0
+
+[[sources]]
+kind = "text"
+note = "A bush for the guide block, 4 mm proud of it."
+
+[[interfaces]]
+id = "I1"
+mates_with = "the bore of the guide block"
+feature = "the outer diameter"
+parameters = ["outer_diameter_mm"]
+fit = "sliding, H7/g6"
+
+[[tolerances]]
+parameter = "outer_diameter_mm"
+fit = "g6"
+
+[[requirements]]
+id = "R1"
+text = "It is one solid."
+proven_by = ["test:test_it_is_one_solid"]
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

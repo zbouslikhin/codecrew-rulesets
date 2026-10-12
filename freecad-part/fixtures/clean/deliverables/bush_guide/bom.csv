@@ -1,0 +1,3 @@
+item,kind,name,quantity,material,made by,mass each (g),mass total (g)
+1,part,guide_block,1,Aluminium 6061-T6,milling,43.2,43.2
+2,part,spacer_bush,1,Brass CW614N,turning,24.7,24.7

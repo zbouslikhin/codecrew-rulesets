@@ -1,0 +1,5 @@
+# A pocket 30 mm deep with 2 mm corners: the cutter would be seven and a half diameters long.
+expect:
+  - check: validate
+    rule: "deep-corner"
+    file: parts/pocket_block.py

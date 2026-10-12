@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="sans-serif" font-size="3">
+<title>battery_cap: drawing</title>
+<style>.visible{fill:none;stroke:#000;stroke-linecap:round}.hidden{fill:none;stroke:#777;stroke-dasharray:1 0.8}.frame{fill:none;stroke:#000;stroke-width:0.35}.rule{stroke:#000;stroke-width:0.18}.cap{fill:#444;font-size:2.6px}.head{font-weight:bold}</style>
+<rect x="0" y="0" width="297" height="210" fill="#fff"/>
+<rect class="frame" x="6" y="6" width="285" height="198"/>
+<g transform="translate(26.400,34.000) scale(1,-1)" stroke-width="0.35"><g class="hidden"><path d="M40, 0 L0, 0 " /><path d="M38, 0 L2, 0 " /><path d="M2, 0 L38, 0 " /><path d="M40, 0 L39.3016, 20 " /><path d="M39.3016, 20 L0.698415, 20 " /><path d="M0, 0 L0.698415, 20 " /><path d="M2, 0 L2.62857, 18 " /><path d="M2, 0 L2.62857, 18 " /><path d="M37.3714, 18 L2.62857, 18 " /><path d="M38, 0 L37.3714, 18 " /><path d="M38, 0 L37.3714, 18 " /><path d="M2.62857, 18 L37.3714, 18 " /></g><g class="visible"><path d="M0, 0 L40, 0 " /><path d="M40, 0 L39.3016, 20 " /><path d="M0.698415, 20 L39.3016, 20 " /><path d="M0, 0 L0.698415, 20 " /></g></g>
+<text class="cap" x="12.00" y="38.00">Front</text>
+<g transform="translate(114.000,34.000) scale(1,-1)" stroke-width="0.35"><g class="hidden"><path d="M0, 0 L0.698415, 20 " /><path d="M30, 0 L0, 0 " /><path d="M28, 0 L2, 0 " /><path d="M2, 0 L28, 0 " /><path d="M29.3016, 20 L0.698415, 20 " /><path d="M30, 0 L29.3016, 20 " /><path d="M2, 0 L2.62857, 18 " /><path d="M27.3714, 18 L2.62857, 18 " /><path d="M28, 0 L27.3714, 18 " /><path d="M28, 0 L27.3714, 18 " /><path d="M2.62857, 18 L27.3714, 18 " /><path d="M2, 0 L2.62857, 18 " /></g><g class="visible"><path d="M0, 0 L0.698415, 20 " /><path d="M0, 0 L30, 0 " /><path d="M30, 0 L29.3016, 20 " /><path d="M0.698415, 20 L29.3016, 20 " /></g></g>
+<text class="cap" x="94.80" y="38.00">Right</text>
+<g transform="translate(26.400,101.200) scale(1,-1)" stroke-width="0.35"><g class="hidden"><path d="M2, 28 L2, 2 " /><path d="M38, 28 L2, 28 " /><path d="M38, 2 L38, 28 " /><path d="M2, 2 L38, 2 " /><path d="M2, 2 L2.62857, 2.62857 " /><path d="M2.62857, 27.3714 L2.62857, 2.62857 " /><path d="M2, 28 L2.62857, 27.3714 " /><path d="M37.3714, 27.3714 L2.62857, 27.3714 " /><path d="M38, 28 L37.3714, 27.3714 " /><path d="M37.3714, 2.62857 L37.3714, 27.3714 " /><path d="M38, 2 L37.3714, 2.62857 " /><path d="M2.62857, 2.62857 L37.3714, 2.62857 " /></g><g class="visible"><path d="M0, 0 L40, 0 " /><path d="M40, 0 L39.3016, 0.698415 " /><path d="M0.698415, 0.698415 L39.3016, 0.698415 " /><path d="M0, 0 L0.698415, 0.698415 " /><path d="M0, 30 L0, 0 " /><path d="M40, 0 L40, 30 " /><path d="M40, 30 L0, 30 " /><path d="M40, 30 L39.3016, 29.3016 " /><path d="M39.3016, 0.698415 L39.3016, 29.3016 " /><path d="M39.3016, 29.3016 L0.698415, 29.3016 " /><path d="M0.698415, 29.3016 L0.698415, 0.698415 " /><path d="M0, 30 L0.698415, 29.3016 " /></g></g>
+<text class="cap" x="12.00" y="124.40">Top</text>
+<g transform="translate(98.194,81.454) scale(1,-1)" stroke-width="0.35"><g class="hidden"><path d="M21.2132, 12.2474 L0, 0 " /><path d="M49.4975, -4.08248 L21.2132, 12.2474 " /><path d="M21.2132, 10.6145 L2.82843, 0 " /><path d="M46.669, -4.08248 L21.2132, 10.6145 " /><path d="M28.2843, -14.6969 L46.669, -4.08248 " /><path d="M2.82843, 0 L28.2843, -14.6969 " /><path d="M21.2132, 12.2474 L21.2132, 28.0071 " /><path d="M2.82843, 0 L3.71736, 14.6969 " /><path d="M21.2132, 24.7982 L3.71736, 14.6969 " /><path d="M21.2132, 10.6145 L21.2132, 24.7982 " /><path d="M45.7801, 10.6145 L21.2132, 24.7982 " /><path d="M46.669, -4.08248 L45.7801, 10.6145 " /><path d="M28.2843, 0.513228 L45.7801, 10.6145 " /><path d="M28.2843, -14.6969 L28.2843, 0.513228 " /><path d="M3.71736, 14.6969 L28.2843, 0.513228 " /></g><g class="visible"><path d="M0, 0 L28.2843, -16.3299 " /><path d="M28.2843, -16.3299 L28.2843, 0.570254 " /><path d="M0.987709, 16.3299 L28.2843, 0.570254 " /><path d="M0, 0 L0.987709, 16.3299 " /><path d="M28.2843, -16.3299 L49.4975, -4.08248 " /><path d="M49.4975, -4.08248 L48.5098, 12.2474 " /><path d="M28.2843, 0.570254 L48.5098, 12.2474 " /><path d="M48.5098, 12.2474 L21.2132, 28.0071 " /><path d="M21.2132, 28.0071 L0.987709, 16.3299 " /></g></g>
+<text class="cap" x="94.80" y="103.25">Isometric</text>
+<style>.hidden{stroke-width:0.18}</style>
+<text class="head" x="196.0" y="14.0">Critical dimensions (mm)</text>
+<text class="cap" x="196.0" y="19.0">Dimension</text>
+<text class="cap" x="230.0" y="19.0">Nominal</text>
+<text class="cap" x="244.0" y="19.0">Tolerance</text>
+<text class="cap" x="264.0" y="19.0">Limits</text>
+<line class="rule" x1="196.0" y1="20.2" x2="285.0" y2="20.2"/>
+<text class="cap" x="196.0" y="24.0">none declared in the spec</text>
+<rect class="frame" x="6" y="170.0" width="285" height="34"/>
+<text class="head" x="10" y="177.0" font-size="5">battery_cap</text>
+<text x="10" y="182.5" font-size="2.8">A moulded cap: an open shell with drafted walls of even thickness.</text>
+<text class="cap" x="10" y="189.0">Material</text>
+<text x="10" y="192.4" font-size="2.9">ABS</text>
+<text class="cap" x="80" y="189.0">Process</text>
+<text x="80" y="192.4" font-size="2.9">Injection moulding, two-part mould</text>
+<text class="cap" x="150" y="189.0">General tolerance</text>
+<text x="150" y="192.4" font-size="2.9">none</text>
+<text class="cap" x="220" y="189.0">Mass</text>
+<text x="220" y="192.4" font-size="2.9">7.2 g</text>
+<text class="cap" x="10" y="196.0">Envelope</text>
+<text x="10" y="199.4" font-size="2.9">40.0 x 30.0 x 20.0 mm</text>
+<text class="cap" x="80" y="196.0">Quantity</text>
+<text x="80" y="199.4" font-size="2.9">5000</text>
+<text class="cap" x="150" y="196.0">Scale</text>
+<text x="150" y="199.4" font-size="2.9">1:1</text>
+<text class="cap" x="220" y="196.0">Projection</text>
+<text x="220" y="199.4" font-size="2.9">views are labelled</text>
+<text class="cap" x="291" y="207.8" text-anchor="end" font-size="2.2">Generated by codecrew from design/battery_cap.spec.toml and parts/battery_cap.py. Not edited by hand.</text>
+</svg>

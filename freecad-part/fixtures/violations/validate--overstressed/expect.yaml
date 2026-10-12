@@ -1,0 +1,6 @@
+# Ten times the force on the bracket's wall: it yields.
+expect:
+  - check: validate
+    rule: "overstressed"
+    file: design/mounting_bracket.spec.toml
+only: false

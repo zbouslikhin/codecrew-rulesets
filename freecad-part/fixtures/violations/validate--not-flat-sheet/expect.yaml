@@ -1,0 +1,5 @@
+# A "laser-cut" plate with a pocket in it: a laser cuts through, not into.
+expect:
+  - check: validate
+    rule: "not-flat-sheet"
+    file: parts/plate.py

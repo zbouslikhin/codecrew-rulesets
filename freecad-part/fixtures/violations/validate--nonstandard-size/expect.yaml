@@ -1,0 +1,6 @@
+# A hole "for M4, fine fit" that is 4.5 mm: the fine series is 4.3.
+expect:
+  - check: validate
+    rule: "nonstandard-size"
+    file: design/mounting_bracket.spec.toml
+only: false   # a fine clearance hole is also finer than a printer holds, and that is said too

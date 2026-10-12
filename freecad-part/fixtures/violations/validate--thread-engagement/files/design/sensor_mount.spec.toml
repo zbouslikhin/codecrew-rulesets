@@ -1,0 +1,39 @@
+# An assembly: its parts, and which interface meets which.
+kind = "assembly"
+name = "sensor_mount"
+purpose = "The sensor bracket screwed onto the frame rail."
+
+[[parts]]
+part = "mounting_bracket"
+quantity = 1
+
+[[parts]]
+reference = "reference/frame.step"   # what it must fit
+quantity = 1
+
+[[parts]]
+standard = "ISO 4762 M4x5"
+quantity = 2
+
+[[joints]]   # the base lies on the rail
+a = "mounting_bracket:I2"
+b = "reference:reference/frame.step"
+
+[[joints]]
+a = "mounting_bracket:I1"
+b = "standard:ISO 4762 M4x5"
+
+[[requirements]]
+id = "R1"
+text = "The bracket is fixed with two M4 screws."
+proven_by = ["part:mounting_bracket:R1"]
+
+[[requirements]]
+id = "R2"
+text = "The bracket's holes line up with the tapped holes in the rail."
+proven_by = ["test:test_the_holes_line_up"]
+
+[[requirements]]
+id = "R3"
+text = "Both screws reach into the rail's thread."
+proven_by = ["test:test_two_screws_reach_into_the_rail"]

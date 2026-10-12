@@ -1,0 +1,6 @@
+# The base is joined to the rail in the spec, but hangs 5 mm above it.
+expect:
+  - check: validate
+    rule: "joint-open"
+    file: assemblies/sensor_mount.py
+only: false

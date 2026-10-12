@@ -1,0 +1,30 @@
+{
+  "features": {
+    "features": [
+      {
+        "btType": "BTMFeature-134",
+        "featureType": "extrude",
+        "name": "Body",
+        "nodeId": "Mx1",
+        "parameters": [
+          {
+            "btType": "BTMParameterQuantity-147",
+            "parameterId": "depth",
+            "expression": "#depth",
+            "nodeId": "p1"
+          }
+        ]
+      }
+    ],
+    "sourceMicroversion": "abc",
+    "microversionSkew": false,
+    "rejectMicroversionSkew": false,
+    "serializationVersion": "1.2",
+    "libraryVersion": 2000,
+    "featureStates": {
+      "Mx1": {
+        "featureStatus": "OK"
+      }
+    }
+  }
+}

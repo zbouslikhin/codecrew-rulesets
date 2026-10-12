@@ -1,0 +1,292 @@
+{
+  "btType": "BTFeatureListResponse-2457",
+  "featureStates": {
+    "FexBody": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "FexHoles": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "FflCorner": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "FskHoles": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "FskProfile": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar01": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar02": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar03": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar04": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar05": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar06": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    },
+    "Fvar07": {
+      "btType": "BTFeatureState-1688",
+      "featureStatus": "OK",
+      "inactive": false
+    }
+  },
+  "features": [
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar01",
+      "featureType": "assignVariable",
+      "name": "Variable width",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "width"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "40 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar02",
+      "featureType": "assignVariable",
+      "name": "Variable depth",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "depth"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "30 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar03",
+      "featureType": "assignVariable",
+      "name": "Variable height",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "height"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#depth + 5 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar04",
+      "featureType": "assignVariable",
+      "name": "Variable thickness",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "thickness"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "3 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar05",
+      "featureType": "assignVariable",
+      "name": "Variable hole_diameter",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "hole_diameter"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "4.5 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar06",
+      "featureType": "assignVariable",
+      "name": "Variable hole_edge_distance",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "hole_edge_distance"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "8 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "Fvar07",
+      "featureType": "assignVariable",
+      "name": "Variable fillet_radius",
+      "parameters": [
+        {
+          "btType": "BTMParameterString-149",
+          "parameterId": "name",
+          "value": "fillet_radius"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "4 mm",
+          "parameterId": "lengthValue"
+        }
+      ]
+    },
+    {
+      "btType": "BTMSketch-151",
+      "constraints": [
+        {
+          "parameters": [
+            {
+              "btType": "BTMParameterQuantity-147",
+              "expression": "#depth",
+              "parameterId": "length"
+            }
+          ]
+        },
+        {
+          "parameters": [
+            {
+              "btType": "BTMParameterQuantity-147",
+              "expression": "#height",
+              "parameterId": "length"
+            }
+          ]
+        },
+        {
+          "parameters": [
+            {
+              "btType": "BTMParameterQuantity-147",
+              "expression": "#thickness",
+              "parameterId": "length"
+            }
+          ]
+        }
+      ],
+      "featureId": "FskProfile",
+      "featureType": "newSketch",
+      "name": "L profile",
+      "parameters": []
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "FexBody",
+      "featureType": "extrude",
+      "name": "Bracket body",
+      "parameters": [
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#width",
+          "parameterId": "depth"
+        }
+      ]
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "FflCorner",
+      "featureType": "fillet",
+      "name": "Inner corner radius",
+      "parameters": [
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#fillet_radius",
+          "parameterId": "radius"
+        }
+      ]
+    },
+    {
+      "btType": "BTMSketch-151",
+      "constraints": [
+        {
+          "parameters": [
+            {
+              "btType": "BTMParameterQuantity-147",
+              "expression": "#hole_edge_distance",
+              "parameterId": "length"
+            }
+          ]
+        }
+      ],
+      "featureId": "FskHoles",
+      "featureType": "newSketch",
+      "name": "Hole centres",
+      "parameters": []
+    },
+    {
+      "btType": "BTMFeature-134",
+      "featureId": "FexHoles",
+      "featureType": "extrude",
+      "name": "M4 clearance holes",
+      "parameters": [
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#thickness",
+          "parameterId": "depth"
+        },
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#hole_diameter",
+          "parameterId": "diameter"
+        }
+      ]
+    }
+  ],
+  "isComplete": true
+}

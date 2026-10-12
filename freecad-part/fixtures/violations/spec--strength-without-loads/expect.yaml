@@ -1,0 +1,5 @@
+# A requirement proven by check:strength in a spec that states no load.
+expect:
+  - check: spec
+    rule: "unknown-proof"
+    file: design/battery_cap.spec.toml

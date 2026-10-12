@@ -4,6 +4,66 @@ name: freecad-part
 toolchain: codecrew-freecad:1.1.3
 summary: |
   Parametric mechanical parts, scripted in Python with FreeCAD 1.1 (headless, its Python 3.11).
+  - A part starts from its spec, design/<part>.spec.toml: what it is for, how many are made,
+    the material and process, the envelope and mass it must stay within, what the design
+    starts from, its interfaces (what it mates with, and the parameters that realise each) and
+    its requirements, each with what proves it (a test, a parameter, a measured target). An
+    assembly has a spec too: its parts and the joints between their interfaces. Write the spec
+    first; the skill writing-a-spec shows how.
+  - Numbers come from standards, not from memory: `from standards import fasteners, sizes,
+    materials` (shipped with this ruleset, read-only). fasteners.clearance_hole("M4") is 4.5.
+    The spec's material must be one of standards.materials, made by a process that suits it.
+    A parameter that follows a standard is declared in the spec's [[standards]] (a clearance
+    hole for M4, a tap drill, a counterbore, a sheet thickness, a radius) and must have a
+    value the standard allows, or a stated reason. An interface that mates with a thread must
+    have such a parameter. The skill choosing-a-fastener shows how.
+  - A part must be makeable by every process its spec names. The built solid is measured
+    (wall thickness, holes, internal corners, overhangs, draft, undercuts, reach of the tool,
+    closed cavities) and judged by that process's profile: 3D printing (fdm, sla, sls),
+    milling, turning, sheet_metal, laser_cutting, injection_moulding, or a process the
+    project defines in design/processes.toml. The spec's [orientation] up says how the part
+    lies in the machine (default "+z": the build direction, the tool's axis, the direction of
+    pull). Load the skill designing-for-a-process before you model.
+  - What mates is toleranced. The spec's general_tolerance (ISO 2768-1: "f", "m", "c", "v")
+    covers every dimension; [[tolerances]] gives a parameter its own: a fit class (H7, g6),
+    deviations (upper_mm, lower_mm), or a general class. Every interface parameter must have
+    one. The process must be able to hold it (a printed hole isn't an H7), or the spec names
+    the operation that achieves it. In an assembly, a joint's fit (hole, shaft, kind) and
+    every stack of dimensions are checked in the worst case. The skill choosing-a-fit shows how.
+  - The spec's [appearance] says whether the part is seen (visible) and touched. A touched
+    part has no sharp outer edges (break them with a radius or chamfer; the face it rests_on
+    is exempt). A visible part states its colour and a finish that suits its material, and
+    keeps to three radii or fewer. What a hand holds is declared in [[grips]] (a handle's
+    diameter and length, a finger hole, a button) and must be a size hands need. The skill
+    designing-for-people shows how.
+  - A part that carries something says what: [[loads]] in its spec (a force on a cantilever,
+    a beam on two supports, a member in tension, screws in shear, a snap arm pushed aside),
+    each with dimensions that are parameters of Params, and a safety_factor. Each is
+    calculated by hand on the part (standards.strength) against the material's strength,
+    reduced for the process (a print is weaker than its filament), and must reach its
+    safety factor and stay within max_deflection_mm. A requirement is proven by it with
+    "check:strength". These are first checks for straight members under a static load, not
+    an analysis. The skill checking-strength shows how.
+  - A part may be handed over to Onshape (design/handover.toml names it): an agent rebuilds it
+    there with one variable per dimension of Params, and the handover check compares codecrew's
+    record of the Part Studio with the part here: same variables, same volume and size. Once
+    accepted, only variable values may change in Onshape; those are taken back into Params
+    and every check runs on the changed part. Any other change there is drift. The skill
+    handing-over-to-onshape shows how.
+  - deliverables/ is generated, never written by hand: for every part a drawing (views, its
+    critical dimensions with tolerances and limits) and a design report (each requirement
+    with its evidence, manufacturability, cost if the project gives its rates in
+    design/costs.toml); for every assembly a bill of materials and a report (fits and stacks
+    in the worst case). codecrew regenerates them before the checks and commits them with
+    your work: don't edit them, and don't list them in a plan.
+  - Each assembly is one module in assemblies/: build() returns its placed components as a
+    dict, name -> Part.Shape ("<part>", or "<part>:1", "<part>:2" for several; a reference
+    file by its name without extension). Place parts from their parameters, never from typed
+    numbers. Checked: every part of the spec is placed, nothing occupies the same space,
+    fixed joints meet, moving joints keep their clearance. Screws the spec lists (ISO 4762)
+    are placed too (standards.shapes.from_designation, key "standard:<designation>:<n>"):
+    they must engage enough thread and leave room for the tool above the head. The skill
+    placing-an-assembly shows how.
   - Each part is one module in parts/: PARAMS, an instance of a frozen dataclass holding the
     part's dimensions, each named with its unit (width_mm, angle_deg, force_n), and
     build(params) returning a Part.Shape. Optional: PARAM_RANGES, DENSITY_G_CM3.
@@ -19,10 +79,37 @@ summary: |
 setup: []
 ignore: [exports/, .git/, __pycache__/, .pytest_cache/, .ruff_cache/]
 
+# Files this ruleset's own checks write. codecrew treats them as its own: an agent's plan needn't
+# name them, and they aren't counted as a deviation.
+generated:
+  - "deliverables/**"
+  - "design/onshape/**"
+
 structure:
   - path: "parts/"
     allow: ["*.py"]
     message: "parts/ holds one Python module per part (exports go to exports/, which git ignores)."
+  - path: "assemblies/"
+    allow: ["*.py"]
+    message: "assemblies/ holds one Python module per assembly."
+  - path: "standards/"
+    allow: ["*.py"]
+    message: "standards/ is the ruleset's library of fasteners, sizes and materials: it isn't edited here."
+  - path: "reference/"
+    allow: ["*.step", "*.stp"]
+    message: "reference/ holds CAD the design must fit, as STEP files."
+  - path: "deliverables/"
+    allow: ["*/"]
+    message: "deliverables/ is generated: one folder per part and assembly."
+  - path: "deliverables/*/"
+    allow: ["drawing.svg", "views.svg", "report.md", "bom.csv"]
+    message: "deliverables are generated by the ruleset: a drawing, a report, a bill of materials."
+  - path: "design/onshape/"
+    allow: ["features.json", "properties.json", "handover.lock.json", "README.md"]
+    message: "design/onshape/ is codecrew's record of the Onshape Part Studio: it isn't edited by hand."
+  - path: "design/"
+    allow: ["*.spec.toml", "*.concept.md", "legacy.toml", "processes.toml", "costs.toml", "ergonomics.toml", "handover.toml", "onshape/"]
+    message: "design/ holds the specs: one <name>.spec.toml per part and per assembly."
   - path: "tests/"
     allow: ["test_*.py", "conftest.py", "__init__.py"]
     message: "tests/ holds pytest files named test_<part>.py (plus conftest.py)."
@@ -37,13 +124,44 @@ checks:
     run: python -m ruff check --fix --quiet --output-format sarif {files:*.py}
     parser: sarif
     description: ruff (pyflakes, pycodestyle, bugbear, imports, pyupgrade)
+  - id: handover-pull
+    # once a part is handed over to Onshape: variable values changed there are taken into the
+    # part's Params, before anything else runs, so every check below judges the changed part
+    run: python -B .codecrew/rulesets/freecad-part/handover.py --pull
+    fix: true
+    description: variable values changed in Onshape are taken back into the part
+  - id: deliverables
+    # drawings, reports and bills of materials, generated from the specs and the built
+    # geometry into deliverables/ before the checks run, and committed with the work. A
+    # deliverable is only rebuilt when what it's made from changed.
+    run: python -B .codecrew/rulesets/freecad-part/deliverables.py
+    fix: true
+    timeout: 600
+    description: drawing, design report and bill of materials are generated for every part and assembly
+  - id: spec
+    # requirements as data: the spec is complete, names what exists, and every requirement is
+    # proven by something. Reads files only; nothing is built.
+    run: python -B .codecrew/rulesets/freecad-part/check_spec.py
+    parser:
+      format: jsonl
+      fields: { file: file, line: line, code: code, message: message, severity: severity }
+    description: every part and assembly has a complete, traceable spec
+  - id: handover
+    # the part in Onshape is the part proven here: same variables, same volume and size, and
+    # (once accepted) the same features. Reads codecrew's record of the Part Studio.
+    run: python -B .codecrew/rulesets/freecad-part/handover.py
+    parser:
+      format: jsonl
+      fields: { file: file, line: line, code: code, message: message, severity: severity }
+    description: the part handed over to Onshape matches the part here
   - id: validate
     # -B: no bytecode caches. A part edited to the same size within a second would otherwise
     # be checked from its stale cache (Python validates caches by size and timestamp only).
     run: python -B .codecrew/rulesets/freecad-part/validate.py parts
     timeout: 600
     # one JSON object per line: the engineering checks (contract, units, valid solid,
-    # parametric robustness, STEP export, a test per part), plus an info line per part
+    # parametric robustness, STEP export, a test per part, the spec's envelope and mass
+    # measured on the built part), plus an info line per part
     parser:
       format: jsonl
       fields: { file: file, line: line, code: code, message: message, severity: severity }
@@ -62,7 +180,7 @@ checks:
 # tests/test_<name>.py, already passing every check here; the agent fills them in.
 generators:
   - name: part
-    description: a new part with its test (parts/<name>.py, tests/test_<name>.py)
+    description: a new part with its spec and test (design/<name>.spec.toml, parts/<name>.py, tests/test_<name>.py)
     name_style: snake_case
 
 repo_map:
@@ -97,29 +215,12 @@ plan:
         value, the unit, and the rationale: why this value (what it mates with, the process
         limit, the load).
       columns: [name, value, unit, rationale]
-    - key: interfaces
-      title: Interfaces and mating dimensions
-      description: >-
-        What the part mates with and the dimensions that must fit: the mating part or fastener,
-        the dimension, and the fit or clearance (M4 screw, hole_diameter_mm 4.5, clearance fit).
-      columns: [mates_with, dimension, fit]
-    - key: process_limits
-      title: Process limits
-      description: >-
-        The manufacturing process and the limits it sets on this part, each with its value:
-        minimum wall, overhang, smallest hole, tool radius, bend radius.
-      columns: [limit, value]
-    - key: targets
-      title: Targets for size and mass
-      description: >-
-        The envelope the part must stay within and its mass target, each with the value the
-        result is checked against (envelope 40 x 30 x 35 mm; mass under 15 g).
-      columns: [quantity, target]
     - key: files
       title: Files
       description: >-
-        The part's module and its test (parts/<part>.py, tests/test_<part>.py) and anything
-        else you change. change is add, modify or delete. Start a new part with the scaffold tool.
+        The part's spec, module and test (design/<part>.spec.toml, parts/<part>.py,
+        tests/test_<part>.py) and anything else you change. Interfaces, process and targets
+        are not retyped in the plan: they go in the spec. change is add, modify or delete. Start a new part with the scaffold tool.
       columns: [path, change, purpose]
       path_column: path
   checks:
@@ -145,18 +246,119 @@ plan:
       with_column: path
       template: "tests/test_{stem}.py"
       message: "New part '{value}' has no planned test: add tests/test_{stem}.py to files."
+    - id: part-has-spec
+      kind: paired
+      section: files
+      column: path
+      where: { change: add }
+      skip: '^(?!parts/[^/]+\.py$)|(^|/)__init__\.py$'   # only new parts
+      with_section: files
+      with_column: path
+      template: "design/{stem}.spec.toml"
+      message: "New part '{value}' has no planned spec: add design/{stem}.spec.toml to files."
     - id: files-fit-structure
       kind: structure
       section: files
       column: path
       where: { change: add }
 
+
+# What a project gives this ruleset, the guard its Onshape agents work under, and what codecrew
+# records from the Part Studio after each pass (codecrew's ruleset hooks). The setting's
+# context, onshape, is shared with the other rulesets that work in Onshape: a project gives the
+# Part Studio once.
+project_settings:
+  - key: part_studio
+    label: Onshape Part Studio
+    description: >-
+      The URL of the Part Studio the designer works in. Use a branch made for codecrew: the
+      agent may change only that branch of that Part Studio, and codecrew refuses its calls
+      anywhere else.
+    example: https://cad.onshape.com/documents/575d0e8e00e2c9c9d8b82b8b/w/e7e34099a96b2c4d15e10345/e/93d3fcb70dc35800c131d028
+    pattern: '^(?P<host>https?://[^/\s]+)/documents/(?P<document_id>[0-9a-f]{24})/w/(?P<workspace_id>[0-9a-f]{24})/e/(?P<element_id>[0-9a-f]{24})'
+    context: onshape
+    prompt: |-
+      # Onshape
+      You design in this Part Studio: {onshape.part_studio}
+      document (did) {onshape.document_id}, branch (wvm w, wvmid) {onshape.workspace_id}, Part Studio (eid) {onshape.element_id}.
+      Work only there: codecrew refuses calls to other documents, branches or elements. Read the server's guidance first (onshape_mcp_get_started, onshape_list_resources). Put every dimension in a variable (#name) and use it in sketches and features; name features after what they do; after each feature, check its status. codecrew records the feature list in design/onshape/features.json after your pass, and the checks read it.
+
+guards:
+  - key: design
+    label: Onshape design guard
+    description: >-
+      For a generic Onshape API server (one tool, onshape_api_call, that reaches every
+      endpoint): only Part Studio feature work, only in the project's Part Studio and branch.
+      Operation names are Onshape's operationIds; if a call the agent needs is refused, add its
+      name on the agent's page (a refused call lists the allowed ones).
+    guard:
+      tool: onshape_api_call
+      # onshape-mcp's argument for the operation is "endpoint" (its ApiCallInput)
+      allow:
+        endpoint:
+          - getPartStudioFeatures
+          - getPartStudioFeatureSpecs
+          - getPartStudioMassProperties
+          - getPartStudioBoundingBoxes
+          - getPartsWMVE
+          - getPartStudioNamedViews
+          - evalFeatureScript
+          - addPartStudioFeature
+          - updatePartStudioFeature
+          - deletePartStudioFeature
+          - updatePartStudioFeatures
+      writes:
+        endpoint: [addPartStudioFeature, updatePartStudioFeature, deletePartStudioFeature, updatePartStudioFeatures]
+      # file_refs make the server read local files into the request: never needed for features
+      forbid: [file_refs]
+      pin:
+        path_params.did: "{onshape.document_id}"
+        path_params.wvmid|path_params.wid: "{onshape.workspace_id}"
+        "?path_params.wvm": w
+        path_params.eid: "{onshape.element_id}"
+
+recorders:
+  - id: features
+    description: the Part Studio's feature list
+    needs: [part_studio]
+    tool: onshape_api_call
+    calls:
+      features:
+        endpoint: getPartStudioFeatures
+        path_params: { did: "{onshape.document_id}", wvm: w, wvmid: "{onshape.workspace_id}", eid: "{onshape.element_id}" }
+    write: design/onshape/features.json
+    require: features
+    # fields of the feature list that change with every request, not with the design
+    drop: [sourceMicroversion, microversionSkew, rejectMicroversionSkew, serializationVersion, libraryVersion, nodeId]
+    count: features
+    link: "{onshape.part_studio}"
+  - id: properties
+    description: what Onshape measures on the Part Studio (volume, mass, bounding box)
+    needs: [part_studio]
+    tool: onshape_api_call
+    calls:
+      mass:
+        endpoint: getPartStudioMassProperties
+        path_params: { did: "{onshape.document_id}", wvm: w, wvmid: "{onshape.workspace_id}", eid: "{onshape.element_id}" }
+      box:
+        endpoint: getPartStudioBoundingBoxes
+        path_params: { did: "{onshape.document_id}", wvm: w, wvmid: "{onshape.workspace_id}", eid: "{onshape.element_id}" }
+    # in mm, mm³ and g: to compare with another model
+    run: python -B .codecrew/rulesets/freecad-part/properties.py {input}
+    write: design/onshape/properties.json
+
 agents:
   - key: engineer
     label: FreeCAD mechanical engineer
     instructions: >-
       You are a senior mechanical design engineer who scripts parts in FreeCAD's Python API
-      (Part workbench, OpenCascade). Think in design intent before geometry: what the part
+      (Part workbench, OpenCascade). Load the skill engineering-workflow first: it says what
+      to do in which order and which skill to read when. Start every part from its spec
+      (design/<part>.spec.toml; if one is there with status = "proposed", it was approved:
+      build to it and remove the status):
+      purpose, quantity, material, process, envelope, interfaces and requirements, each
+      requirement with what proves it; load the skill writing-a-spec first. Then the geometry.
+      Think in design intent before geometry: what the part
       does, what it mates with, how it's made (FDM print, CNC, sheet metal) and what that
       means: FDM walls of at least 2 mm, clearance holes (M3 3.4 mm, M4 4.5 mm, M5 5.5 mm),
       0.2 to 0.3 mm clearance between printed mating parts, fillets in inner corners against
@@ -167,12 +369,48 @@ agents:
       Every part gets a test that checks its function-critical dimensions. Say in the part's
       docstring what it's for, its material and the design decisions a reviewer should know.
     tools: [read_file, write_file, edit_file, list_dir, search, run_command, scaffold]
-    write_scope: ["parts/**", "tests/**", "scripts/**", "README.md"]
+    write_scope: ["design/**", "parts/**", "assemblies/**", "reference/**", "tests/**", "scripts/**", "README.md"]
     max_turns: 40
     plan_mode: ask_on_risk   # plans first; a risky plan waits for you (change it on the agent's page)
+  - key: requirements
+    label: Requirements engineer
+    instructions: >-
+      You turn a request into specs, before anyone models: one design/<name>.spec.toml per
+      part and per assembly, each with status = "proposed". Load the skill writing-a-spec
+      first, then the skills for what the spec decides: designing-for-a-process (the process
+      and material), choosing-a-fit (tolerances), choosing-a-fastener, designing-for-people,
+      checking-strength (what it must carry: load cases and a safety factor).
+      Read every attachment and every file in reference/. Write what the part must be, not
+      how it's shaped: purpose, quantity, material and process, the envelope and mass it must
+      stay within, what it mates with and through which named dimensions, the tolerance of
+      what mates, whether it's seen and touched, and requirements that each say what will
+      prove them. Name parameters and tests as the engineer should create them. Don't write
+      geometry, tests or anything outside design/ and reference/. What the request leaves
+      open and you can't responsibly decide, list in your open issues: a person approves the
+      specs before the design starts.
+    tools: [read_file, write_file, edit_file, list_dir, search]
+    write_scope: ["design/**", "reference/**"]
+    max_turns: 25
+  - key: onshape-builder
+    label: Onshape builder
+    instructions: >-
+      You rebuild a part that is already proven in FreeCAD as a parametric Part Studio in
+      Onshape, through the Onshape server. Load the skill handing-over-to-onshape first. The
+      part is parts/<name>.py (design/handover.toml names it); its Params are the contract.
+      Create one variable per dimension of Params, with the same name without its unit suffix
+      and the same plain value with its unit (hole_diameter_mm = 4.5 becomes #hole_diameter =
+      4.5 mm), before any sketch. Then build the features in the order build() does, every
+      dimension an expression of those variables, every feature named for what it is. You
+      don't change the part here, and you don't decide dimensions: if something can't be
+      rebuilt as it is, say so in your open issues. After each pass codecrew records the Part
+      Studio and compares it with the part: variables, volume and size must agree.
+    tools: [read_file, list_dir, search]
+    write_scope: []
+    max_turns: 60
   - key: reviewer
     label: Mechanical design reviewer
     instructions: >-
+      Load the skill design-review first and work through its checklist.
       You review a part like a senior mechanical engineer before it's released for
       manufacture. Check that it does what the request asks and fits what it mates with:
       fits and clearances, hole sizes for the fasteners, wall thicknesses and minimum features
@@ -192,3 +430,64 @@ agents:
     tools: [read_file, list_dir, search]
     write_scope: []
     max_turns: 15
+
+# The way of working this ruleset recommends. Offered for each project on the Pipelines page,
+# and created with a new project: its agents come from the templates above.
+pipelines:
+  - key: design
+    label: Design a part or assembly
+    description: >-
+      Requirements first, approved by you; then the concept, the design, and a design review.
+    stages:
+      - name: requirements
+        agent: requirements
+        require_review: true     # you approve the specs before anything is modelled
+        task: >-
+          Write the specs for what the request asks for (design/<name>.spec.toml, each with
+          status = "proposed"). Nothing is modelled in this stage.
+      - name: concept
+        agent: researcher
+        kind: think
+        save_as: "design/{branch}.concept.md"
+        task: >-
+          Against the approved specs: two or three concepts with their trade-offs, the one you
+          recommend, and its parameters by name. Check each concept against the process limits
+          and the interfaces before recommending it.
+      - name: design
+        agent: engineer
+        task: >-
+          Build what the approved specs describe, following the recommended concept:
+          interfaces and their parameters first, then the body, then the details. Remove
+          status = "proposed" from each spec as you build its part. Don't change a
+          requirement to make a check pass: say so in your open issues.
+      - name: review
+        agent: reviewer
+        kind: review
+        review_target: design
+  - key: handover
+    label: Hand a part over to Onshape
+    description: >-
+      Rebuild the part named in design/handover.toml in the project's Onshape Part Studio, prove
+      it is the same part, and record it as accepted. Give the Onshape builder the Onshape
+      server first (Agents page).
+    stages:
+      - name: rebuild
+        agent: onshape-builder
+        task: >-
+          Rebuild the part named in design/handover.toml in Onshape. The handover check must
+          pass: every variable there, with the value here; the same volume and size.
+      - name: accept
+        kind: command
+        command: python -B .codecrew/rulesets/freecad-part/handover.py --accept
+        max_retries: 0
+  - key: sync
+    label: Take changes from Onshape
+    description: >-
+      Variable values someone changed in Onshape are taken into the part here, and every check
+      runs on the changed part. Anything else changed there is reported as drift.
+    stages:
+      - name: pull
+        kind: command
+        command: python -B .codecrew/rulesets/freecad-part/handover.py --pull
+        fix_with: onshape-builder   # its Onshape server is how codecrew reads the Part Studio
+        max_retries: 0              # a failing check goes to you: nobody "fixes" it away

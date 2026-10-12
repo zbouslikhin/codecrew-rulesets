@@ -7,7 +7,7 @@ release is a git tag `<name>@v<major>.<minor>.<patch>`.
 |---|---|
 | `svelte-feature` | Svelte 5 + TypeScript apps with the Qlayers feature-folder layout. v2: a test per feature, every feature used (reachability), build must pass |
 | `python-service` | Python 3.12 services with uv, src layout: ruff, mypy strict, pytest, vulture (warnings) |
-| `freecad-part` | Parametric mechanical parts scripted with FreeCAD 1.1 (headless): geometry checks (valid solid, units, parametric robustness, STEP export), ruff, pytest. Build its toolchain image once: `docker build -t codecrew-freecad:1.1.3 freecad-part/toolchain` |
+| `freecad-part` | Parametric mechanical parts and assemblies scripted with FreeCAD 1.1 (headless). Every part and assembly starts from a spec (`design/<name>.spec.toml`: purpose, material, process, envelope, interfaces, requirements with what proves each). Checks: the spec is complete and traceable; geometry (valid solid, units, parametric robustness, STEP export, envelope and mass against the spec); standard sizes, fasteners and materials from a shipped library; design for manufacturing (each part measured against the profile of every process it names: 3D printing, milling, turning, sheet metal, laser cutting, injection moulding, or the project's own); tolerances and fits (every interface toleranced, nothing finer than the process holds); assemblies (every part placed, no interference, joints meeting, clearances kept, screws engaged and reachable, fits and stacks of dimensions in the worst case); industrial design for parts people see and touch (no sharp edges, a family of radii, sizes a hand needs, colour and a finish that suits the material); generated deliverables (a drawing, shaded views and a design report per part, a bill of materials per assembly); hand-over to Onshape (the part rebuilt there is proven the same, variable changes come back and are checked, anything else is drift); ruff, pytest. Build its toolchain image once: `docker build -t codecrew-freecad:1.1.3 freecad-part/toolchain` |
 | `onshape-part` | Parts designed natively in Onshape, with history: checks on the recorded feature list (regeneration, dimensions driven by variables, feature names) |
 
 ## Using one
@@ -36,8 +36,19 @@ Agents can't change them, and a changed file fails the checks. Updates go throug
                           that must catch it). Every plan check needs a case.
   skills/<name>/SKILL.md  know-how for the stack: a header (name, description) and the text. Agents
                           get the list and load a skill with read_skill when the task touches it.
+  ruleset.yaml `generated`  files the ruleset's own checks write (drawings, reports): committed with
+                          the work, but not counted as the agent's changes.
+  ruleset.yaml `pipelines`  ways of working the ruleset recommends, as pipeline templates built from its
+                          agent templates: offered per project, created with a new project.
   fixtures/permissions.yaml  permission rules: attempts (command, read or write) and the verdict
                           each must get. Every rule needs an attempt it decides.
+  ruleset.yaml hooks      for a discipline working in a service outside the repo (a CAD service):
+                          `project_settings` (values a project gives, e.g. a document's URL; their
+                          placeholders fill the rest), `guards` (ready-made MCP guards for an agent's
+                          servers), `recorders` (what codecrew reads through the agent's server after
+                          each pass and writes into the repo).
+  fixtures/recorders/<recorder>/<case>/  input.json (the calls' results) and expect.json (what must be
+                          written; none: nothing). Every recorder needs a case.
   CHANGELOG.md
 ```
 

@@ -1,0 +1,5 @@
+# A process the rules know nothing about.
+expect:
+  - check: spec
+    rule: "unknown-process"
+    file: design/mounting_bracket.spec.toml

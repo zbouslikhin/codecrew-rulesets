@@ -1,0 +1,5 @@
+# A visible part that does not say its finish.
+expect:
+  - check: spec
+    rule: "spec-incomplete"
+    file: design/tool_handle.spec.toml

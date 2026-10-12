@@ -1,0 +1,5 @@
+# A sliding joint whose parts touch: nothing is left to slide in.
+expect:
+  - check: validate
+    rule: "clearance"
+    file: assemblies/sensor_mount.py

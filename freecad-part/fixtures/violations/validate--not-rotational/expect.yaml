@@ -1,0 +1,5 @@
+# A "turned" block: a lathe makes round parts.
+expect:
+  - check: validate
+    rule: "not-rotational"
+    file: parts/block.py

@@ -1,0 +1,5 @@
+# A sheet-metal angle folded with no inside radius.
+expect:
+  - check: validate
+    rule: "tight-bend"
+    file: parts/angle.py

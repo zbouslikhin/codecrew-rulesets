@@ -6,3 +6,7 @@ the shape; `tests/` checks what matters about each part.
 
     make check PROJECT=fixture-parts        # the rules the agents are held to
     python scripts/export.py           # exports/<part>.step and .stl (FreeCAD's Python)
+
+## Specs
+
+Every part starts from `design/<part>.spec.toml`; assemblies have one too.

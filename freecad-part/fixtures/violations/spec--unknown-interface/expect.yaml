@@ -1,0 +1,5 @@
+# A joint at an interface the part does not have.
+expect:
+  - check: spec
+    rule: "unknown-interface"
+    file: design/sensor_mount.spec.toml

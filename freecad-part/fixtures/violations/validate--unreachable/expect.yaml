@@ -1,0 +1,5 @@
+# A slot cut into the side of a block: the tool comes from above and below, and reaches neither face of it.
+expect:
+  - check: validate
+    rule: "unreachable"
+    file: parts/slotted_block.py

@@ -1,0 +1,5 @@
+# Someone added a chamfer in Onshape after the hand-over was accepted.
+expect:
+  - check: handover
+    rule: "drift"
+    file: design/onshape/features.json

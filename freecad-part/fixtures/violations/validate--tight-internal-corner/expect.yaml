@@ -1,0 +1,5 @@
+# A pocket whose corners are tighter than the smallest cutter.
+expect:
+  - check: validate
+    rule: "tight-internal-corner"
+    file: parts/pocket_block.py

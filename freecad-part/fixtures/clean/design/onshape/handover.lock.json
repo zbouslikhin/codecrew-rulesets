@@ -1,0 +1,57 @@
+{
+  "features": [
+    {
+      "expressions": [
+        "length=#depth",
+        "length=#height",
+        "length=#thickness"
+      ],
+      "id": "FskProfile",
+      "name": "L profile",
+      "type": "newSketch"
+    },
+    {
+      "expressions": [
+        "depth=#width"
+      ],
+      "id": "FexBody",
+      "name": "Bracket body",
+      "type": "extrude"
+    },
+    {
+      "expressions": [
+        "radius=#fillet_radius"
+      ],
+      "id": "FflCorner",
+      "name": "Inner corner radius",
+      "type": "fillet"
+    },
+    {
+      "expressions": [
+        "length=#hole_edge_distance"
+      ],
+      "id": "FskHoles",
+      "name": "Hole centres",
+      "type": "newSketch"
+    },
+    {
+      "expressions": [
+        "depth=#thickness",
+        "diameter=#hole_diameter"
+      ],
+      "id": "FexHoles",
+      "name": "M4 clearance holes",
+      "type": "extrude"
+    }
+  ],
+  "part": "mounting_bracket",
+  "variables": [
+    "depth",
+    "fillet_radius",
+    "height",
+    "hole_diameter",
+    "hole_edge_distance",
+    "thickness",
+    "width"
+  ]
+}

@@ -1,0 +1,5 @@
+# A rotating joint that does not say how much room it needs.
+expect:
+  - check: spec
+    rule: "spec-incomplete"
+    file: design/sensor_mount.spec.toml

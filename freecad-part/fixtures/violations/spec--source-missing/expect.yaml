@@ -1,0 +1,5 @@
+# CAD it must fit, named but not in the repository.
+expect:
+  - check: spec
+    rule: "source-missing"
+    file: design/mounting_bracket.spec.toml

@@ -1,0 +1,5 @@
+# The part is built, but its spec still says it is only proposed: nothing would be checked against it.
+expect:
+  - check: spec
+    rule: "spec-still-proposed"
+    file: design/mounting_bracket.spec.toml

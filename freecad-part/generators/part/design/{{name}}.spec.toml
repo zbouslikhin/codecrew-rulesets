@@ -1,0 +1,34 @@
+# What this part must be, before how it is built. The checks read this file.
+kind = "part"
+name = "{{name}}"
+purpose = "TODO what it is for and where it sits."
+quantity = 1
+material = "PETG"
+processes = ["fdm"]
+general_tolerance = "c"   # ISO 2768-1 coarse: what a printer holds
+
+[envelope_mm]   # it must stay within this, in any orientation
+x = 40.0
+y = 20.0
+z = 10.0
+
+[mass_g]
+max = 12.0
+
+[[sources]]
+kind = "text"
+note = "TODO the request, in a sentence. Add drawings and CAD it must fit as further sources."
+
+[[interfaces]]
+id = "I1"
+mates_with = "TODO what it mates with"
+parameters = ["length_mm"]
+
+[[requirements]]
+id = "R1"
+text = "TODO what must be true of it."
+proven_by = ["test:test_outer_dimensions_follow_the_parameters", "check:envelope"]
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

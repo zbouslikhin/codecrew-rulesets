@@ -1,0 +1,5 @@
+# A milled pocket with square corners: no rotating cutter makes those.
+expect:
+  - check: validate
+    rule: "sharp-internal-corner"
+    file: parts/pocket_block.py

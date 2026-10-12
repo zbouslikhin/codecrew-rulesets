@@ -1,0 +1,28 @@
+kind = "part"
+name = "panel"
+purpose = "A printed front panel."
+quantity = 5
+material = "PETG"
+processes = ["fdm"]
+general_tolerance = "c"
+standalone = true
+
+[envelope_mm]
+x = 60.0
+y = 40.0
+z = 4.0
+
+[appearance]
+visible = true
+touched = false
+colour = "black"
+finish = "as printed"
+
+[[sources]]
+kind = "text"
+note = "A front panel."
+
+[[requirements]]
+id = "R1"
+text = "It is one solid."
+proven_by = ["test:test_it_is_one_solid"]

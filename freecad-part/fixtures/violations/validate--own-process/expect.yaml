@@ -1,0 +1,5 @@
+# A process the project defines itself (die casting), judged by its own limits: this wall is too thin for it.
+expect:
+  - check: validate
+    rule: "thin-wall"
+    file: parts/housing.py

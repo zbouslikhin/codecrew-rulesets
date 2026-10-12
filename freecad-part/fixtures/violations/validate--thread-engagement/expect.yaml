@@ -1,0 +1,5 @@
+# An M4x5 screw: 3 mm of it is in the bracket, 2 mm in the thread. It needs 4.
+expect:
+  - check: validate
+    rule: "thread-engagement"
+    file: assemblies/sensor_mount.py

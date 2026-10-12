@@ -1,0 +1,6 @@
+# The spec lists the rail; the assembly does not place it.
+expect:
+  - check: validate
+    rule: "component-missing"
+    file: assemblies/sensor_mount.py
+only: false

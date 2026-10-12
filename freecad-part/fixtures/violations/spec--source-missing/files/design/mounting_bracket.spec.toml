@@ -1,0 +1,71 @@
+# What this part must be, before how it is built. The checks read this file.
+kind = "part"
+name = "mounting_bracket"
+purpose = "Holds a sensor on a machine frame: an L-bracket screwed to the frame, the sensor on its wall."
+quantity = 10
+material = "PETG"
+processes = ["fdm"]
+general_tolerance = "c"   # ISO 2768-1 coarse: what a printer holds
+
+[envelope_mm]   # it must stay within this, in any orientation
+x = 40.0
+y = 33.0
+z = 35.0
+
+[mass_g]
+max = 15.0
+
+[[sources]]
+kind = "text"
+note = "An L-bracket for the sensor, fixed to the frame with two M4 screws."
+
+[[sources]]
+kind = "cad"   # the rail it is screwed to
+ref = "reference/frame.step"
+
+[[interfaces]]
+id = "I1"
+mates_with = "M4 socket head screws into the frame"
+feature = "two clearance holes in the base"
+parameters = ["hole_diameter_mm", "hole_edge_distance_mm"]
+fit = "clearance, medium"
+
+[[interfaces]]
+id = "I2"
+mates_with = "the top face of a 20 x 20 frame rail"
+feature = "the underside of the base"
+parameters = ["width_mm", "depth_mm"]
+fit = "flat on flat"
+
+[[standards]]   # which parameter follows which standard
+parameter = "hole_diameter_mm"
+standard = "clearance_hole"
+thread = "M4"
+fit = "medium"
+
+[[standards]]
+parameter = "fillet_radius_mm"
+standard = "radius"
+
+[[requirements]]
+id = "R1"
+text = "Two M4 screws pass through the base."
+proven_by = ["test:test_two_m4_clearance_holes", "param:hole_diameter_mm"]
+
+[[requirements]]
+id = "R2"
+text = "It fits the space beside the frame and is light enough for the sensor arm."
+proven_by = ["check:envelope", "check:mass"]
+
+[[requirements]]
+id = "R3"
+text = "It prints as one solid."
+proven_by = ["test:test_it_is_one_printable_solid"]
+
+[[sources]]
+kind = "cad"
+ref = "reference/motor.step"
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

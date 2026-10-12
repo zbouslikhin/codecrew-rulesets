@@ -1,0 +1,16 @@
+{
+  "mass": {
+    "bodies": {
+      "-all-": {
+        "volume": [
+          1e-06
+        ],
+        "mass": [
+          0.0
+        ],
+        "hasMass": false
+      }
+    }
+  },
+  "box": null
+}

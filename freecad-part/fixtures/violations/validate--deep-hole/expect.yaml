@@ -1,0 +1,5 @@
+# A 3 mm hole 50 mm deep: more than ten times its diameter.
+expect:
+  - check: validate
+    rule: "deep-hole"
+    file: parts/drilled_bar.py

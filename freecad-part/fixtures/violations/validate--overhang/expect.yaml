@@ -1,0 +1,5 @@
+# A printed table: its top hangs in the air on all sides of one leg.
+expect:
+  - check: validate
+    rule: "overhang"
+    file: parts/table.py

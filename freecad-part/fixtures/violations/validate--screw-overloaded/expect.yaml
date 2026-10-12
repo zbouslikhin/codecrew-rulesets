@@ -1,0 +1,5 @@
+# Six kilonewtons across two M4 screws.
+expect:
+  - check: validate
+    rule: "screw-overloaded"
+    file: design/mounting_bracket.spec.toml

@@ -1,0 +1,5 @@
+# A resin print with a closed cavity: the resin inside never drains.
+expect:
+  - check: validate
+    rule: "enclosed-void"
+    file: parts/float.py

@@ -1,0 +1,5 @@
+# A stack through a dimension nobody toleranced.
+expect:
+  - check: validate
+    rule: "untoleranced"
+    file: design/bush_guide.spec.toml

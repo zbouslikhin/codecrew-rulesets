@@ -1,0 +1,5 @@
+# An interface realised by a parameter the part does not have.
+expect:
+  - check: spec
+    rule: "unknown-parameter"
+    file: design/mounting_bracket.spec.toml

@@ -1,0 +1,6 @@
+# A tolerance class that is not in the table.
+expect:
+  - check: spec
+    rule: "unknown-fit"
+    file: design/spacer_bush.spec.toml
+only: false

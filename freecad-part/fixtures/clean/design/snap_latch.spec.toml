@@ -1,0 +1,47 @@
+kind = "part"
+name = "snap_latch"
+purpose = "Holds a cover shut: a block with a snap arm that hooks behind the edge of a housing window."
+quantity = 20
+material = "PETG"
+processes = ["fdm"]
+general_tolerance = "c"
+safety_factor = 2.0       # how many times each load it must take
+
+[envelope_mm]
+x = 20.0
+y = 31.0
+z = 8.0
+
+[[sources]]
+kind = "text"
+note = "A latch that snaps into a 1.2 mm deep window and can be opened by hand."
+
+[[interfaces]]
+id = "I1"
+mates_with = "the edge of the housing window"
+feature = "the hook at the tip of the arm"
+parameters = ["hook_depth_mm"]
+fit = "snaps behind the edge"
+
+[[loads]]   # what it must carry, calculated by hand on the parameters
+id = "L1"
+text = "Snapping in: the hook is pushed aside by its own depth, each time the cover is closed."
+model = "snap_arm"
+deflection = "hook_depth_mm"
+length = "arm_length_mm"
+thickness = "arm_thickness_mm"
+repeated = true
+
+[[requirements]]
+id = "R1"
+text = "The arm survives being snapped in and out."
+proven_by = ["check:strength"]
+
+[[requirements]]
+id = "R2"
+text = "It hooks 1.2 mm behind the edge."
+proven_by = ["param:hook_depth_mm", "test:test_the_hook_stands_proud_by_its_depth"]
+
+[appearance]
+visible = false
+touched = false

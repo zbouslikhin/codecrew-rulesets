@@ -1,0 +1,5 @@
+# A requirement "proven" by a review: not something a check can read.
+expect:
+  - check: spec
+    rule: "unknown-proof"
+    file: design/mounting_bracket.spec.toml

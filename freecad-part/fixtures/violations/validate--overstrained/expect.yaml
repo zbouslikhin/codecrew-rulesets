@@ -1,0 +1,6 @@
+# A snap arm 8 mm long: too short to bend by the hook's depth.
+expect:
+  - check: validate
+    rule: "overstrained"
+    file: design/snap_latch.spec.toml
+only: false

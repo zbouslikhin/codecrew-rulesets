@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="sans-serif" font-size="3">
+<title>snap_latch: drawing</title>
+<style>.visible{fill:none;stroke:#000;stroke-linecap:round}.hidden{fill:none;stroke:#777;stroke-dasharray:1 0.8}.frame{fill:none;stroke:#000;stroke-width:0.35}.rule{stroke:#000;stroke-width:0.18}.cap{fill:#444;font-size:2.6px}.head{font-weight:bold}</style>
+<rect x="0" y="0" width="297" height="210" fill="#fff"/>
+<rect class="frame" x="6" y="6" width="285" height="198"/>
+<g transform="translate(12.000,30.000) scale(2,-2)" stroke-width="0.175"><g class="hidden"><path d="M20, 0 L20, 8 " /><path d="M1.6, 0 L1.6, 8 " /><path d="M20, 0 L1.6, 0 " /><path d="M20, 8 L1.6, 8 " /><path d="M1.6, 0 L1.6, 8 " /><path d="M2.8, 0 L2.8, 8 " /><path d="M1.6, 0 L2.8, 0 " /><path d="M1.6, 8 L2.8, 8 " /><path d="M2.8, 0 L2.8, 8 " /><path d="M1.6, 0 L1.6, 8 " /><path d="M2.8, 0 L1.6, 0 " /><path d="M2.8, 8 L1.6, 8 " /><path d="M0, 0 L0, 8 " /><path d="M1.6, 0 L0, 0 " /><path d="M1.6, 8 L0, 8 " /></g><g class="visible"><path d="M0, 0 L0, 8 " /><path d="M20, 0 L20, 8 " /><path d="M0, 0 L20, 0 " /><path d="M0, 8 L20, 8 " /></g></g>
+<text class="cap" x="12.00" y="34.00">Front</text>
+<g transform="translate(66.000,30.000) scale(2,-2)" stroke-width="0.175"><g class="hidden"><path d="M0, 0 L0, 8 " /><path d="M6, 0 L6, 8 " /><path d="M26, 0 L26, 8 " /><path d="M29.8, 0 L29.8, 8 " /><path d="M29.8, 0 L0, 0 " /><path d="M29.8, 8 L0, 8 " /></g><g class="visible"><path d="M0, 0 L0, 8 " /><path d="M6, 0 L6, 8 " /><path d="M0, 0 L6, 0 " /><path d="M0, 8 L6, 8 " /><path d="M6, 0 L26, 0 " /><path d="M6, 8 L26, 8 " /><path d="M26, 0 L26, 8 " /><path d="M26.8, 0 L26.8, 8 " /><path d="M26, 0 L26.8, 0 " /><path d="M26, 8 L26.8, 8 " /><path d="M29.8, 0 L29.8, 8 " /><path d="M26.8, 0 L29.8, 0 " /><path d="M26.8, 8 L29.8, 8 " /></g></g>
+<text class="cap" x="66.00" y="34.00">Right</text>
+<g transform="translate(12.000,107.600) scale(2,-2)" stroke-width="0.175"><g class="hidden"><path d="M0, 0 L20, 0 " /><path d="M20, 0 L20, 6 " /><path d="M20, 6 L1.6, 6 " /><path d="M1.6, 6 L1.6, 26 " /><path d="M1.6, 26 L2.8, 26 " /><path d="M2.8, 26 L2.8, 26.8 " /><path d="M2.8, 26.8 L1.6, 29.8 " /><path d="M1.6, 29.8 L0, 29.8 " /><path d="M0, 29.8 L0, 0 " /></g><g class="visible"><path d="M0, 0 L20, 0 " /><path d="M20, 0 L20, 6 " /><path d="M20, 6 L1.6, 6 " /><path d="M1.6, 6 L1.6, 26 " /><path d="M1.6, 26 L2.8, 26 " /><path d="M2.8, 26 L2.8, 26.8 " /><path d="M2.8, 26.8 L1.6, 29.8 " /><path d="M1.6, 29.8 L0, 29.8 " /><path d="M0, 29.8 L0, 0 " /></g></g>
+<text class="cap" x="12.00" y="111.60">Top</text>
+<g transform="translate(66.000,85.396) scale(2,-2)" stroke-width="0.175"><g class="hidden"><path d="M5.37401, 1.79629 L5.37401, 8.32827 " /><path d="M18.3848, -5.71548 L5.37401, 1.79629 " /><path d="M5.37401, 1.79629 L11.0309, 5.06228 " /><path d="M21.0718, 12.1658 L21.0718, 18.6978 " /><path d="M22.2032, 11.5126 L21.0718, 12.1658 " /><path d="M21.0718, 12.1658 L0, 0 " /></g><g class="visible"><path d="M0, 0 L0, 6.53197 " /><path d="M14.1421, -8.16497 L14.1421, -1.63299 " /><path d="M0, 0 L14.1421, -8.16497 " /><path d="M0, 6.53197 L14.1421, -1.63299 " /><path d="M18.3848, -5.71548 L18.3848, 0.816497 " /><path d="M14.1421, -8.16497 L18.3848, -5.71548 " /><path d="M14.1421, -1.63299 L18.3848, 0.816497 " /><path d="M18.3848, 0.816497 L5.37401, 8.32827 " /><path d="M19.5161, 9.96126 L19.5161, 16.4932 " /><path d="M11.0309, 5.06228 L19.5161, 9.96126 " /><path d="M5.37401, 8.32827 L19.5161, 16.4932 " /><path d="M20.3647, 9.47136 L20.3647, 16.0033 " /><path d="M19.5161, 9.96126 L20.3647, 9.47136 " /><path d="M19.5161, 16.4932 L20.3647, 16.0033 " /><path d="M20.9304, 9.79796 L20.9304, 16.3299 " /><path d="M20.3647, 9.47136 L20.9304, 9.79796 " /><path d="M20.3647, 16.0033 L20.9304, 16.3299 " /><path d="M22.2032, 11.5126 L22.2032, 18.0446 " /><path d="M20.9304, 9.79796 L22.2032, 11.5126 " /><path d="M20.9304, 16.3299 L22.2032, 18.0446 " /><path d="M22.2032, 18.0446 L21.0718, 18.6978 " /><path d="M21.0718, 18.6978 L0, 6.53197 " /></g></g>
+<text class="cap" x="66.00" y="105.73">Isometric</text>
+<style>.hidden{stroke-width:0.09}</style>
+<text class="head" x="196.0" y="14.0">Critical dimensions (mm)</text>
+<text class="cap" x="196.0" y="19.0">Dimension</text>
+<text class="cap" x="230.0" y="19.0">Nominal</text>
+<text class="cap" x="244.0" y="19.0">Tolerance</text>
+<text class="cap" x="264.0" y="19.0">Limits</text>
+<line class="rule" x1="196.0" y1="20.2" x2="285.0" y2="20.2"/>
+<text x="196.0" y="23.6" font-size="2.6">hook_depth</text>
+<text x="230.0" y="23.6" font-size="2.6">1.2</text>
+<text x="244.0" y="23.6" font-size="2.6">ISO 2768-c</text>
+<text x="264.0" y="23.6" font-size="2.6">1.000 to 1.400</text>
+<rect class="frame" x="6" y="170.0" width="285" height="34"/>
+<text class="head" x="10" y="177.0" font-size="5">snap_latch</text>
+<text x="10" y="182.5" font-size="2.8">Holds a cover shut: a block with a snap arm that hooks behind the edge of a housing window.</text>
+<text class="cap" x="10" y="189.0">Material</text>
+<text x="10" y="192.4" font-size="2.9">PETG</text>
+<text class="cap" x="80" y="189.0">Process</text>
+<text x="80" y="192.4" font-size="2.9">3D printing, fused filament (FDM)</text>
+<text class="cap" x="150" y="189.0">General tolerance</text>
+<text x="150" y="192.4" font-size="2.9">ISO 2768-c</text>
+<text class="cap" x="220" y="189.0">Mass</text>
+<text x="220" y="192.4" font-size="2.9">1.6 g</text>
+<text class="cap" x="10" y="196.0">Envelope</text>
+<text x="10" y="199.4" font-size="2.9">20.0 x 29.8 x 8.0 mm</text>
+<text class="cap" x="80" y="196.0">Quantity</text>
+<text x="80" y="199.4" font-size="2.9">20</text>
+<text class="cap" x="150" y="196.0">Scale</text>
+<text x="150" y="199.4" font-size="2.9">2:1</text>
+<text class="cap" x="220" y="196.0">Projection</text>
+<text x="220" y="199.4" font-size="2.9">views are labelled</text>
+<text class="cap" x="291" y="207.8" text-anchor="end" font-size="2.2">Generated by codecrew from design/snap_latch.spec.toml and parts/snap_latch.py. Not edited by hand.</text>
+</svg>

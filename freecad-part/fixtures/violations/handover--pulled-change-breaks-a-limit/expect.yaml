@@ -1,0 +1,6 @@
+# Someone widened the bracket to 45 mm in Onshape. The value is taken into the part here, and the part no longer fits its envelope.
+expect:
+  - check: validate
+    rule: "over-envelope"
+    file: design/mounting_bracket.spec.toml
+only: false

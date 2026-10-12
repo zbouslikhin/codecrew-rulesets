@@ -1,0 +1,5 @@
+# A cover the spec knows nothing about.
+expect:
+  - check: validate
+    rule: "component-unknown"
+    file: assemblies/sensor_mount.py

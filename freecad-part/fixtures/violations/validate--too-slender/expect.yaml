@@ -1,0 +1,5 @@
+# A 6 mm pin 60 mm long: it bends away from the tool.
+expect:
+  - check: validate
+    rule: "too-slender"
+    file: parts/pin.py

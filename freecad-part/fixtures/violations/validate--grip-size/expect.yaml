@@ -1,0 +1,5 @@
+# A handle 20 mm thick: too thin to grip with the whole hand.
+expect:
+  - check: validate
+    rule: "grip-size"
+    file: parts/tool_handle.py

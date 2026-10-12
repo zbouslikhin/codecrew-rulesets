@@ -1,0 +1,36 @@
+kind = "part"
+name = "guide_block"
+purpose = "Guides a bush: a block with a bored hole."
+quantity = 20
+material = "Aluminium 6061-T6"
+processes = ["milling"]
+general_tolerance = "m"
+
+[envelope_mm]
+x = 40.0
+y = 30.0
+z = 16.0
+
+[[sources]]
+kind = "text"
+note = "A guide for a 16 mm bush."
+
+[[interfaces]]
+id = "I1"
+mates_with = "the spacer bush"
+feature = "the bore"
+parameters = ["bore_diameter_mm"]
+fit = "sliding, H7/g6"
+
+[[tolerances]]
+parameter = "bore_diameter_mm"
+fit = "H7"
+
+[[requirements]]
+id = "R1"
+text = "The bore goes right through."
+proven_by = ["test:test_the_bore_goes_through"]
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

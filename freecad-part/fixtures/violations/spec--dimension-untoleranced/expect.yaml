@@ -1,0 +1,5 @@
+# A plate whose thickness follows a standard, but nothing says how exact it must be.
+expect:
+  - check: spec
+    rule: "dimension-untoleranced"
+    file: design/cover_plate.spec.toml

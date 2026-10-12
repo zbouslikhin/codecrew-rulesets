@@ -1,0 +1,5 @@
+# A moulded shell with walls straight up: it drags on the mould coming out.
+expect:
+  - check: validate
+    rule: "no-draft"
+    file: parts/shell.py

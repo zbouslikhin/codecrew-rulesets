@@ -1,0 +1,6 @@
+# build() returns a list: the checks cannot tell which component is which.
+expect:
+  - check: validate
+    rule: "assembly-contract"
+    file: assemblies/sensor_mount.py
+only: false

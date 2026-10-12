@@ -1,0 +1,5 @@
+# An interface that names no parameter: nothing makes it fit.
+expect:
+  - check: spec
+    rule: "interface-unrealised"
+    file: design/mounting_bracket.spec.toml

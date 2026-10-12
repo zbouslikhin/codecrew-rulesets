@@ -1,0 +1,5 @@
+# A part bigger than the project's printer, which the project states in design/processes.toml.
+expect:
+  - check: validate
+    rule: "too-large"
+    file: parts/long_rail.py

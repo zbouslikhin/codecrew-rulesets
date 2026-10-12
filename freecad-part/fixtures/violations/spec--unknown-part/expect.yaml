@@ -1,0 +1,6 @@
+# An assembly of a part that has no spec here.
+expect:
+  - check: spec
+    rule: "unknown-part"
+    file: design/sensor_mount.spec.toml
+only: false

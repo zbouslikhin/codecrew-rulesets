@@ -1,0 +1,36 @@
+# What a hand needs, in mm: guideline ranges of the kind human-factors handbooks give for
+# adult hands without gloves. Hands vary; for a product, check against your users and the
+# standard you design to. A project's own design/ergonomics.toml overrides these, with the
+# same keys.
+#
+# A spec's [[grips]] names a parameter and its kind; the parameter must lie in the range.
+
+[power_grip]      # a handle the whole hand closes around: its diameter
+title = "a handle gripped with the whole hand (diameter)"
+min = 30.0
+max = 45.0
+
+[grip_length]     # the length of a handle one hand holds
+title = "the length a hand needs on a handle"
+min = 100.0
+
+[pinch_grip]      # held between thumb and fingertips: its diameter or thickness
+title = "something held between thumb and fingertips (diameter)"
+min = 8.0
+max = 16.0
+
+[finger_hole]     # a hole one finger goes through or into
+title = "a hole for one finger (diameter)"
+min = 25.0
+
+[hand_opening_width]   # the opening of a handle or cut-out a hand goes through: its length
+title = "an opening the hand goes through (length)"
+min = 110.0
+
+[hand_opening_depth]   # ... and its clear depth for the fingers
+title = "an opening the hand goes through (clear depth)"
+min = 45.0
+
+[push_button]     # pressed with a fingertip: its diameter
+title = "a button pressed with a fingertip (diameter)"
+min = 12.0

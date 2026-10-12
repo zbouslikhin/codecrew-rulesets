@@ -1,0 +1,5 @@
+# A joint that should slide, with a shaft toleranced for a press fit.
+expect:
+  - check: validate
+    rule: "fit"
+    file: design/bush_guide.spec.toml

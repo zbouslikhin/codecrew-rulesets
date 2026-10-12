@@ -1,0 +1,5 @@
+# A dimension of the part that is not a variable in Onshape: it could not be changed there.
+expect:
+  - check: handover
+    rule: "variable-missing"
+    file: design/onshape/features.json

@@ -1,0 +1,6 @@
+# A second rail right above the screw heads: no hex key gets in.
+expect:
+  - check: validate
+    rule: "no-tool-access"
+    file: assemblies/sensor_mount.py
+only: false

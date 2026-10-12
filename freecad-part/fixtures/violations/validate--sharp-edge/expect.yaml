@@ -1,0 +1,5 @@
+# A handle with square ends: the rims cut into the hand.
+expect:
+  - check: validate
+    rule: "sharp-edge"
+    file: parts/tool_handle.py

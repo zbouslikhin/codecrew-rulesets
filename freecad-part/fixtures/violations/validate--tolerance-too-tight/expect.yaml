@@ -1,0 +1,5 @@
+# A printed part toleranced to two hundredths of a millimetre.
+expect:
+  - check: validate
+    rule: "tolerance-too-tight"
+    file: design/mounting_bracket.spec.toml

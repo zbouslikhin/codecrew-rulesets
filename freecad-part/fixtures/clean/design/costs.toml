@@ -1,0 +1,40 @@
+# This project's rates, for the cost estimate in each part's report. Example figures: yours differ.
+currency = "EUR"
+
+[materials]   # per kg
+PETG = 25.0
+ABS = 3.0
+"Aluminium 6061-T6" = 6.0
+"Aluminium 5052-H32" = 5.0
+"Brass CW614N" = 9.0
+
+[processes.fdm]
+rate_per_hour = 4.0     # machine and attention
+cm3_per_hour = 15.0     # how fast it builds
+setup_minutes = 10      # per batch, shared by the quantity
+waste = 0.05
+
+[processes.milling]
+stock = "block"         # cut from a block the size of the part's envelope
+rate_per_hour = 60.0
+cm3_per_hour = 300.0    # how fast it removes
+setup_minutes = 45
+
+[processes.turning]
+stock = "block"
+rate_per_hour = 55.0
+cm3_per_hour = 400.0
+setup_minutes = 30
+
+[processes.laser_cutting]
+rate_per_hour = 80.0
+cm3_per_hour = 2000.0
+setup_minutes = 15
+waste = 0.3
+
+[processes.injection_moulding]
+rate_per_hour = 40.0
+cm3_per_hour = 4000.0
+setup_minutes = 120
+tooling = 8000.0        # the mould, shared by the quantity
+waste = 0.03

@@ -1,0 +1,5 @@
+# Two requirements with the same id: evidence would point at both.
+expect:
+  - check: spec
+    rule: "duplicate-id"
+    file: design/mounting_bracket.spec.toml

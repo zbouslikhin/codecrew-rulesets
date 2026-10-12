@@ -89,6 +89,91 @@ plan:
       forbid: '^(Sketch|Extrude|Revolve|Fillet|Chamfer|Shell|Hole|Linear pattern|Circular pattern|Mirror|Sweep|Loft|Plane|Boolean|Split|Draft|Rib|Thicken)\s*\d*$'
       message: "Feature '{value}' has a default name: name it after what it does (e.g. 'Mounting holes')."
 
+
+# What a project gives this ruleset, the guard its Onshape agents work under, and what codecrew
+# records from the Part Studio after each pass (codecrew's ruleset hooks). The setting's
+# context, onshape, is shared with the other rulesets that work in Onshape: a project gives the
+# Part Studio once.
+project_settings:
+  - key: part_studio
+    label: Onshape Part Studio
+    description: >-
+      The URL of the Part Studio the designer works in. Use a branch made for codecrew: the
+      agent may change only that branch of that Part Studio, and codecrew refuses its calls
+      anywhere else.
+    example: https://cad.onshape.com/documents/575d0e8e00e2c9c9d8b82b8b/w/e7e34099a96b2c4d15e10345/e/93d3fcb70dc35800c131d028
+    pattern: '^(?P<host>https?://[^/\s]+)/documents/(?P<document_id>[0-9a-f]{24})/w/(?P<workspace_id>[0-9a-f]{24})/e/(?P<element_id>[0-9a-f]{24})'
+    context: onshape
+    prompt: |-
+      # Onshape
+      You design in this Part Studio: {onshape.part_studio}
+      document (did) {onshape.document_id}, branch (wvm w, wvmid) {onshape.workspace_id}, Part Studio (eid) {onshape.element_id}.
+      Work only there: codecrew refuses calls to other documents, branches or elements. Read the server's guidance first (onshape_mcp_get_started, onshape_list_resources). Put every dimension in a variable (#name) and use it in sketches and features; name features after what they do; after each feature, check its status. codecrew records the feature list in design/onshape/features.json after your pass, and the checks read it.
+
+guards:
+  - key: design
+    label: Onshape design guard
+    description: >-
+      For a generic Onshape API server (one tool, onshape_api_call, that reaches every
+      endpoint): only Part Studio feature work, only in the project's Part Studio and branch.
+      Operation names are Onshape's operationIds; if a call the agent needs is refused, add its
+      name on the agent's page (a refused call lists the allowed ones).
+    guard:
+      tool: onshape_api_call
+      # onshape-mcp's argument for the operation is "endpoint" (its ApiCallInput)
+      allow:
+        endpoint:
+          - getPartStudioFeatures
+          - getPartStudioFeatureSpecs
+          - getPartStudioMassProperties
+          - getPartStudioBoundingBoxes
+          - getPartsWMVE
+          - getPartStudioNamedViews
+          - evalFeatureScript
+          - addPartStudioFeature
+          - updatePartStudioFeature
+          - deletePartStudioFeature
+          - updatePartStudioFeatures
+      writes:
+        endpoint: [addPartStudioFeature, updatePartStudioFeature, deletePartStudioFeature, updatePartStudioFeatures]
+      # file_refs make the server read local files into the request: never needed for features
+      forbid: [file_refs]
+      pin:
+        path_params.did: "{onshape.document_id}"
+        path_params.wvmid|path_params.wid: "{onshape.workspace_id}"
+        "?path_params.wvm": w
+        path_params.eid: "{onshape.element_id}"
+
+recorders:
+  - id: features
+    description: the Part Studio's feature list
+    needs: [part_studio]
+    tool: onshape_api_call
+    calls:
+      features:
+        endpoint: getPartStudioFeatures
+        path_params: { did: "{onshape.document_id}", wvm: w, wvmid: "{onshape.workspace_id}", eid: "{onshape.element_id}" }
+    write: design/onshape/features.json
+    require: features
+    # fields of the feature list that change with every request, not with the design
+    drop: [sourceMicroversion, microversionSkew, rejectMicroversionSkew, serializationVersion, libraryVersion, nodeId]
+    count: features
+    link: "{onshape.part_studio}"
+  - id: properties
+    description: what Onshape measures on the Part Studio (volume, mass, bounding box)
+    needs: [part_studio]
+    tool: onshape_api_call
+    calls:
+      mass:
+        endpoint: getPartStudioMassProperties
+        path_params: { did: "{onshape.document_id}", wvm: w, wvmid: "{onshape.workspace_id}", eid: "{onshape.element_id}" }
+      box:
+        endpoint: getPartStudioBoundingBoxes
+        path_params: { did: "{onshape.document_id}", wvm: w, wvmid: "{onshape.workspace_id}", eid: "{onshape.element_id}" }
+    # in mm, mm³ and g: to compare with another model
+    run: python -B .codecrew/rulesets/onshape-part/properties.py {input}
+    write: design/onshape/properties.json
+
 agents:
   - key: designer
     label: Onshape designer

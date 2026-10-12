@@ -1,0 +1,5 @@
+# An assembly with no test of what touches what.
+expect:
+  - check: validate
+    rule: "missing-test"
+    file: assemblies/second_mount.py

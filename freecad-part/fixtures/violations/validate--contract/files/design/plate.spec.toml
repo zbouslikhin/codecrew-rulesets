@@ -1,0 +1,25 @@
+kind = "part"
+name = "plate"
+purpose = "A fixture part."
+quantity = 1
+material = "PETG"
+processes = ["fdm"]
+standalone = true
+
+[envelope_mm]
+x = 500.0
+y = 500.0
+z = 500.0
+
+[[sources]]
+kind = "text"
+note = "A fixture."
+
+[[requirements]]
+id = "R1"
+text = "It stays within its envelope."
+proven_by = ["check:envelope"]
+
+[appearance]   # is it seen, does a hand touch it
+visible = false
+touched = false

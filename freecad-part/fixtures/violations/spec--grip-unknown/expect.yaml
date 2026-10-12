@@ -1,0 +1,5 @@
+# A grip of a kind the ergonomics table does not have.
+expect:
+  - check: spec
+    rule: "spec-invalid"
+    file: design/tool_handle.spec.toml

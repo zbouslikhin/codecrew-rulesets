@@ -1,0 +1,6 @@
+# The rail placed 1 mm into the bracket: two solids in the same space.
+expect:
+  - check: validate
+    rule: "interference"
+    file: assemblies/sensor_mount.py
+only: false

@@ -1,0 +1,5 @@
+# The part says PETG's density, the spec says ABS.
+expect:
+  - check: validate
+    rule: "density-mismatch"
+    file: parts/mounting_bracket.py

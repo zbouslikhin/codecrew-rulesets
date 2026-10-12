@@ -1,0 +1,5 @@
+# Four corners, four radii: the eye reads them as four decisions.
+expect:
+  - check: validate
+    rule: "radius-family"
+    file: parts/panel.py

@@ -1,0 +1,36 @@
+kind = "part"
+name = "tool_handle"
+purpose = "The handle of a hand tool: gripped with the whole hand."
+quantity = 200
+material = "Aluminium 6061-T6"
+processes = ["turning"]
+general_tolerance = "m"
+standalone = true
+
+[envelope_mm]
+x = 35.0
+y = 35.0
+z = 110.0
+
+[appearance]
+visible = true
+touched = true
+colour = "black"
+finish = "anodised"
+
+[[grips]]   # what a hand holds, and how
+parameter = "diameter_mm"
+kind = "power_grip"
+
+[[grips]]
+parameter = "length_mm"
+kind = "comfortable"
+
+[[sources]]
+kind = "text"
+note = "A handle for a hand tool."
+
+[[requirements]]
+id = "R1"
+text = "It is one solid, round about its axis."
+proven_by = ["test:test_it_is_one_solid"]

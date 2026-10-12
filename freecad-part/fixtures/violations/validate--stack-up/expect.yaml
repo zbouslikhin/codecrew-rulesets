@@ -1,0 +1,5 @@
+# The bush must stand at least 3.9 mm proud; with both parts at their worst it is 3.6.
+expect:
+  - check: validate
+    rule: "stack-up"
+    file: design/bush_guide.spec.toml

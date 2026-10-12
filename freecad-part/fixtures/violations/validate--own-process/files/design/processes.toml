@@ -1,0 +1,7 @@
+# A process of this project's own: same keys as the ruleset's profiles.
+[die_casting]
+title = "Die casting"
+materials = ["Aluminium 6061-T6"]
+min_wall_mm = 1.5
+max_wall_mm = 6.0
+enclosed_voids = false

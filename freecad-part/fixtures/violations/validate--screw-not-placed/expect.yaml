@@ -1,0 +1,6 @@
+# The spec lists two screws; the assembly places none.
+expect:
+  - check: validate
+    rule: "component-missing"
+    file: assemblies/sensor_mount.py
+only: false

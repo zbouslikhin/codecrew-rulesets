@@ -1,0 +1,4 @@
+item,kind,name,quantity,material,made by,mass each (g),mass total (g)
+1,part,mounting_bracket,1,PETG,fdm,9.5,9.5
+2,reference,reference/frame.step,1,,not supplied: what it must fit,,
+3,standard part,ISO 4762 M4x12,2,,bought,,

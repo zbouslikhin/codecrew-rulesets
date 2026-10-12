@@ -1,0 +1,6 @@
+# A moulded block 12 mm thick: it sinks and warps as it cools.
+expect:
+  - check: validate
+    rule: "thick-wall"
+    file: parts/slab.py
+only: false   # the fixture part has no draft either, and that is rightly reported too

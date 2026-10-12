@@ -1,0 +1,6 @@
+# A hole through the side of a moulded shell: neither half of the mould can form it.
+expect:
+  - check: validate
+    rule: "undercut"
+    file: parts/shell.py
+only: false   # the fixture part has no draft either, and that is rightly reported too

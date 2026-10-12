@@ -2,6 +2,7 @@
 change:
   extensions:
     files:
+      - { path: design/cable_clip.spec.toml, change: add, purpose: its spec }
       - { path: parts/cable_clip.py, change: add, purpose: the clip }
       - { path: tests/test_cable_clip.py, change: add, purpose: its test }
       - { path: parts/cable_clip_notes.txt, change: add, purpose: design notes }

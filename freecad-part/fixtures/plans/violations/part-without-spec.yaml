@@ -1,0 +1,7 @@
+# A new part planned without its spec: the spec comes first.
+change:
+  extensions:
+    files:
+      - { path: parts/cable_clip.py, change: add, purpose: the clip }
+      - { path: tests/test_cable_clip.py, change: add, purpose: its test }
+expect: [part-has-spec]

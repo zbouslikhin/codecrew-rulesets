@@ -1,0 +1,21 @@
+{
+  "featureStates": {
+    "Mx1": {
+      "featureStatus": "OK"
+    }
+  },
+  "features": [
+    {
+      "btType": "BTMFeature-134",
+      "featureType": "extrude",
+      "name": "Body",
+      "parameters": [
+        {
+          "btType": "BTMParameterQuantity-147",
+          "expression": "#depth",
+          "parameterId": "depth"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# A 1 mm hole in a printed part: it closes up.
+expect:
+  - check: validate
+    rule: "small-hole"
+    file: parts/vent.py
