@@ -1,0 +1,6 @@
+# A printed plate wider than the 220 mm bed, in every orientation.
+expect:
+  - check: model
+    rule: "too-large"
+    file: parts/plate.py
+only: false

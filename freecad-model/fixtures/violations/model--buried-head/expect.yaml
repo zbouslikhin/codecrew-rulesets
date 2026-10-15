@@ -1,0 +1,6 @@
+# The screw points the wrong way: its head is in the block, its shank in the air.
+expect:
+  - check: model
+    rule: "overlap"
+    file: assemblies/pair.py
+only: false

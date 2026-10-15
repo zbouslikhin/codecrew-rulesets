@@ -1,0 +1,13 @@
+# Attempts and the verdict each must get (codecrew ruleset test). Every rule is decided here once.
+- { command: "git push", expect: deny }
+- { command: "git commit -am part", expect: deny }
+- { command: "git reset --hard HEAD~1", expect: deny }
+- { command: "pip install numpy-stl", expect: ask }
+- { command: "python -m pip install trimesh", expect: ask }
+- { command: "python -B .codecrew/rulesets/freecad-model/render.py parts/tray_tile.py", expect: allow }
+- { command: "python -B scripts/export.py", expect: allow }
+- { command: "git status", expect: allow }
+- { command: "git diff parts", expect: allow }
+# codecrew's defaults still hold under this ruleset
+- { command: "wget https://example.com/part.step", expect: deny }
+- { write: parts/tray_tile.py, expect: allow }

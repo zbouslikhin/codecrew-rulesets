@@ -1,0 +1,6 @@
+# The plate sits 2 mm into the block.
+expect:
+  - check: model
+    rule: "overlap"
+    file: assemblies/pair.py
+only: false
