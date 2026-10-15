@@ -1,0 +1,292 @@
+name: freecad-model
+# The same toolchain as freecad-part (FreeCAD's official AppImage, headless). Build it once:
+#   docker build -t codecrew-freecad:1.1.3 freecad-part/toolchain
+toolchain: codecrew-freecad:1.1.3
+summary: |
+  Parametric parts in FreeCAD 1.1 (headless, its Python 3.11), modelled with the person one
+  step at a time. They decide; you model, render and show.
+  - design/decisions.md holds the person's decisions. Read it before every step. What it doesn't
+    decide, you don't either: ask with ask_user, with 2 or 3 options and what each costs or
+    gains. Write into decisions.md only an answer the person gave you. Before the first step,
+    when decisions.md has no decisions or the person asks for it, grill them first: load the
+    skill grilling-a-design.
+  - Do the step you were asked for, nothing more: one part, one joint, one assembly at a time.
+  - parts/<name>.py: PARAMS, a frozen dataclass of the part's dimensions, each named with its
+    unit (width_mm), and build(params) returning a Part.Shape. Optional: PRINTED = False for a
+    part that isn't printed, RESTS_ON = "-z" (the face on the bed), DENSITY_G_CM3.
+  - assemblies/<name>.py: build() returns {name: Part.Shape}, each in place: "<part>" or
+    "<part>:<n>"; screws "standard:ISO 4762 M3x12:<n>" (standards.shapes.from_designation);
+    a reference file by its name.
+  - reference/<name>.step: what exists and the design must fit, written by a script in scripts/.
+  - Numbers from the standards library, not from memory: from standards import fasteners;
+    fasteners.clearance_hole("M3") is 3.4.
+  - After every change to geometry, render it and look: render(target). Red is an overlap;
+    screws show in blue through what hides them. Compare what you see with what you meant
+    before you finish.
+  - Import FreeCAD before Part. Select edges and faces by their geometry, never by index.
+  - Errors stop a step: a part that doesn't build into a valid solid, a printed part larger than
+    the bed in design/printer.toml, components that overlap, too little thread. Warnings (sharp
+    edges, overhangs, thin walls) are for the person: name them, don't chase them.
+  - When the person wants files to print: python -B scripts/export.py writes exports/<part>.stl
+    and .step for every part.
+  - When you finish a step, say what you made, what the checks say, what you saw in the render,
+    and suggest the next step.
+
+setup: []
+ignore: [exports/, .git/, __pycache__/, .pytest_cache/, .ruff_cache/]
+
+structure:
+  - path: "parts/"
+    allow: ["*.py"]
+    message: "parts/ holds one Python module per part."
+  - path: "assemblies/"
+    allow: ["*.py"]
+    message: "assemblies/ holds one Python module per assembly."
+  - path: "reference/"
+    allow: ["*.step", "*.stp"]
+    message: "reference/ holds what exists and the design must fit, as STEP files."
+  - path: "design/"
+    allow: ["*.md", "*.toml", "results/*.json"]
+    message: "design/ holds the person's decisions, the printer, and what each stage of the design flow wrote (*.toml), with the person's results (results/)."
+  - path: "concepts/"
+    allow: ["*.py"]
+    message: "concepts/ holds the concept models: block models at real size, one module per concept."
+  - path: "test_pieces/"
+    allow: ["*.py"]
+    message: "test_pieces/ holds the test pieces, one part module each."
+  - path: "analysis/"
+    allow: ["*.py"]
+    message: "analysis/ holds the calculations, one script each, printing its result as JSON."
+  - path: "tests/"
+    allow: ["test_*.py", "conftest.py", "__init__.py"]
+    message: "tests/ holds pytest files, optional (plus conftest.py)."
+
+checks:
+  - id: format
+    fix: true
+    run: python -m ruff format --quiet {files:*.py}
+    description: ruff format, applied automatically
+  - id: lint
+    fix: true
+    run: python -m ruff check --fix --quiet --output-format sarif {files:*.py}
+    parser: sarif
+    description: ruff (pyflakes, pycodestyle, bugbear, imports, pyupgrade)
+  - id: model
+    run: python -B .codecrew/rulesets/freecad-model/check.py
+    timeout: 600
+    parser:
+      format: jsonl
+      fields: { file: file, line: line, code: code, message: message, severity: severity }
+    description: valid solids, fits the bed, nothing overlaps, enough thread; print warnings
+  - id: test
+    run: python -B -m pytest -q -rfE -p no:cacheprovider
+    timeout: 600
+    parser:
+      format: lines
+      pattern: '^(?P<severity>FAILED|ERROR) (?P<file>[^:\s]+)(?:::(?P<code>\S+))?(?: - (?P<message>.*))?$'
+      code: test-file-error
+      severity_map: { FAILED: error, ERROR: error }
+    description: pytest, in FreeCAD's Python (tests are optional)
+
+# The render tool: pictures of what's modelled, for the agent and the dashboard's preview.
+render:
+  run: python -B .codecrew/rulesets/freecad-model/render.py {target} --views {views}{focus} --json
+  timeout: 300
+  description: parts/<name>.py, assemblies/<name>.py or reference/<file>.step
+
+repo_map:
+  symbols:
+    - files: "*.py"
+      pattern: '^(?:def|class)\s+(?P<name>\w+)'
+
+permissions:
+  deny:
+    - run_command(git push*)
+    - run_command(git commit*)
+    - run_command(git reset*)        # undoing a step is yours, in the session
+  ask:
+    - run_command(pip install *)
+    - run_command(python -m pip install *)
+  allow:
+    - run_command(python *)
+    - run_command(git status*)
+    - run_command(git diff*)
+
+# The design flow of a modelling session: the person agrees on the design before it's detailed,
+# then it's proved in the real world. Each stage ends when the person says so; stages can be
+# unticked before they start, and those after the detailed design skipped. Every file a stage
+# writes is described in its skill.
+flow:
+  - id: brief
+    title: Brief
+    who: you
+    required: true
+    form: true
+  - id: grilling
+    title: Grilling
+    required: true
+    skill: grilling-a-design
+    estimate_usd: 0.2
+    done_label: Done with the questions
+    instructions: >-
+      Ask in rounds with ask_user `questions` (one call per round), each with options, your
+      recommendation and why it matters; give `needed` (the decisions this design needs at its
+      level, your checklist) and `settled` (how many are settled already). Write every answer
+      into design/decisions.md as it comes. When nothing is open, finish with a summary of what's
+      decided, what's assumed and what's to measure.
+  - id: concept
+    title: Concept
+    files: [design/concepts.toml]
+    choose: true
+    levels: [2, 3, 4]
+    skill: making-concepts
+    estimate_usd: 0.35
+    done_label: Agree on this concept
+    instructions: >-
+      Build 2 or 3 concepts where the person's answers leave room, as block models at real size
+      in concepts/<id>.py, render each (iso, front, top) and describe them in design/concepts.toml.
+      Change and render again when they ask. When they agree, they name the concept and any mix.
+  - id: risk
+    title: Design risk
+    files: [design/risks.toml]
+    levels: [2, 3, 4]
+    skill: design-risk
+    estimate_usd: 0.12
+    done_label: Approve the risks
+    instructions: >-
+      First write the concept the person agreed on into design/decisions.md under "## Concept,
+      agreed" (outer sizes, splits, front, clearances), when it isn't there yet. Then list what
+      can fail in design/risks.toml, how bad, and what settles each one.
+  - id: test_pieces
+    title: Test pieces
+    files: [design/test_pieces.toml]
+    levels: [2, 3, 4]
+    skill: test-pieces
+    inputs: pieces
+    estimate_usd: 0.1
+    material: a few grams of filament
+    done_label: Go on to the plan
+    instructions: >-
+      Suggest a test piece only when the skill's four conditions all hold; list what you looked
+      at and why each wasn't needed. None needed is a fine answer. Model each piece in
+      test_pieces/<id>.py and export them (python -B scripts/export.py test_pieces). When the
+      person sends results, say what they mean and change the concept where they must.
+  - id: plan
+    title: Plan
+    files: [design/plan.toml]
+    skill: planning-the-detail
+    estimate_usd: 0.05
+    done_label: Approve the plan
+    instructions: >-
+      Plan the detailed design as steps in design/plan.toml: one part, one joint or one assembly
+      each, the milestones where the person looks, and roughly what each costs.
+  - id: cad
+    title: Detailed CAD
+    required: true
+    autopilot: true
+    review: true
+    estimate_usd: 3.1
+    done_label: The detailed design is done
+    instructions: >-
+      Work through design/plan.toml, one step per pass. Read freecad-pitfalls before geometry,
+      placing-parts-and-screws before an assembly, printing-basics for printed parts. Use the
+      measured numbers in design/results/ and the workshop's corrections. Render after every
+      change. What would change what the person agreed on in the concept, ask first.
+  - id: analysis
+    title: Analysis and DFM
+    files: [design/analysis.toml, design/risks.toml]
+    levels: [2, 3, 4]
+    optional_after: cad
+    skill: analysis
+    estimate_usd: 0.4
+    done_label: Go on to the prototype
+    instructions: >-
+      Calculate what design/risks.toml says a calculation settles, one script per result in
+      analysis/, and write the results into design/analysis.toml with the print table (bed,
+      side down, supports). The risk list gets what the detail added.
+  - id: prototype
+    title: Prototype
+    files: [design/prototype.toml]
+    who: you
+    optional_after: cad
+    skill: proving-it
+    estimate_usd: 0.05
+    material: filament
+    done_label: It's printed
+    instructions: >-
+      Export the parts (python -B scripts/export.py) and write design/prototype.toml: what to
+      print, how many, which side down, the settings, roughly how much filament and time.
+  - id: inspection
+    title: Inspection
+    files: [design/inspection.toml]
+    who: both
+    optional_after: cad
+    needs: [prototype]
+    inputs: measurements
+    skill: proving-it
+    estimate_usd: 0.05
+    done_label: Go on to the tests
+    instructions: >-
+      Write design/inspection.toml: only the sizes that matter for fit and strength, each with
+      its nominal and tolerance and how to measure it. codecrew compares what the person
+      measures; you say what an out-of-tolerance size means and what to change.
+  - id: testing
+    title: Testing
+    files: [design/tests.toml]
+    who: both
+    levels: [2, 3, 4]
+    optional_after: cad
+    needs: [prototype]
+    inputs: results
+    skill: proving-it
+    estimate_usd: 0.05
+    done_label: Go on to the release
+    instructions: >-
+      Write design/tests.toml: one test per high risk a test must prove, with how to do it and
+      what passes. When the person reports, judge each against its pass criterion and report.
+      Don't fix anything here: what to do about a failure is decided at the release.
+  - id: release
+    title: Release
+    files: [design/release.toml]
+    revise: cad
+    required: true
+    skill: releasing
+    estimate_usd: 0.35
+    done_label: Release
+    instructions: >-
+      If a test failed, ask with ask_user: a revision first (what to change, which stages to run
+      again) or release as it is with the known issue written down. Then the print pack: export,
+      and write design/release.toml (print, buy, assemble, the test record, what wasn't proved).
+
+agents:
+  - key: modeller
+    label: FreeCAD modeller
+    models: [strong]
+    model_note: >-
+      One agent does every step, looking at its own renders: it needs a strong model that reads
+      images well. A weak model here costs more in steps than it saves per token.
+    instructions: >-
+      You model what the person asks for, one step at a time, in FreeCAD's Python API (Part
+      workbench). Their decisions are in design/decisions.md: follow them, and ask with ask_user
+      when a step needs a decision that isn't there, rather than choosing. Load the skills when
+      they apply: grilling-a-design before the first step, freecad-pitfalls before you write
+      geometry, placing-parts-and-screws before an assembly, printing-basics for printed parts.
+      Render after every change and look at the pictures. Keep every dimension in PARAMS.
+    tools: [read_file, write_file, edit_file, list_dir, search, run_command, render, read_attachment]
+    write_scope: ["design/**", "parts/**", "assemblies/**", "reference/**", "concepts/**", "test_pieces/**", "analysis/**", "scripts/**", "tests/**", "README.md"]
+    max_turns: 60
+    plan_mode: "off"
+
+pipelines:
+  - key: modelling
+    label: Modelling session
+    description: >-
+      You and one modeller, a step at a time: you ask for a step, it models and renders it, you
+      look and decide. Each step is a commit; undo goes back one.
+    final_review: false
+    stages:
+      - name: model
+        agent: modeller
+        kind: work
+        session: true
+        max_retries: 1

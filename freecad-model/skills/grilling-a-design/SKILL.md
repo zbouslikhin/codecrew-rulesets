@@ -10,9 +10,20 @@ the person finds out about later, when it costs more.
 
 ## Rounds
 
-Ask in rounds, with ask_user. Each round holds only the questions whose answers no other open
-question changes. Answers open the next round. Stop when no question is left whose
-prerequisites are answered.
+Ask in rounds: one ask_user call per round, with all its questions in `questions` (each with
+an `id`, the question, `why`, 2 or 3 `options` and your `recommended`). A round holds only the
+questions whose answers no other open question changes; answers open the next round.
+
+Keep a checklist of the decisions this design needs at its level (level 1: sizes and how it's
+made; level 2 adds loads, joints and what's bought; 3 and 4 add tolerances, quantities and the
+rules that apply). Give its size as `needed` and how many are already settled (from the brief,
+the workshop in design/workshop.md, earlier rounds) as `settled`. Rounds stop when nothing on
+the checklist is open; a new round comes only when an answer opened a new decision ("the
+aluminium front" opens "which shop").
+
+The person can answer any question in their own words and attach a photo or a file to it.
+When they say to stop asking, take your recommendation for everything still open, write it
+into decisions.md marked "assumed", and finish.
 
 Work through what the design depends on, in this order:
 

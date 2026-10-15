@@ -1,0 +1,101 @@
+# Manufacturing processes, as data: which measurements apply, and their limits.
+#
+# These are the usual design-guide values, deliberately on the permissive side: what a
+# competent shop can make. Your machines may be tighter or looser. Put your own limits, or
+# processes of your own, in the project's design/processes.toml: same keys, and what you give
+# there wins.
+#
+#   min_wall_mm, max_wall_mm      material thickness, measured straight through from every face
+#   min_hole_mm                   smallest hole diameter
+#   min_hole_factor               ... or as a multiple of the sheet's thickness
+#   max_hole_depth_ratio          a hole's depth over its diameter
+#   max_overhang_deg              steepest unsupported overhang, from vertical (needs a build direction)
+#   max_bridge_mm                 a flat underside this short bridges without support
+#   max_unsupported_hole_mm       a horizontal hole up to this diameter prints without support
+#   tool_directions               where the tool comes from: "+up", "-up" (the spec's orientation), "+x" ...
+#   min_internal_radius_mm        the smallest radius in an internal corner (the cutter's)
+#   max_corner_depth_ratio        an internal corner's depth over its cutter's diameter
+#   min_draft_deg                 draft on faces along the direction of pull; also: no undercuts
+#   draft_free_height_mm          faces lower than this need no draft
+#   enclosed_voids                false: no closed cavity inside the part
+#   rotational                    true: a body of revolution
+#   max_length_to_diameter        how slender it may be (turning)
+#   flat_sheet                    true: one thickness, cut square through
+#   min_bend_radius_factor        inside bend radius over the sheet's thickness
+#   max_size_mm                   [x, y, z] the machine takes (in any orientation)
+#   best_tolerance_grade          the finest ISO tolerance grade it holds without a second operation
+#                                 (7 means IT7); a tighter tolerance needs achieved_by in the spec
+#   strength_factor               how much of the material's datasheet strength a part made this way
+#                                 keeps, for the load cases of a spec (1.0 when left out). Printed
+#                                 parts are weaker across their layers: measure yours and set it.
+#   materials                     for a process of your own: the materials it works
+
+[fdm]
+title = "3D printing, fused filament (FDM)"
+best_tolerance_grade = 13
+strength_factor = 0.5        # across the layers; along them it is nearer 0.8
+min_wall_mm = 0.8            # two passes of a 0.4 mm nozzle
+min_hole_mm = 2.0
+max_overhang_deg = 45
+max_bridge_mm = 10.0
+max_unsupported_hole_mm = 8.0
+
+[sla]
+title = "3D printing, resin (SLA)"
+best_tolerance_grade = 11
+strength_factor = 0.8
+min_wall_mm = 0.6
+min_hole_mm = 0.5
+enclosed_voids = false       # resin stays trapped
+
+[sls]
+title = "3D printing, powder (SLS)"
+best_tolerance_grade = 12
+strength_factor = 0.8
+min_wall_mm = 0.8
+min_hole_mm = 1.5
+enclosed_voids = false       # powder stays trapped
+
+[milling]
+title = "CNC milling, 3 axes"
+best_tolerance_grade = 7
+min_wall_mm = 0.8
+min_hole_mm = 1.0
+max_hole_depth_ratio = 10
+tool_directions = ["+up", "-up"]     # machined from the top, then turned over
+min_internal_radius_mm = 1.0         # a 2 mm cutter
+max_corner_depth_ratio = 4
+enclosed_voids = false
+
+[turning]
+title = "CNC turning"
+best_tolerance_grade = 6
+rotational = true
+min_wall_mm = 0.5
+max_length_to_diameter = 6
+max_hole_depth_ratio = 10
+enclosed_voids = false
+
+[sheet_metal]
+title = "Sheet metal, cut and bent"
+best_tolerance_grade = 12
+min_bend_radius_factor = 1.0
+min_hole_factor = 1.0
+enclosed_voids = false
+
+[laser_cutting]
+title = "Laser or waterjet cutting, flat"
+best_tolerance_grade = 11
+flat_sheet = true
+min_hole_factor = 1.0
+min_wall_mm = 1.0
+enclosed_voids = false
+
+[injection_moulding]
+title = "Injection moulding, two-part mould"
+best_tolerance_grade = 10
+min_wall_mm = 0.8
+max_wall_mm = 4.0
+min_draft_deg = 1.0
+draft_free_height_mm = 0.5
+enclosed_voids = false

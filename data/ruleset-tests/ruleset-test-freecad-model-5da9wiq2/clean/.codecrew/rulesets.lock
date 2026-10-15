@@ -1,0 +1,36 @@
+# Written by codecrew: what is installed, with a hash per file. Don't edit by hand.
+lock_version: 1
+rulesets:
+- source: local
+  name: freecad-model
+  version: v0.0.0
+  commit: ''
+  path: .
+  files:
+    .codecrew/rulesets/freecad-model/ruleset.yaml: 5aeb6b4365366a97c95dd69fedbefa284e89a4cc8f5f1518494cb5481beb7fc7
+    .codecrew/rulesets/freecad-model/appearance.py: f2c55a488b3edb8af72d97363e8ff43f12028b0fcc27044c33b20112fc3ce508
+    .codecrew/rulesets/freecad-model/check.py: 62f0907532440513b2ac719bc0041448a579c0b76675a06e9f7c7827a51a7ad4
+    .codecrew/rulesets/freecad-model/dfm.py: 55db00ebd12eedb314c08066e58a7e01c7eb43bf91401202146dc654778af143
+    .codecrew/rulesets/freecad-model/model.py: 91e7c59b55182f9acd04fdd81c7c92184282770c19072f1cd3f6866c9d058f3c
+    .codecrew/rulesets/freecad-model/processes.toml: 810ace0b855b7c3a4cb0e4612cfacfbe64b8cd88f7544eae94a7b7829ce16443
+    .codecrew/rulesets/freecad-model/render.py: 29f645bea3c7e6fc2449238dae5d5506de3fec7e1eb9535151d24db464fb3883
+    ruff.toml: dc4b3e925f3c9643ba89aba6d4f26490c5c6f9f4b539bb8006d8aa435fa98526
+    standards/__init__.py: 8c05e1d27e91accdca5fc9c991b3331c22ad55d32ad3c87bb292a5c56f81b0d6
+    standards/fasteners.py: 8ed5bf3f59943937ae3e0c6b38be74aff9bae95928203155d89a66aad3e3facc
+    standards/finishes.py: d328bd53bec0a09bf992641549a1237502328ba6669e72dc2c985a7b94fe0249
+    standards/materials.py: f64ccd3bd32039ab2391b008613ad45ab611e5d564f5a340cd4b2522d428605d
+    standards/shapes.py: d52fcb48ac2f8c1c5690916ecce352dbd073ef299cfc3179d18329b83a2843a5
+    standards/sizes.py: 54152b1a75544f3d3c342c4a5502b50095ffaea93f70b8fb6c863d10e67433f3
+    standards/strength.py: 4f2103d06794187a1e88f8e7d012e071f7d93c8d2426c339ec463a893b3b66c8
+    standards/tolerances.py: eb403219a616299d333951c08ce69daea91c2056e33bcaa3a72164ccd63836a0
+    .codecrew/rulesets/freecad-model/skills/analysis/SKILL.md: b07f265a3bad2077bc7678fd6c079b5718529ad10f003915bfa4d3b6c177d3f4
+    .codecrew/rulesets/freecad-model/skills/design-risk/SKILL.md: 99eb26ca8eabf9f744386e37ed55842fb4ce5362569786a2adba59e6e4550887
+    .codecrew/rulesets/freecad-model/skills/freecad-pitfalls/SKILL.md: 4afae4f848a6d3c22d1a19b5487a3da470c9aebdabb39a4498d3eb70a610de74
+    .codecrew/rulesets/freecad-model/skills/grilling-a-design/SKILL.md: 6321150827f66d500b1b11109a2209c76a53cafa330a85b7b74b85d4a54d227e
+    .codecrew/rulesets/freecad-model/skills/making-concepts/SKILL.md: 0804a067878f379a832ef59b1f372d427cd3234297e3dd7d525764e27270e5a2
+    .codecrew/rulesets/freecad-model/skills/placing-parts-and-screws/SKILL.md: 2bcdbc578e258bd867aef2b2bdb60cc3c4544cd5273f8a553677549c1de356ef
+    .codecrew/rulesets/freecad-model/skills/planning-the-detail/SKILL.md: a01e37219403e029787d8a76af892239a82aa3d4075e9781420472f7884e0a3c
+    .codecrew/rulesets/freecad-model/skills/printing-basics/SKILL.md: 742c8d37128b5519b254f70756bd8f5fee1f8836f4697004d29db5484e75a029
+    .codecrew/rulesets/freecad-model/skills/proving-it/SKILL.md: 07af51d9c9b1b825bb4afd075c8c646f0f178fc7b627574333d738aca2d335c0
+    .codecrew/rulesets/freecad-model/skills/releasing/SKILL.md: db97f6ef5cbfeb645cfc7e5443997157af0d96dd87718f4a626107ce2251626d
+    .codecrew/rulesets/freecad-model/skills/test-pieces/SKILL.md: cbf8c4059ff149c1fca40ca7c01722729bc338f809a59480ae2f651bba0a5097

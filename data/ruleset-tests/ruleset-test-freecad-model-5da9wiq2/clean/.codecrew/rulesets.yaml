@@ -1,0 +1,6 @@
+# Rulesets this repository uses. Change versions with: codecrew ruleset update
+rulesets:
+- source: local
+  name: freecad-model
+  version: v0.0.0
+  path: .

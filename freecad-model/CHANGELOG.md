@@ -1,5 +1,22 @@
 # freecad-model
 
+## v1.1.0
+
+The design flow: a session goes from your brief to a tested print pack, and you agree on the
+design before it's detailed.
+
+- `flow:` in ruleset.yaml: brief, grilling, concept, design risk, test pieces, plan, detailed
+  CAD (on autopilot, a reviewer checks each step), analysis and DFM, prototype, inspection,
+  testing, release. Untick stages before they start; those after the detailed CAD can be
+  skipped. Each has a rough cost.
+- Grilling in rounds: several questions per ask_user call, with a checklist count, answers in
+  your own words and files per question; stop asking any time.
+- Seven new skills, one per stage, each with the file it writes: concepts.toml, risks.toml,
+  test_pieces.toml, plan.toml, analysis.toml, prototype.toml, inspection.toml, tests.toml,
+  release.toml. Your entered results land in design/results/.
+- Test pieces only when they're really needed (four conditions), and none is a fine answer.
+- scripts/export.py exports test pieces too, and says roughly how much filament a part takes.
+
 ## v1.0.0
 
 The first version: freecad-part slimmed down for modelling sessions, where you decide and one
