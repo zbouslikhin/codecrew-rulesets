@@ -1,0 +1,12 @@
+{
+  "name": "zb-design",
+  "description": "Design tools: FreeCAD parts with a staged design flow",
+  "owner": { "name": "Zakaria Bouslikhin" },
+  "plugins": [
+    {
+      "name": "freecad-design",
+      "source": "./plugins/freecad-design",
+      "description": "Design parts in FreeCAD 1.1 with Claude: stages, model checks after every edit, renders, print-ready exports"
+    }
+  ]
+}

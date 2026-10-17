@@ -1,0 +1,8 @@
+{
+  "name": "freecad-design",
+  "description": "Design parts in FreeCAD 1.1 with Claude: a staged design flow (grilling, concept, risk, plan, CAD, analysis, prototype, inspection, testing, release), model checks after every edit, renders, print-ready exports.",
+  "version": "1.0.0",
+  "author": { "name": "Zakaria Bouslikhin" },
+  "repository": "https://github.com/zbouslikhin/codecrew-rulesets",
+  "keywords": ["freecad", "cad", "3d-printing", "mechanical-design"]
+}

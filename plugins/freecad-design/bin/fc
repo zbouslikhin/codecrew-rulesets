@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# fc: the freecad-design tools, run with FreeCAD's own Python.
+#
+#   fc setup | new | check [files] | render <target> | export [folder] | analysis | status
+#
+# Finds FreeCAD 1.x: $FREECAD_PYTHON if set, else the usual install folders (Windows:
+# Program Files and %LOCALAPPDATA%\Programs; Linux and macOS: freecad's bundled python).
+set -u
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB="$HERE/../lib"
+
+find_python() {
+  if [ -n "${FREECAD_PYTHON:-}" ]; then echo "$FREECAD_PYTHON"; return; fi
+  local c
+  for c in \
+    "/c/Program Files/FreeCAD 1.2/bin/python.exe" \
+    "/c/Program Files/FreeCAD 1.1/bin/python.exe" \
+    "/c/Program Files/FreeCAD 1.0/bin/python.exe" \
+    "${LOCALAPPDATA:-/nonexistent}/Programs/FreeCAD 1.1/bin/python.exe" \
+    "/Applications/FreeCAD.app/Contents/Resources/bin/python" \
+    "/usr/lib/freecad/bin/python" ; do
+    [ -x "$c" ] && { echo "$c"; return; }
+  done
+  # any other FreeCAD folder under Program Files
+  for c in /c/Program\ Files/FreeCAD*/bin/python.exe; do
+    [ -x "$c" ] && { echo "$c"; return; }
+  done
+  # a python that can already import FreeCAD (Linux packages, conda, a configured PYTHONPATH)
+  for c in python3 python; do
+    if command -v "$c" >/dev/null 2>&1 && "$c" -c "import FreeCAD" >/dev/null 2>&1; then
+      echo "$c"; return
+    fi
+  done
+}
+
+PY="$(find_python)"
+if [ -z "$PY" ]; then
+  echo "FreeCAD's Python wasn't found. Install FreeCAD 1.1 (https://www.freecad.org/downloads.php)," >&2
+  echo "or set FREECAD_PYTHON to its python, e.g. \"C:/Program Files/FreeCAD 1.1/bin/python.exe\"." >&2
+  exit 3
+fi
+exec "$PY" -B "$LIB/fc.py" "$@"

@@ -11,6 +11,20 @@ release is a git tag `<name>@v<major>.<minor>.<patch>`.
 | `freecad-model` | Parametric parts in FreeCAD 1.1 for **modelling sessions**: you decide (`design/decisions.md`, asked for by the skill grilling-a-design), one modeller models a step at a time and looks at what it made with the render tool (3D, front, top, side, close-ups of overlaps). Errors only for what is objectively wrong: invalid solids, a printed part larger than the bed (`design/printer.toml`), overlaps, too little thread. Sharp edges, overhangs and thin walls are warnings. A design flow from brief to tested print pack (grilling in rounds, concept renders, design risk, test pieces when needed, detailed CAD on autopilot with a reviewer, analysis, prototype, inspection, testing, release), eleven skills, `standards.shapes.placed_screw`, and a pipeline template "Modelling session". Same toolchain image as freecad-part |
 | `onshape-part` | Parts designed natively in Onshape, with history: checks on the recorded feature list (regeneration, dimensions driven by variables, feature names) |
 
+## Claude Code plugin: freecad-design
+
+`plugins/freecad-design` is freecad-model as a Claude Code plugin, for designing on a Claude
+subscription instead of API keys: the same skills and checks, the design flow as commands,
+checks run by hooks after every edit, a reviewer agent at CAD milestones. This repository is
+its marketplace. In Claude Code (2.1.275 or later):
+
+```
+/plugin install freecad-design --marketplace zbouslikhin/codecrew-rulesets
+```
+
+or, in two steps: `/plugin marketplace add zbouslikhin/codecrew-rulesets`, then
+`/plugin install freecad-design@zb-design`. Setup and use: `plugins/freecad-design/README.md`.
+
 ## Using one
 
 ```bash

@@ -1,0 +1,16 @@
+# Where the design is. The /freecad-design commands read and update this file.
+# A stage is "todo", "active", "done", "skipped" or "off" (not wanted for this design).
+level = 2  # what's at stake: 1 fits and stays, 2 carries a load or moves, 3 a product, 4 can hurt someone
+
+[stages]
+grilling = "todo"
+concept = "todo"
+risk = "todo"
+test_pieces = "todo"
+plan = "todo"
+cad = "todo"
+analysis = "todo"
+prototype = "todo"
+inspection = "todo"
+testing = "todo"
+release = "todo"

@@ -1,0 +1,4 @@
+# Your printer: the model check fails a part that doesn't fit the bed in any orientation.
+name = "Creality K1"
+bed_mm = [220, 220, 250]
+nozzle_mm = 0.4
